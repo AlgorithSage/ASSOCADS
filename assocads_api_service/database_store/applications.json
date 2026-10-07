@@ -1,0 +1,38 @@
+[
+  {
+    "id": "ASC-2026-8053",
+    "fullName": "Ananya Banerjee",
+    "email": "ananya@data-research.org",
+    "phone": "+91 98301 98765",
+    "applicantType": "Professional Member",
+    "organization": "Neural Analytics",
+    "designation": "ML Engineer",
+    "district": "Kolkata",
+    "linkedIn": "",
+    "interestAreas": [
+      "AI Talent & Skill Acceleration",
+      "Startup Incubation & Angel Syndication"
+    ],
+    "statement": "",
+    "status": "received_under_review",
+    "submittedAt": "2026-10-07T16:34:05.856Z"
+  },
+  {
+    "id": "ASC-2026-8584",
+    "fullName": "Dr. Debabrata Roy",
+    "email": "d.roy@academic.org",
+    "phone": "+91 98310 12345",
+    "applicantType": "Academic Institution",
+    "organization": "State Technical University",
+    "designation": "Professor & Dean CSE",
+    "district": "Kolkata",
+    "linkedIn": "",
+    "interestAreas": [
+      "AI Talent & Skill Acceleration",
+      "Research & Policy Advocacy"
+    ],
+    "statement": "",
+    "status": "received_under_review",
+    "submittedAt": "2026-10-07T16:08:53.181Z"
+  }
+]

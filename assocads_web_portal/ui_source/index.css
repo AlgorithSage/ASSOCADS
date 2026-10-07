@@ -1,0 +1,296 @@
+@import "tailwindcss";
+@import "lenis/dist/lenis.css";
+
+/* Brand fonts — files live in assocads_web_portal/public_assets/fonts/ (served at /fonts/) */
+@font-face {
+  font-family: "VC Henrietta";
+  src: url("/fonts/VCHenrietta-Medium.otf") format("opentype");
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "VC Henrietta";
+  src: url("/fonts/VCHenrietta-Bold.otf") format("opentype");
+  font-weight: 800 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Text cut for body copy; Display Semibold covers bold body text (labels, buttons) */
+@font-face {
+  font-family: "Anthropic Serif";
+  src: url("/fonts/AnthropicSerif-Text-Medium-Static.otf") format("opentype");
+  font-weight: 300 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Anthropic Serif";
+  src: url("/fonts/AnthropicSerif-Display-Semibold-Static.otf") format("opentype");
+  font-weight: 600 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ASSOCADS design tokens (v3, light / black & white) — see AI_COWORKER/shared_memory/design/DESIGN_SYSTEM.md */
+@theme {
+  --color-paper: #F6F4EF;
+  --color-paper-2: #ECE9E2;
+  --color-ink: #2E242C;
+  --color-ink-soft: #4E444C;
+  --color-ink-muted: #6E666C;
+  --color-line: rgba(46, 36, 44, 0.14);
+
+  --font-display: "VC Henrietta", Georgia, "Times New Roman", serif;
+  --font-sans: "Anthropic Serif", Georgia, "Times New Roman", serif;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar { display: none; }
+
+@layer base {
+  html {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    color-scheme: light;
+    overflow-x: clip; /* off-screen reveal offsets never widen the page */
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    overflow-x: clip;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Heading rhythm scales with size: big type gets tighter leading and a touch of
+     negative tracking (optical compensation), small type stays open and readable. */
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    text-wrap: balance;
+  }
+
+  h1 {
+    line-height: 1.04;
+    letter-spacing: -0.025em;
+  }
+
+  h2 {
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  h3 {
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  h4 {
+    line-height: 1.3;
+    letter-spacing: 0;
+  }
+
+  p { text-wrap: pretty; }
+
+  ::selection {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+/* Reusable pieces */
+/* One section rhythm for the whole page, on the 8pt grid.
+   48px on phones, 96px on tablet, 120px on desktop. */
+@utility section-pad {
+  /* Every section sits under a SectionDivider, which already supplies the space
+     above it, so the top is kept short and the bottom carries the rhythm. */
+  padding-top: 24px;
+  padding-bottom: 48px;
+  @media (min-width: 768px) {
+    padding-top: 40px;
+    padding-bottom: 96px;
+  }
+  @media (min-width: 1280px) {
+    padding-top: 48px;
+    padding-bottom: 120px;
+  }
+}
+
+@utility container-page {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 20px;
+  @media (min-width: 768px) {
+    padding-inline: 32px;
+  }
+}
+
+/* Small uppercase label with a hairline before it */
+@utility eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+}
+
+@utility scroll-x-clean {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+@utility card {
+  background: #FFFFFF;
+  border: 1px solid var(--color-line);
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(46, 36, 44, 0.04);
+}
+
+@utility btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 50px;
+  padding: 0 28px;
+  border-radius: 2px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: transform 0.3s var(--ease-out-soft), background-color 0.3s, border-color 0.3s, color 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+  & svg { transition: transform 0.35s var(--ease-out-soft); }
+  &:hover { transform: translateY(-2px); box-shadow: 0 10px 24px -14px rgba(46, 36, 44, 0.45); }
+  &:hover svg { transform: translateX(3px); }
+  /* quick, tactile press */
+  &:active { transform: translateY(0) scale(0.98); transition-duration: 0.12s; }
+}
+
+@utility btn-primary {
+  background: var(--color-ink);
+  color: var(--color-paper);
+  border: 1px solid var(--color-ink);
+  &:hover { background: #000; }
+}
+
+@utility btn-ghost {
+  border: 1px solid var(--color-ink);
+  color: var(--color-ink);
+  background: transparent;
+  &:hover { background: var(--color-ink); color: var(--color-paper); }
+}
+
+/* Light variant for buttons placed on dark (ink) panels */
+@utility btn-on-dark {
+  border: 1px solid rgba(246, 244, 239, 0.5);
+  color: var(--color-paper);
+  background: transparent;
+  &:hover { background: var(--color-paper); color: var(--color-ink); border-color: var(--color-paper); }
+}
+
+/* Underline that draws left-to-right on hover and retracts to the right */
+@utility link-draw {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 100% 100%;
+  background-size: 0% 1px;
+  padding-bottom: 2px;
+  transition: background-size 0.45s var(--ease-out-soft), color 0.3s;
+  &:hover, &:focus-visible { background-position: 0% 100%; background-size: 100% 1px; }
+}
+
+/* Paper stock: soft uneven mottling plus fine drawn-out fibres, the way light falls
+   across a sheet of uncoated paper. Generated in the browser (no image request),
+   fixed to the viewport so the whole page reads as one continuous sheet. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image:
+    /* just the fine tooth of an uncoated sheet, nothing more */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.18 0 0 0 0 0.14 0 0 0 0 0.17 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
+  background-size: 400px 400px;
+  background-repeat: repeat;
+}
+
+/* Soft paper grain over the whole page */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Hollow headline text for the marquee */
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--color-ink);
+}
+
+/* Soft glow that follows the cursor (see trackSpotlight in effects.tsx) */
+.spotlight {
+  position: relative;
+  isolation: isolate;
+}
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.4s;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(46, 36, 44, 0.08), transparent 45%);
+}
+.spotlight:hover::before { opacity: 1; }
+.spotlight-dark::before {
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(246, 244, 239, 0.12), transparent 45%);
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Hide the native cursor where the custom one is shown */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  html.has-custom-cursor, html.has-custom-cursor * { cursor: none !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,229 @@
+{
+  "ecosystemMetrics": {
+    "targetMembers": "5,000+",
+    "workshops": "100+",
+    "institutionalMous": "50+",
+    "stateSummits": "1 Apex"
+  },
+  "trustCharter": {
+    "name": "Association for AI and Data Science (ASSOCADS)",
+    "trustType": "Public Charitable & Educational Trust",
+    "fiduciaryStatus": "Non-Profit Institution with PAN & TAN",
+    "statutoryClauses": [
+      {
+        "clause": "Clauses 1 & 5",
+        "title": "Educational & Skill Equity",
+        "description": "Organizing, establishing and running coaching and technical training centers for competitive exams, admissions, and careers, focused on backward and minority sections."
+      },
+      {
+        "clause": "Clauses 6 & 25",
+        "title": "Scholarships & Welfare Fund",
+        "description": "Providing financial assistance, hardware, book grants, and scholarships to destitute and meritorious students to remove barriers to high-tech careers."
+      },
+      {
+        "clause": "Clauses 12 & 21",
+        "title": "Scientific Advancements & Moral Progress",
+        "description": "Promoting scientific education, technical awareness, environmental stewardship, and ethical values across all communities irrespective of caste or creed."
+      }
+    ]
+  },
+  "pillars": [
+    {
+      "id": "pillar-1",
+      "number": "PILLAR 01",
+      "title": "AI Talent & Skill Acceleration",
+      "badge": "Talent at Scale",
+      "description": "Democratizing modern AI, Machine Learning, and Data Engineering education through university student chapters, faculty development bootcamps, and industry credentials.",
+      "capabilities": [
+        "100+ Hands-on Workshops & Faculty Development Programs (FDPs)",
+        "State-wide Campus Ambassador & Student Chapter Network",
+        "Direct Industry Mentorship for UG/PG & Research Scholars",
+        "Standardized AI/ML Competency Certifications"
+      ]
+    },
+    {
+      "id": "pillar-2",
+      "number": "PILLAR 02",
+      "title": "Industry-Academia Bridge & Enterprise AI",
+      "badge": "Enterprise Adoption",
+      "description": "Bridging the curriculum-workplace gap by curating real-world project portfolios, enabling MSMEs to adopt AI solutions, and fostering high-value corporate sponsorships.",
+      "capabilities": [
+        "Specialized AI Adoption Playbooks tailored for MSMEs",
+        "Corporate Co-op & Internship Matching Pipelines",
+        "Advisory desks for enterprise data governance & architecture",
+        "Collaborative B2B Innovation challenges"
+      ]
+    },
+    {
+      "id": "pillar-3",
+      "number": "PILLAR 03",
+      "title": "Research, Innovation & Policy Advocacy",
+      "badge": "Thought Leadership",
+      "description": "Publishing evidence-based white papers and consulting with government bodies on responsible AI policies, data privacy benchmarks, and public digital infrastructure.",
+      "capabilities": [
+        "Annual State AI & Data Science Outlook Report publication",
+        "Responsible AI, Algorithmic Fairness & Ethics Taskforce",
+        "State government consulting on public dataset accessibility",
+        "Collaborative research labs & international journal tie-ups"
+      ]
+    },
+    {
+      "id": "pillar-4",
+      "number": "PILLAR 04",
+      "title": "Startup Incubation & Venture Connect",
+      "badge": "Venture Catalyst",
+      "description": "Accelerating early-stage AI ventures from concept to product-market fit through specialized incubation cohorts, seed capital syndication, and angel investor showcases.",
+      "capabilities": [
+        "Dedicated AI Startup Showcase & Demo Days",
+        "Angel investor roundtables & venture capital syndication",
+        "Access to cloud compute partner grants & AI credits",
+        "Product & compliance mentorship from seasoned founders"
+      ]
+    },
+    {
+      "id": "pillar-5",
+      "number": "PILLAR 05",
+      "title": "AI for Social Impact & Regional Upliftment",
+      "badge": "Charter Aligned",
+      "description": "Harnessing emerging technologies to empower marginalized communities, improve grassroots healthcare, advance precision agriculture, and support educational scholarships.",
+      "capabilities": [
+        "AI solutions for precision farming & crop yield diagnostics",
+        "Full scholarships & hardware grants for underprivileged youth",
+        "Vocational AI literacy for vernacular & rural districts",
+        "Public health diagnostics and digital welfare analytics"
+      ]
+    }
+  ],
+  "roadmap": [
+    {
+      "phase": "Month 01",
+      "title": "Charter, Governance & Legal Formalities",
+      "milestones": "Establish Executive Committee, ratify trust governance charter, form inaugural Special Interest Groups (SIGs), and define statutory bylaws.",
+      "deliverables": ["Executive Board Formed", "SIG Framework Enacted", "Trust Alignment"],
+      "status": "Completed"
+    },
+    {
+      "phase": "Month 02",
+      "title": "Digital Portal & State Membership Drive",
+      "milestones": "Launch official ASSOCADS web portal, roll out state-wide digital membership campaign across universities, tech parks, and enterprise chambers.",
+      "deliverables": ["Portal Deployed", "Membership Engine Online", "Brand Launch"],
+      "status": "Active Phase"
+    },
+    {
+      "phase": "Month 03",
+      "title": "Bilateral Academic & Corporate MoUs",
+      "milestones": "Sign first 20 academic partnership agreements with leading state universities, institutes, and anchor technology enterprises.",
+      "deliverables": ["20+ University MoUs", "Corporate Advisory Desk", "Sponsorship Framework"],
+      "status": "Upcoming"
+    },
+    {
+      "phase": "Months 04–06",
+      "title": "Community Activation & Campus Chapters",
+      "milestones": "Launch monthly physical meetups, statewide webinars, rollout Campus Ambassador programs across 50+ engineering colleges.",
+      "deliverables": ["Monthly Meetup Series", "50+ Campus Ambassadors", "100+ Skill Workshops"],
+      "status": "Scheduled"
+    },
+    {
+      "phase": "Months 07–09",
+      "title": "State AI Outlook Report & Hackathon",
+      "milestones": "Publish the inaugural State Data Science Outlook Report, organize multi-track collegiate & professional hackathons with corporate prizes.",
+      "deliverables": ["State Outlook Report v1.0", "State-wide AI Hackathon", "Startup Pitch Arena"],
+      "status": "Scheduled"
+    },
+    {
+      "phase": "Months 10–12",
+      "title": "Inaugural State Data Science Summit",
+      "milestones": "Convene 2,000+ delegates at the apex State Data Science Summit, confer State AI Awards, release annual impact audit and Year 2 roadmap.",
+      "deliverables": ["Apex Annual Summit", "State AI Awards Ceremony", "Annual Trust Impact Report"],
+      "status": "Scheduled"
+    }
+  ],
+  "events": [
+    {
+      "id": "ev-1",
+      "title": "Inaugural State Data Science & AI Summit 2027",
+      "category": "summit",
+      "date": "Sept 25–26, 2027",
+      "mode": "Offline · Apex Convention Centre",
+      "description": "The premier annual gathering of 2,000+ delegates uniting researchers, enterprises, startups, and policymakers for keynotes, hackathons, and state awards.",
+      "status": "Call for Papers Open"
+    },
+    {
+      "id": "ev-2",
+      "title": "Masterclass: Productionizing LLMs with Agentic Architectures",
+      "category": "meetup",
+      "date": "November 14, 2026",
+      "mode": "Hybrid · Tech Park Hub & Live Stream",
+      "description": "Deep dive into autonomous multi-agent systems, context caching, tool-calling pipelines, and low-latency inference on edge nodes.",
+      "status": "Registrations Open"
+    },
+    {
+      "id": "ev-3",
+      "title": "State Collegiate AI Hackathon: Generative Solutions for Public Good",
+      "category": "hackathon",
+      "date": "December 05–07, 2026",
+      "mode": "Virtual 48-Hour Hackathon",
+      "description": "Collegiate teams compete across Healthcare, Vernacular Education, Precision Agriculture, and Smart Governance. ₹3,00,000 Prize Pool.",
+      "status": "Team Applications Open"
+    },
+    {
+      "id": "ev-4",
+      "title": "Faculty Development Program (FDP) on Responsible & Ethical AI",
+      "category": "fdp",
+      "date": "January 18–22, 2027",
+      "mode": "Offline · University Campus Partner",
+      "description": "5-Day certified faculty upskilling course covering bias audits, EU AI Act compliance, explainability, and hands-on lab toolkits.",
+      "status": "Nominations Open"
+    }
+  ],
+  "governance": [
+    {
+      "role": "President",
+      "focus": "Institutional Vision, State Partnerships & Public Representation",
+      "tag": "Apex Board",
+      "initials": "PR"
+    },
+    {
+      "role": "Vice Presidents (2)",
+      "focus": "Programs Oversight, Institutional Expansion & Chapter Growth",
+      "tag": "Executive Council",
+      "initials": "VP"
+    },
+    {
+      "role": "General Secretary",
+      "focus": "Day-to-day Operations, Governance, Meetings & Statutory Compliance",
+      "tag": "Secretariat",
+      "initials": "GS"
+    },
+    {
+      "role": "Treasurer",
+      "focus": "Trust Budgeting, Non-Profit Accounting, Statutory Audits & Transparency",
+      "tag": "Fiduciary",
+      "initials": "TR"
+    },
+    {
+      "role": "Chairman – Academic Relations",
+      "focus": "Higher Education MoUs, Faculty Development & Campus Chapters",
+      "tag": "Special Interest Group",
+      "initials": "AR"
+    },
+    {
+      "role": "Chairman – Industry Relations",
+      "focus": "Enterprise AI Adoption, Corporate MoUs, Sponsorships & Hiring Bridges",
+      "tag": "Special Interest Group",
+      "initials": "IR"
+    },
+    {
+      "role": "Chairman – Research & Innovation",
+      "focus": "State AI Outlook Reports, Benchmark Datasets & White Papers",
+      "tag": "Special Interest Group",
+      "initials": "RI"
+    },
+    {
+      "role": "Chairman – Startups & Venture",
+      "focus": "Early-stage AI Cohorts, Venture Syndication & Angel Showcases",
+      "tag": "Special Interest Group",
+      "initials": "ST"
+    }
+  ]
+}
