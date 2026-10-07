@@ -67,8 +67,9 @@ export function Membership({ onJoin }: MembershipProps) {
     <section id="membership" className="relative section-pad">
       <div className="container-page">
         <SectionHeading
-          title="Pick the membership that fits you"
-          text="Fees are yearly unless stated. Students pay the least, and scholarships are available for those who need them."
+          eyebrow="Pricing & Membership"
+          title="Choose a plan to start your journey"
+          text="Transparent annual fees designed for students, working practitioners, and institutions. Scholarships available for applicants with financial need."
         />
 
         {/* Category Tabs */}
@@ -194,13 +195,24 @@ export function Membership({ onJoin }: MembershipProps) {
 
                     <div className="mt-6 flex-1">
                       <p className={`text-[0.7rem] font-semibold uppercase tracking-[0.18em] ${tier.highlight ? 'text-paper/50' : 'text-ink-muted'}`}>
-                        Key deliverables & perks:
+                        Included deliverables & features:
                       </p>
-                      <ul className="mt-3.5 space-y-3">
+                      <ul className="mt-3.5 space-y-2.5">
+                        {/* Included perks (checkmarks) */}
                         {tier.perks.map((perk) => (
-                          <li key={perk} className={`flex items-start gap-3 text-xs leading-relaxed sm:text-sm ${tier.highlight ? 'text-paper/90' : 'text-ink-soft'}`}>
-                            <span className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full ${tier.highlight ? 'bg-paper/20 text-paper' : 'bg-paper-2 text-ink'}`}>
+                          <li key={perk} className={`flex items-start gap-2.5 text-xs leading-relaxed sm:text-sm ${tier.highlight ? 'text-paper/95' : 'text-ink-soft'}`}>
+                            <span className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full ${tier.highlight ? 'bg-emerald-400/20 text-emerald-300' : 'bg-emerald-50 text-emerald-600'}`}>
                               <Check size={11} strokeWidth={2.5} />
+                            </span>
+                            <span>{perk}</span>
+                          </li>
+                        ))}
+
+                        {/* Excluded perks for comparative tier clarity (crosses) */}
+                        {tier.excludedPerks && tier.excludedPerks.map((perk) => (
+                          <li key={perk} className={`flex items-start gap-2.5 text-xs leading-relaxed sm:text-sm opacity-40 line-through ${tier.highlight ? 'text-paper/50' : 'text-ink/50'}`}>
+                            <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-xs font-mono font-bold">
+                              ✕
                             </span>
                             <span>{perk}</span>
                           </li>
@@ -211,9 +223,9 @@ export function Membership({ onJoin }: MembershipProps) {
                     <button
                       type="button"
                       onClick={(e) => onJoin(tier.name, e.currentTarget)}
-                      className={`btn mt-8 w-full justify-center py-3 text-xs sm:text-sm ${
+                      className={`btn mt-8 w-full justify-center py-3 text-xs sm:text-sm font-semibold tracking-wide transition-all duration-300 ${
                         tier.highlight
-                          ? 'btn-on-dark shadow-md'
+                          ? 'bg-amber-400 text-ink hover:bg-amber-300 shadow-lg hover:shadow-xl hover:scale-[1.02] border-0'
                           : 'btn-primary'
                       }`}
                     >

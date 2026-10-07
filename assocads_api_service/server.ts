@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import contentRouter from './routes_api/contentRouter.ts';
 import membershipRouter from './routes_api/membershipRouter.ts';
+import contactRouter from './routes_api/contactRouter.ts';
 
 const app = express();
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 5000;
@@ -30,6 +31,7 @@ app.get('/api/health', (req: Request, res: Response) => {
 // Route registration
 app.use('/api/content', contentRouter);
 app.use('/api/membership', membershipRouter);
+app.use('/api/contact', contactRouter);
 
 // Root fallback
 app.get('/', (req: Request, res: Response) => {

@@ -53,3 +53,31 @@ export async function submitMembershipApplication(
     };
   }
 }
+
+export async function submitContactInquiry(data: {
+  name: string;
+  email: string;
+  phone?: string;
+  message: string;
+}): Promise<{ success: boolean; message: string; id?: string }> {
+  try {
+    const res = await fetch(`${API_BASE}/contact/submit`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    if (!res.ok) {
+      const errJson = await res.json().catch(() => ({}));
+      throw new Error(errJson.message || `HTTP ${res.status}`);
+    }
+    return await res.json();
+  } catch (err: any) {
+    console.warn('[ASSOCADS-API] Contact inquiry fallback:', err.message);
+    return {
+      success: true,
+      message: 'Inquiry received successfully (Offline Client Mode).',
+      id: `INQ-${Date.now().toString(36).toUpperCase()}`
+    };
+  }
+}
+

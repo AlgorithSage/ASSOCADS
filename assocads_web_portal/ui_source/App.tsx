@@ -15,6 +15,8 @@ import { Membership } from './sections/Membership';
 import { Summit } from './sections/Summit';
 import { Events } from './sections/Events';
 import { Team } from './sections/Team';
+import { News } from './sections/News';
+import { Contact } from './sections/Contact';
 import { Faq } from './sections/Faq';
 import { SiteFooter } from './sections/SiteFooter';
 import { JoinModal, type Point } from './sections/JoinModal';
@@ -91,6 +93,12 @@ export default function App() {
 
           <SectionDivider label="Office bearers" />
           <Team />
+
+          <SectionDivider label="News & dispatches" />
+          <News />
+
+          <SectionDivider label="Get in touch" />
+          <Contact />
 
           <SectionDivider label="Questions" />
           <Faq />

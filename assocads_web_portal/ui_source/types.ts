@@ -37,7 +37,19 @@ export interface Tier {
   price: string;
   period: string;
   perks: string[];
+  excludedPerks?: string[];
   highlight?: boolean;
+}
+
+export interface NewsArticle {
+  id: string;
+  title: string;
+  date: string;
+  category: string;
+  summary: string;
+  content: string;
+  image: string;
+  featured?: boolean;
 }
 
 export type EventKind = 'Meetup' | 'Workshop' | 'Teacher training' | 'Hackathon' | 'Summit';

@@ -11,7 +11,8 @@ import type {
   Tier,
   EventItem,
   TeamRole,
-  FaqItem
+  FaqItem,
+  NewsArticle
 } from './types';
 
 export const SUMMIT_DATE = '2027-09-25T09:30:00+05:30';
@@ -23,6 +24,8 @@ export const navLinks: NavLink[] = [
   { label: 'Goals', href: '#goals' },
   { label: 'Membership', href: '#membership' },
   { label: 'Events', href: '#events' },
+  { label: 'News', href: '#news' },
+  { label: 'Contact', href: '#contact' },
   { label: 'FAQ', href: '#faq' }
 ];
 
@@ -206,53 +209,60 @@ export const tiers: Record<TierGroup, Tier[]> = {
       forWho: 'Undergraduate, postgraduate and research students',
       price: '₹500–₹1,000',
       period: 'per year',
-      perks: ['Events', 'Learning material', 'Mentors', 'Student competitions']
+      perks: ['Workshops & webinars', 'Learning material & recordings', 'Student competitions', 'Job & internship board'],
+      excludedPerks: ['Mentorship programmes', 'Research grant funding', 'Executive voting seat']
     },
     {
       name: 'Professional',
-      forWho: 'Working professionals',
+      forWho: 'Working professionals & practitioners',
       price: '₹2,000–₹5,000',
       period: 'per year',
       highlight: true,
-      perks: ['Networking', 'Lower prices for events', 'Special-interest groups', 'Job board']
+      perks: ['Workshops & webinars', 'Special-interest groups (SIGs)', 'Job & talent board', 'Mentorship & networking', 'Discounted summit passes'],
+      excludedPerks: ['Institutional voting quota', 'State report authorship']
     },
     {
       name: 'Academic',
-      forWho: 'Teachers and researchers',
+      forWho: 'Teachers, professors & faculty researchers',
       price: '₹2,000–₹5,000',
       period: 'per year',
-      perks: ['Research partners', 'Teacher training programmes', 'Chances to publish', 'Academic forums']
+      perks: ['Faculty training bootcamps', 'Research partnerships', 'Chances to publish', 'Academic symposiums', 'Open research datasets'],
+      excludedPerks: ['Recruitment job board posting', 'Corporate advisory seat']
     },
     {
       name: 'Life member',
-      forWho: 'Individuals who want to stay involved for good',
+      forWho: 'Senior leaders committed to lifelong impact',
       price: '₹20,000–₹50,000',
       period: 'one time',
-      perks: ['Membership for life', 'Recognition', 'A long-term role with us']
+      perks: ['Lifetime access to all events', 'Distinguished Fellow eligibility', 'Governing council voting', 'VIP State Summit passes', 'Special public recognition'],
+      excludedPerks: []
     }
   ],
   organisations: [
     {
       name: 'College or university',
-      forWho: 'Universities and colleges',
+      forWho: 'Universities, polytechnics and colleges',
       price: '₹25,000–₹2,00,000',
       period: 'per year',
-      perks: ['Campus chapters', 'Training for your teachers', 'Activities for your students']
+      perks: ['Campus student chapters', 'Faculty development programs', 'Curriculum alignment sessions', 'Student hackathon licenses'],
+      excludedPerks: ['Corporate talent fair headline', 'Direct investor demo day slot']
     },
     {
       name: 'Startup',
-      forWho: 'Early-stage startups',
+      forWho: 'Early-stage tech startups',
       price: '₹5,000–₹10,000',
       period: 'per year',
       highlight: true,
-      perks: ['Chances to show your work', 'Mentoring', 'Meetings with investors']
+      perks: ['Annual startup showcase', 'Investor connects & demo days', 'Expert mentor network', 'Innovation challenge access'],
+      excludedPerks: ['Annual state report co-branding', 'Exclusive keynote sponsor']
     },
     {
       name: 'Company',
-      forWho: 'Companies of any size',
+      forWho: 'Enterprise companies & tech firms',
       price: '₹50,000–₹5,00,000',
       period: 'per year',
-      perks: ['Your brand at our events', 'Hiring from our network', 'Speaking slots', 'Long-term partnerships']
+      perks: ['Headline branding at all summits', 'Direct campus talent hiring', 'Executive speaking keynotes', 'Long-term research partnerships'],
+      excludedPerks: []
     }
   ],
   honorary: [
@@ -260,19 +270,59 @@ export const tiers: Record<TierGroup, Tier[]> = {
       name: 'Fellow',
       forWho: 'Distinguished contributors, by invitation',
       price: 'By invitation',
-      period: 'no fee or a small one',
-      perks: ['Recognition', 'Advisory roles', 'A voice in our thinking']
+      period: 'honorary',
+      perks: ['State AI advisory council seat', 'Public policy thought leadership', 'Keynote address invitations'],
+      excludedPerks: []
     },
     {
       name: 'Patron',
-      forWho: 'Donors and senior industry leaders',
+      forWho: 'Donors and senior philanthropic leaders',
       price: 'Any contribution',
       period: 'donation',
       highlight: true,
-      perks: ['Special recognition', 'An advisory role in our plans']
+      perks: ['Lifetime honorary fellowship', 'Endowed scholarship recognition', 'Permanent governing seat'],
+      excludedPerks: []
     }
   ]
 };
+
+// Press & Dispatches news items (for the "Stay up to date with our fresh News" section)
+export const newsArticles: NewsArticle[] = [
+  {
+    id: 'news-fellowship-2026',
+    featured: true,
+    title: 'ASSOCADS Unveils State-Wide AI & Data Science Fellowship for Universities',
+    date: 'December 03, 2026',
+    category: 'Fellowship & Research',
+    image: '/images/laptop-discussion.webp',
+    summary:
+      'A new multi-campus initiative providing student researchers and faculty with dedicated GPU compute credits, industry mentor matching, and research publication stipends.',
+    content:
+      'The Association for AI and Data Science (ASSOCADS) has officially launched its landmark 2026–27 Fellowship Program. Designed in partnership with leading state universities and IT industry pioneers, the fellowship bridges the compute and mentorship divide across regional colleges. Selected fellows receive sponsored GPU cluster access, bi-weekly 1-on-1 guidance from principal data scientists, and publication travel assistance to top national conferences.'
+  },
+  {
+    id: 'news-faculty-symposium',
+    title: 'Over 60 Colleges Complete Five-Day Practical AI Teacher Training',
+    date: 'November 18, 2026',
+    category: 'Academic Training',
+    image: '/images/classroom.webp',
+    summary:
+      'Faculty members from 60 engineering institutions completed rigorous hands-on laboratory modules on ethical LLM architectures and reproducible data pipelines.',
+    content:
+      'Empowering educators to lead modern curriculum reforms, the inaugural ASSOCADS Faculty Training Bootcamp concluded with 60 certified college professors across West Bengal. Every participant returned with fully packaged open-source lab exercises and evaluation rubrics designed for next-semester computer science curricula.'
+  },
+  {
+    id: 'news-startup-showcase',
+    title: 'Applications Open for Bengal AI Startup Showcase & Investor Connect',
+    date: 'October 28, 2026',
+    category: 'Entrepreneurship',
+    image: '/images/coding-together.webp',
+    summary:
+      'Early-stage founders working in healthcare, agri-tech, and vernacular language AI are invited to pitch directly to seed funds and angel networks.',
+    content:
+      'The ASSOCADS Startups & Entrepreneurship Council has announced call for submissions for the upcoming Startup Demo Day. Fifteen shortlisted startups will receive equity-free compute grants, legal mentorship, and direct pitch sessions with leading venture capitalists and government innovation funds.'
+  }
+];
 
 // Roadmap slide 10 — included in every membership
 export const memberBenefits = [
