@@ -8,7 +8,7 @@ export function Faq() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="section-pad">
+    <div className="section-pad">
       <div className="container-page grid gap-12 lg:grid-cols-[1fr_1.6fr] lg:gap-20">
         <div className="lg:sticky lg:top-28 lg:self-start">
           <SectionHeading title="Things people often ask" text="Can't find your answer? Write to us and we will reply within two working days." align="left" />
@@ -59,6 +59,6 @@ export function Faq() {
           })}
         </Stagger>
       </div>
-    </section>
+    </div>
   );
 }

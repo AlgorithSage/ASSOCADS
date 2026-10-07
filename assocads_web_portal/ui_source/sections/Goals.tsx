@@ -8,7 +8,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
 // with no tabs to click through. Columns are divided by hairlines; they stack on mobile.
 export function Goals() {
   return (
-    <section id="goals" className="section-pad">
+    <div className="section-pad">
       <div className="container-page">
         <SectionHeading title="Where we are heading" text="What we want to achieve in the near, mid and long term." />
 
@@ -64,6 +64,6 @@ export function Goals() {
           ))}
         </motion.ol>
       </div>
-    </section>
+    </div>
   );
 }

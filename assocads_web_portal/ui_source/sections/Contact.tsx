@@ -43,7 +43,7 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="section-pad relative overflow-hidden bg-paper">
+    <div className="section-pad relative overflow-hidden">
       {/* Background world map / topological watermark matching Reference 3 */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.035] bg-[radial-gradient(#2E242C_1px,transparent_1px)] [background-size:24px_24px]"
@@ -237,6 +237,6 @@ export function Contact() {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

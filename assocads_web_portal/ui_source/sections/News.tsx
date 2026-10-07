@@ -38,7 +38,7 @@ export function News() {
   }, [selectedArticle]);
 
   return (
-    <section id="news" className="section-pad relative overflow-hidden bg-paper-2/40">
+    <div className="section-pad relative overflow-hidden">
       <div className="container-page relative">
         <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
           {/* Left Column: Hero Article Card with Dot Matrix Accent */}
@@ -245,6 +245,6 @@ export function News() {
           </div>
         )}
       </AnimatePresence>
-    </section>
+    </div>
   );
 }

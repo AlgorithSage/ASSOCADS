@@ -45,7 +45,7 @@ export function Team() {
   }, [showAll]);
 
   return (
-    <section id="team" className="section-pad relative overflow-hidden">
+    <div className="section-pad relative overflow-hidden">
       {/* Pale band behind the lower half of the cards */}
       <div className="absolute inset-x-0 bottom-0 top-1/2 z-0 bg-paper-2/70" aria-hidden="true" />
 
@@ -253,6 +253,6 @@ export function Team() {
           </div>
         )}
       </AnimatePresence>
-    </section>
+    </div>
   );
 }

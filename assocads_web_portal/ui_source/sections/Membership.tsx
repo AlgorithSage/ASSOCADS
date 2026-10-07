@@ -64,7 +64,7 @@ export function Membership({ onJoin }: MembershipProps) {
   const list = tiers[group];
 
   return (
-    <section id="membership" className="relative section-pad">
+    <div className="relative section-pad">
       <div className="container-page">
         <SectionHeading
           eyebrow="Pricing & Membership"
@@ -294,6 +294,6 @@ export function Membership({ onJoin }: MembershipProps) {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

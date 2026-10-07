@@ -71,7 +71,7 @@ function ProgramTile({ program, index }: { program: Program; index: number }) {
 // The leading dark tile matches the exact dimensions and alignment of the other tiles.
 export function Programs() {
   return (
-    <section id="programs" className="section-pad">
+    <div className="section-pad">
       <div className="container-page">
         <motion.div
           className="grid gap-px border border-line bg-line shadow-[0_40px_80px_-50px_rgba(46,36,44,0.35)] md:grid-cols-2 lg:grid-cols-3"
@@ -107,6 +107,6 @@ export function Programs() {
           ))}
         </motion.div>
       </div>
-    </section>
+    </div>
   );
 }

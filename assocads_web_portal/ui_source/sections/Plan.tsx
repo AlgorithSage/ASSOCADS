@@ -54,7 +54,7 @@ function HorizontalPlan() {
   useMotionValueEvent(scrollYProgress, 'change', (v) => setActive(Math.min(n - 1, Math.max(0, Math.round(v * (n - 1))))));
 
   return (
-    <section id="plan" ref={sectionRef} className="relative" style={{ height: `calc(100vh + ${distance}px)` }}>
+    <div ref={sectionRef} className="relative" style={{ height: `calc(100vh + ${distance}px)` }}>
       <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden">
         <div className="container-page flex items-end justify-between gap-10">
           <SectionHeading eyebrow="Our first year" title={TITLE} text={INTRO} align="left" />
@@ -123,7 +123,7 @@ function HorizontalPlan() {
           <motion.span className="block h-px w-10 origin-left bg-ink-muted" style={{ scaleX: hint }} />
         </div>
       </div>
-    </section>
+    </div>
   );
 }
 
@@ -131,7 +131,7 @@ function HorizontalPlan() {
 
 function VerticalPlan() {
   return (
-    <section id="plan" className="section-pad">
+    <div className="section-pad">
       <div className="container-page">
         <SectionHeading eyebrow="Our first year" title={TITLE} text={INTRO} align="left" />
         <Stagger className="relative mt-12 border-l border-line pl-8">
@@ -154,7 +154,7 @@ function VerticalPlan() {
           ))}
         </Stagger>
       </div>
-    </section>
+    </div>
   );
 }
 

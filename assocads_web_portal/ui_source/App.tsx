@@ -62,48 +62,97 @@ export default function App() {
         style={{ transformOrigin: recedeOrigin }}
       >
         <main id="main">
-          <Hero onJoin={openJoinDefault} ready={introDone} />
-          <Gallery />
+          {/* Section 1: Hero — Warm Light Paper Canvas */}
+          <div className="bg-[#FAF8F5] border-b border-ink/15">
+            <Hero onJoin={openJoinDefault} ready={introDone} />
+          </div>
 
-          <SectionDivider label="About" />
-          <About />
+          {/* Section 2: Gallery Strip — Warm Stone Parchment */}
+          <div className="bg-[#EDE7DC] border-b border-ink/15 shadow-inner">
+            <Gallery />
+          </div>
 
-          <SectionDivider label="Vision & mission" />
-          <Vision onJoin={openJoinDefault} />
+          {/* Section 3: About — Warm Ivory Paper */}
+          <section id="about" className="bg-[#F6F4EF] border-b border-ink/15 shadow-[0_4px_20px_-10px_rgba(46,36,44,0.03)]">
+            <SectionDivider label="About" />
+            <About />
+          </section>
 
-          <SectionDivider label="What we do" />
-          <Programs />
+          {/* Section 4: Vision & Mission — Dual Architectural Theme Canvas */}
+          <section id="vision" className="bg-[#FAF8F4] border-b border-ink/15 shadow-[0_4px_20px_-10px_rgba(46,36,44,0.03)]">
+            <SectionDivider label="Vision & mission" />
+            <Vision onJoin={openJoinDefault} />
+          </section>
 
-          <Marquee items={TAGLINE_BAND} />
+          {/* Section 5: What We Do (Programs) — Warm Ochre Sandstone */}
+          <section id="programs" className="bg-[#EFE9DD] border-b border-ink/15 shadow-[0_4px_20px_-10px_rgba(46,36,44,0.03)]">
+            <SectionDivider label="What we do" />
+            <Programs />
+          </section>
 
-          <SectionDivider label="The plan" />
-          <Plan />
+          {/* Section 6: Marquee Tagline Band — Deep Velvet Ink Contrast */}
+          <div className="bg-[#241C23] border-b border-paper/20 text-paper">
+            <Marquee items={TAGLINE_BAND} />
+          </div>
 
-          <SectionDivider label="Goals" />
-          <Goals />
+          {/* Section 7: The Plan — Soft Alabaster Paper */}
+          <section id="plan" className="bg-[#F8F6F1] border-b border-ink/15 shadow-[0_4px_20px_-10px_rgba(46,36,44,0.03)]">
+            <SectionDivider label="The plan" />
+            <Plan />
+          </section>
 
-          <SectionDivider label="Membership" />
-          <Membership onJoin={openJoin} />
+          {/* Section 8: Goals — Warm River-Stone Parchment */}
+          <section id="goals" className="bg-[#EAE3D6] border-b border-ink/15 shadow-[0_4px_20px_-10px_rgba(46,36,44,0.03)]">
+            <SectionDivider label="Goals" />
+            <Goals />
+          </section>
 
-          <SectionDivider label="Summit" />
-          <Summit />
+          {/* Section 9: Membership (Pricing) — Clean Cream Ivory */}
+          <section id="membership" className="bg-[#FAF8F4] border-b border-ink/15 shadow-[0_4px_20px_-10px_rgba(46,36,44,0.03)]">
+            <SectionDivider label="Membership" />
+            <Membership onJoin={openJoin} />
+          </section>
 
-          <SectionDivider label="Events" />
-          <Events onRegister={openJoinDefault} />
+          {/* Section 10: State Summit — Flagship Midnight Velvet Ink */}
+          <section id="summit" className="bg-[#2E242C] border-b border-amber-400/25 text-paper shadow-2xl">
+            <SectionDivider label="Summit" dark />
+            <Summit />
+          </section>
 
-          <SectionDivider label="Office bearers" />
-          <Team />
+          {/* Section 11: Events — Warm Oat Parchment */}
+          <section id="events" className="bg-[#F2EEE4] border-b border-ink/15 shadow-[0_4px_20px_-10px_rgba(46,36,44,0.03)]">
+            <SectionDivider label="Events" />
+            <Events onRegister={openJoinDefault} />
+          </section>
 
-          <SectionDivider label="News & dispatches" />
-          <News />
+          {/* Section 12: Office Bearers (Team) — Heritage Sandstone Parchment */}
+          <section id="team" className="bg-[#EBE4D7] border-b border-ink/15 shadow-[0_4px_20px_-10px_rgba(46,36,44,0.03)]">
+            <SectionDivider label="Office bearers" />
+            <Team />
+          </section>
 
-          <SectionDivider label="Get in touch" />
-          <Contact />
+          {/* Section 13: News & Dispatches — Warm Editorial Newsprint */}
+          <section id="news" className="bg-[#F7F4EE] border-b border-ink/15 shadow-[0_4px_20px_-10px_rgba(46,36,44,0.03)]">
+            <SectionDivider label="News & dispatches" />
+            <News />
+          </section>
 
-          <SectionDivider label="Questions" />
-          <Faq />
+          {/* Section 14: Get in Touch (Contact) — Warm Desert Dune */}
+          <section id="contact" className="bg-[#EDE5D6] border-b border-ink/15 shadow-[0_4px_20px_-10px_rgba(46,36,44,0.03)]">
+            <SectionDivider label="Get in touch" />
+            <Contact />
+          </section>
 
-          <Marquee items={TAGLINE_BAND} direction={-1} variant="outline" />
+          {/* Section 15: Questions (FAQ) — Soft Pearl Paper */}
+          <section id="faq" className="bg-[#F9F7F2] border-b border-ink/15 shadow-[0_4px_20px_-10px_rgba(46,36,44,0.03)]">
+            <SectionDivider label="Questions" />
+            <Faq />
+          </section>
+
+          {/* Section 16: Marquee Outline Band — Deep Velvet Ink */}
+          <div className="bg-[#241C23] border-b border-paper/20 text-paper">
+            <Marquee items={TAGLINE_BAND} direction={-1} variant="outline" />
+          </div>
         </main>
         <SiteFooter onJoin={openJoinDefault} />
       </motion.div>

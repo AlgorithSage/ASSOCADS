@@ -16,8 +16,8 @@ export function SiteFooter({ onJoin }: SiteFooterProps) {
 
   return (
     <>
-      {/* Closing call to action */}
-      <section className="section-pad">
+      {/* Closing call to action with dedicated theme shade and boundary */}
+      <section className="section-pad bg-[#F4EFE6] border-b border-ink/15">
         <div className="container-page text-center">
           <Words text="Ready to be part of it?" className="mx-auto max-w-3xl text-4xl font-medium text-ink md:text-6xl" />
           <Reveal delay={0.2}>
@@ -36,7 +36,7 @@ export function SiteFooter({ onJoin }: SiteFooterProps) {
         </div>
       </section>
 
-      <footer ref={ref} className="relative overflow-hidden bg-ink pt-20 text-paper">
+      <footer ref={ref} className="relative overflow-hidden bg-[#1F181E] border-t-2 border-paper/15 pt-20 text-paper">
         <div className="container-page grid gap-10 md:grid-cols-[1.5fr_1fr_1fr]">
           <Reveal>
             <a href="#top" className="inline-block rounded-sm bg-paper p-4" aria-label="ASSOCADS, back to top">

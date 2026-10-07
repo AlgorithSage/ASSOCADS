@@ -102,7 +102,7 @@ function Stats() {
 
 export function About() {
   return (
-    <section id="about" className="relative section-pad">
+    <div className="relative section-pad">
       <div className="container-page">
         <Stats />
 
@@ -139,6 +139,6 @@ export function About() {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

@@ -49,7 +49,7 @@ export function Summit() {
   const bgScale = useTransform(scrollYProgress, [0, 1], [1.25, 1]);
 
   return (
-    <section ref={ref} className="px-3 py-12 md:px-6">
+    <div ref={ref} className="px-3 py-12 md:px-6">
       <motion.div style={{ clipPath }} className="relative mx-auto max-w-[1400px] overflow-hidden">
         <motion.div
           style={{ scale: bgScale }}
@@ -94,6 +94,6 @@ export function Summit() {
           </Reveal>
         </div>
       </motion.div>
-    </section>
+    </div>
   );
 }

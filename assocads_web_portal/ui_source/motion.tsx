@@ -329,28 +329,30 @@ export function useWheelToHorizontal(ref: { current: HTMLElement | null }, deps:
 
 // Centred break between sections: a tracked label with a rule drawing out
 // symmetrically on both sides. Quiet, academic, no numbering.
-export function SectionDivider({ label }: { label: string }) {
+export function SectionDivider({ label, dark = false }: { label: string; dark?: boolean }) {
   const rule = {
     hidden: { scaleX: 0 },
     shown: { scaleX: 1, transition: { duration: 1.2, ease: EASE, delay: 0.15 } }
   };
   return (
     <motion.div
-      className="container-page flex items-center gap-6 py-8 md:gap-10 md:py-12 lg:py-16"
+      className="container-page flex items-center gap-6 py-6 md:gap-10 md:py-10 lg:py-12"
       role="separator"
       aria-label={label}
       initial="hidden"
       whileInView="shown"
       viewport={{ once: true, amount: 1 }}
     >
-      <motion.span className="h-px flex-1 origin-right bg-ink/30" variants={rule} />
+      <motion.span className={`h-px flex-1 origin-right ${dark ? 'bg-paper/30' : 'bg-ink/20'}`} variants={rule} />
       <motion.span
-        className="shrink-0 text-center font-display text-xl font-medium uppercase leading-none tracking-[0.22em] text-ink md:text-3xl md:tracking-[0.26em] lg:text-[2.1rem]"
+        className={`shrink-0 text-center font-display text-lg font-medium uppercase leading-none tracking-[0.24em] ${
+          dark ? 'text-paper' : 'text-ink'
+        } md:text-2xl md:tracking-[0.28em] lg:text-[1.85rem]`}
         variants={{ hidden: { opacity: 0, y: 8 }, shown: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EASE } } }}
       >
         {label}
       </motion.span>
-      <motion.span className="h-px flex-1 origin-left bg-ink/30" variants={rule} />
+      <motion.span className={`h-px flex-1 origin-left ${dark ? 'bg-paper/30' : 'bg-ink/20'}`} variants={rule} />
     </motion.div>
   );
 }

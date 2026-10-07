@@ -17,7 +17,7 @@ export function Events({ onRegister }: EventsProps) {
   const shown = filter === 'All' ? events : events.filter((e) => e.kind === filter);
 
   return (
-    <section id="events" className="section-pad">
+    <div className="section-pad">
       <div className="container-page">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading title="Coming up" text="Workshops, competitions and training. Members get first access." align="left" />
@@ -96,6 +96,6 @@ export function Events({ onRegister }: EventsProps) {
         </motion.ul>
         </DepthIn>
       </div>
-    </section>
+    </div>
   );
 }

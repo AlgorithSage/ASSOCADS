@@ -13,7 +13,7 @@ interface VisionProps {
 // and the eight mission points on an ink panel that runs to the edge of the screen.
 export function Vision({ onJoin }: VisionProps) {
   return (
-    <section id="vision" className="section-pad relative">
+    <div className="section-pad relative">
       <div className="container-page relative">
         {/* Ink panel: starts at the right mission column (col 8) and bleeds off the right edge */}
         <motion.div
@@ -88,6 +88,6 @@ export function Vision({ onJoin }: VisionProps) {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
