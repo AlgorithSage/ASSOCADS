@@ -15,9 +15,9 @@ export function Vision({ onJoin }: VisionProps) {
   return (
     <section id="vision" className="section-pad relative">
       <div className="container-page relative">
-        {/* Ink panel: starts at the middle of the photo column and bleeds off the right edge */}
+        {/* Ink panel: starts at the right mission column (col 8) and bleeds off the right edge */}
         <motion.div
-          className="absolute inset-y-0 right-[calc(50%-50vw)] hidden origin-right bg-ink lg:left-[45.8%] lg:block"
+          className="absolute inset-y-0 right-[calc(50%-50vw)] hidden origin-right bg-ink lg:left-[58.33%] lg:block"
           initial={{ scaleX: 0 }}
           whileInView={{ scaleX: 1 }}
           viewport={{ once: true, amount: 0.2 }}
@@ -44,17 +44,20 @@ export function Vision({ onJoin }: VisionProps) {
             </Reveal>
           </div>
 
-          {/* Middle: photo straddling the seam */}
-          <div className="lg:col-span-3 lg:py-16">
-            <RevealImage
-              src="/images/mentoring.webp"
-              alt="A mentor working through a problem with two students"
-              className="aspect-4/5 w-full shadow-[0_30px_60px_-30px_rgba(20,14,18,0.6)] lg:aspect-3/4"
-            />
+          {/* Middle: photo properly framed and situated entirely on the paper canvas */}
+          <div className="lg:col-span-3 lg:py-16 lg:pr-8">
+            <div className="relative overflow-hidden rounded-2xl shadow-[0_25px_60px_-25px_rgba(20,14,18,0.45)] ring-1 ring-ink/10">
+              <RevealImage
+                src="/images/mentoring.webp"
+                alt="A mentor working through a problem with two students"
+                className="aspect-4/5 w-full object-cover lg:aspect-3/4"
+              />
+              <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-black/5" />
+            </div>
           </div>
 
           {/* Right: the mission, on ink */}
-          <div className="bg-ink px-6 py-10 text-paper sm:px-10 lg:col-span-5 lg:bg-transparent lg:py-16 lg:pl-14 lg:pr-0">
+          <div className="rounded-2xl bg-ink px-6 py-10 text-paper sm:px-10 lg:col-span-5 lg:rounded-none lg:bg-transparent lg:py-16 lg:pl-14 lg:pr-0">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-paper/55">Our mission</p>
             <motion.ul
               className="mt-6"

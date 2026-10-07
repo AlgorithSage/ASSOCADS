@@ -5,67 +5,70 @@ import { programs } from '../content';
 import type { Program } from '../types';
 import { EASE } from '../motion';
 
-// One programme tile: icon on a soft round backing, title, one plain line,
-// and "What's included" which opens the four concrete things in place.
+// One programme tile: icon centered properly on a soft round backing, title, summary,
+// and "What's included" which expands the concrete points in place.
 function ProgramTile({ program, index }: { program: Program; index: number }) {
   const Icon = program.icon;
   const [open, setOpen] = useState(false);
   return (
     <motion.article
-      className="group relative flex flex-col bg-white p-8 transition-colors duration-500 hover:bg-paper md:p-10"
+      className="group relative flex h-full flex-col justify-between bg-white p-8 transition-colors duration-500 hover:bg-paper md:p-10"
       variants={{ hidden: { opacity: 0, y: 30 }, shown: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE } } }}
     >
-      <div className="flex items-start justify-between gap-6">
-        <h3 className="max-w-[12ch] font-display text-2xl font-medium leading-tight text-ink md:text-[1.7rem]">{program.title}</h3>
-        <span className="relative grid h-14 w-14 shrink-0 place-items-center">
-          <span
-            className="absolute -left-2 -top-2 h-12 w-12 rounded-full bg-paper-2 transition-transform duration-500 ease-out-soft group-hover:scale-125"
-            aria-hidden="true"
-          />
-          <Icon size={30} strokeWidth={1.25} className="relative text-ink" />
+      <div>
+        <div className="flex items-start justify-between gap-6">
+          <h3 className="max-w-[13ch] font-display text-2xl font-medium leading-tight text-ink md:text-[1.7rem]">
+            {program.title}
+          </h3>
+          {/* Centered icon badge inside circle */}
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-paper-2 text-ink shadow-sm transition-transform duration-500 ease-out-soft group-hover:scale-110">
+            <Icon size={24} strokeWidth={1.5} className="text-ink" />
+          </span>
+        </div>
+        <p className="mt-5 leading-relaxed text-ink-muted text-sm md:text-base">{program.summary}</p>
+
+        <AnimatePresence initial={false}>
+          {open && (
+            <motion.ul
+              className="overflow-hidden"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.35, ease: EASE }}
+            >
+              {program.points.map((point) => (
+                <li key={point} className="flex gap-3 pt-3 text-sm text-ink-soft first:pt-5">
+                  <span className="mt-[0.5em] h-1.5 w-1.5 shrink-0 rotate-45 border border-ink/45" aria-hidden="true" />
+                  {point}
+                </li>
+              ))}
+            </motion.ul>
+          )}
+        </AnimatePresence>
+      </div>
+
+      <div className="mt-8 flex items-center justify-between border-t border-line/60 pt-6">
+        <button
+          type="button"
+          onClick={() => setOpen((o) => !o)}
+          aria-expanded={open}
+          className="link-draw inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-ink"
+        >
+          {open ? 'Show less' : "What's included"}
+          <motion.span animate={{ rotate: open ? 45 : 0 }} transition={{ duration: 0.25 }} className="inline-flex">
+            <Plus size={14} />
+          </motion.span>
+        </button>
+        <span className="font-mono text-xs font-semibold text-ink/25" aria-hidden="true">
+          {String(index + 1).padStart(2, '0')}
         </span>
       </div>
-      <p className="mt-5 leading-relaxed text-ink-muted">{program.summary}</p>
-
-      <AnimatePresence initial={false}>
-        {open && (
-          <motion.ul
-            className="overflow-hidden"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.35, ease: EASE }}
-          >
-            {program.points.map((point) => (
-              <li key={point} className="flex gap-3 pt-3 text-sm text-ink-soft first:pt-5">
-                <span className="mt-[0.5em] h-1.5 w-1.5 shrink-0 rotate-45 border border-ink/45" aria-hidden="true" />
-                {point}
-              </li>
-            ))}
-          </motion.ul>
-        )}
-      </AnimatePresence>
-
-      <button
-        type="button"
-        onClick={() => setOpen((o) => !o)}
-        aria-expanded={open}
-        className="link-draw mt-auto inline-flex w-fit items-center gap-2 pt-8 text-xs font-semibold uppercase tracking-[0.18em] text-ink"
-      >
-        {open ? 'Show less' : "What's included"}
-        <motion.span animate={{ rotate: open ? 45 : 0 }} transition={{ duration: 0.25 }} className="inline-flex">
-          <Plus size={14} />
-        </motion.span>
-      </button>
-      <span className="pointer-events-none absolute bottom-6 right-8 font-display text-sm text-ink/20" aria-hidden="true">
-        {String(index + 1).padStart(2, '0')}
-      </span>
     </motion.article>
   );
 }
 
-// "What we do" as a 3×2 grid: a solid ink heading tile first, then the five programmes.
-// Hairline gaps between tiles come from the grid background showing through.
+// "Core Programmatic Pillars" as a 3×2 grid of equal-sized cards.
+// The leading dark tile matches the exact dimensions and alignment of the other tiles.
 export function Programs() {
   return (
     <section id="programs" className="section-pad">
@@ -77,21 +80,26 @@ export function Programs() {
           viewport={{ once: true, amount: 0.12 }}
           variants={{ hidden: {}, shown: { transition: { staggerChildren: 0.08 } } }}
         >
+          {/* Leading Dark Tile - Perfectly aligned and sized with all other tiles, "5/" removed */}
           <motion.div
-            className="relative flex flex-col justify-between overflow-hidden bg-ink p-8 text-paper md:p-10 lg:-mt-6 lg:mb-0"
+            className="relative flex h-full flex-col justify-between overflow-hidden bg-ink p-8 text-paper md:p-10"
             variants={{ hidden: { opacity: 0, y: 30 }, shown: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE } } }}
           >
             <div>
-              <span className="font-display text-6xl leading-none text-paper/90">5/</span>
-              <h2 className="mt-4 font-display text-4xl font-medium leading-[1.05] md:text-5xl">
-                Things
+              <span className="inline-block text-xs font-bold uppercase tracking-[0.24em] text-paper/60 mb-4">
+                Five Strategic Domains
+              </span>
+              <h2 className="font-display text-3xl font-medium leading-[1.1] md:text-4xl lg:text-[2.65rem] text-paper">
+                Core Programmatic
                 <br />
-                we do
+                Pillars
               </h2>
             </div>
-            <p className="mt-10 max-w-xs text-sm leading-relaxed text-paper/70">
-              Everything ASSOCADS does fits into one of these five areas. Open any of them to see exactly what is included.
-            </p>
+            <div className="mt-8 border-t border-paper/15 pt-6">
+              <p className="text-sm leading-relaxed text-paper/75">
+                Everything ASSOCADS delivers operates across these five interconnected pillars, driving technical excellence, inclusive access, and public impact.
+              </p>
+            </div>
           </motion.div>
 
           {programs.map((program, i) => (
