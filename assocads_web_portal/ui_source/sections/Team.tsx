@@ -137,32 +137,27 @@ export function Team() {
                   See all {team.length} <ArrowRight size={16} />
                 </button>
 
-                {/* Minimalist slider chevrons with live range indicator */}
-                <div className="flex items-center gap-1 rounded-full border border-ink/15 bg-white/90 p-1 pl-1.5 backdrop-blur-sm shadow-xs">
+                {/* Minimalist two-sided slider chevrons */}
+                <div className="flex items-center gap-1.5 rounded-full border border-ink/15 bg-white/90 p-1 backdrop-blur-sm shadow-xs">
                   <button
                     type="button"
                     onClick={() => scrollCards('left')}
                     disabled={!canScrollLeft}
                     aria-label="Previous leaders"
                     title="Previous leaders"
-                    className="grid h-8 w-8 place-items-center rounded-full text-ink transition-all hover:bg-ink hover:text-white disabled:opacity-25 disabled:hover:bg-transparent disabled:hover:text-ink cursor-pointer disabled:cursor-not-allowed active:scale-95"
+                    className="grid h-9 w-9 place-items-center rounded-full text-ink transition-all hover:bg-ink hover:text-white disabled:opacity-25 disabled:hover:bg-transparent disabled:hover:text-ink cursor-pointer disabled:cursor-not-allowed active:scale-95"
                   >
-                    <ChevronLeft size={16} />
+                    <ChevronLeft size={18} />
                   </button>
-                  <span className="font-mono text-[11px] font-semibold text-ink-muted/90 tabular-nums px-1.5 select-none">
-                    {String(activeStart + 1).padStart(2, '0')}–{String(Math.min(team.length, activeStart + visibleCount)).padStart(2, '0')}
-                    <span className="mx-1 text-ink-muted/40">/</span>
-                    {team.length}
-                  </span>
                   <button
                     type="button"
                     onClick={() => scrollCards('right')}
                     disabled={!canScrollRight}
                     aria-label="Next leaders"
                     title="Next leaders"
-                    className="grid h-8 w-8 place-items-center rounded-full text-ink transition-all hover:bg-ink hover:text-white disabled:opacity-25 disabled:hover:bg-transparent disabled:hover:text-ink cursor-pointer disabled:cursor-not-allowed active:scale-95"
+                    className="grid h-9 w-9 place-items-center rounded-full text-ink transition-all hover:bg-ink hover:text-white disabled:opacity-25 disabled:hover:bg-transparent disabled:hover:text-ink cursor-pointer disabled:cursor-not-allowed active:scale-95"
                   >
-                    <ChevronRight size={16} />
+                    <ChevronRight size={18} />
                   </button>
                 </div>
               </div>
