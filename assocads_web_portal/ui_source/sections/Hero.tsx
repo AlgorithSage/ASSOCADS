@@ -83,7 +83,10 @@ export function Hero({ onJoin, ready }: HeroProps) {
                 <Words as="span" text={hero.titleLines[0]} onMount play={ready} delay={T.line1} className="block font-bold" />
                 <span className="mt-1 block font-medium text-paper/85">
                   <Words as="span" text={hero.titleLines[1]} onMount play={ready} delay={T.line2} />
-                  <motion.span className="inline-block min-h-[1.06em] whitespace-nowrap pl-2 text-paper align-bottom" {...enter(T.line2 + 0.35, { opacity: 0 })}>
+                </span>
+                <span className="mt-1 block font-medium text-paper/85">
+                  <span className="text-paper/80">and </span>
+                  <motion.span className="inline-block min-h-[1.06em] whitespace-nowrap text-paper align-bottom" {...enter(T.line2 + 0.35, { opacity: 0 })}>
                     {ready && <TypeWord words={heroAudiences} />}
                   </motion.span>
                 </span>

@@ -32,7 +32,7 @@ export const navLinks: NavLink[] = [
 
 export const hero = {
   eyebrow: 'Association for AI and Data Science',
-  titleLines: ["Building Bengal's AI ecosystem.", 'Empowering research, enterprise and'],
+  titleLines: ["Building Bengal's AI ecosystem.", 'Empowering research, enterprise'],
   intro:
     'ASSOCADS connects academia, industry, startups and government across West Bengal to advance AI education, foster indigenous research and translate innovation into real-world impact.',
   primaryCta: 'Become a member',
