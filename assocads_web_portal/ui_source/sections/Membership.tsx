@@ -92,77 +92,23 @@ export function Membership({ onJoin }: MembershipProps) {
           </div>
         </div>
 
-        {/* Main Comparison Layout: Decision Helper Sidebar + Pricing Matrix (Inspired by Screenshot 1) */}
-        <div className="mt-8 grid gap-5 lg:grid-cols-[250px_1fr] xl:grid-cols-[270px_1fr] items-start">
-          {/* Left Column: Decision Helper Card */}
-          <div className="rounded-sm border border-line/80 bg-white p-5 sm:p-6 shadow-xs flex flex-col justify-between h-full lg:sticky lg:top-24">
-            <div>
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-ink-muted">
-                Need Guidance?
-              </span>
-              <h3 className="mt-2 font-display text-2xl font-medium leading-snug text-ink">
-                Not sure which tier is best for you?
-              </h3>
-              <p className="mt-3 text-xs leading-relaxed text-ink-muted">
-                Whether you are a student, practitioner, professor, or founder, our charter outlines exact member benefits and fee waiver policies.
-              </p>
-
-              <div className="mt-6 space-y-2.5 border-t border-line/60 pt-5">
-                <div className="flex items-start gap-2 text-xs text-ink-soft">
-                  <span className="grid h-4 w-4 shrink-0 place-items-center rounded-full bg-emerald-500/15 text-emerald-700 mt-0.5">
-                    <Check size={10} strokeWidth={3} />
-                  </span>
-                  <span>100% need-based student waivers</span>
-                </div>
-                <div className="flex items-start gap-2 text-xs text-ink-soft">
-                  <span className="grid h-4 w-4 shrink-0 place-items-center rounded-full bg-emerald-500/15 text-emerald-700 mt-0.5">
-                    <Check size={10} strokeWidth={3} />
-                  </span>
-                  <span>80G income tax exemption</span>
-                </div>
-                <div className="flex items-start gap-2 text-xs text-ink-soft">
-                  <span className="grid h-4 w-4 shrink-0 place-items-center rounded-full bg-emerald-500/15 text-emerald-700 mt-0.5">
-                    <Check size={10} strokeWidth={3} />
-                  </span>
-                  <span>Verifiable digital credentials</span>
-                </div>
-                <div className="flex items-start gap-2 text-xs text-ink-soft">
-                  <span className="grid h-4 w-4 shrink-0 place-items-center rounded-full bg-emerald-500/15 text-emerald-700 mt-0.5">
-                    <Check size={10} strokeWidth={3} />
-                  </span>
-                  <span>Registered Non-Profit Trust</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-7 pt-4 border-t border-line/60">
-              <button
-                type="button"
-                onClick={() => onJoin('Student')}
-                className="btn btn-primary w-full justify-center py-2 text-xs font-semibold"
-              >
-                Membership Guide
-              </button>
-            </div>
-          </div>
-
-          {/* Right Column: Pricing Matrix Cards */}
-          <div id="tier-grid">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={group}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.35, ease: EASE }}
-                className={`grid gap-4 ${
-                  group === 'individuals'
-                    ? 'sm:grid-cols-2 xl:grid-cols-4'
-                    : group === 'organisations'
-                    ? 'sm:grid-cols-2 lg:grid-cols-3'
-                    : 'sm:grid-cols-2 max-w-2xl'
-                }`}
-              >
+        {/* Pricing Cards Grid */}
+        <div id="tier-grid" className="mt-8">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={group}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.35, ease: EASE }}
+              className={`grid gap-4 ${
+                group === 'individuals'
+                  ? 'sm:grid-cols-2 lg:grid-cols-4 max-w-7xl mx-auto'
+                  : group === 'organisations'
+                  ? 'sm:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto'
+                  : 'sm:grid-cols-2 max-w-2xl mx-auto'
+              }`}
+            >
                 {list.map((tier) => {
                   const badge = tierBadges[tier.name];
                   const isHighlight = Boolean(tier.highlight);
@@ -276,7 +222,6 @@ export function Membership({ onJoin }: MembershipProps) {
               </motion.div>
             </AnimatePresence>
           </div>
-        </div>
 
         {/* Trust & Guarantee Banner */}
         <Reveal className="mt-12">
@@ -355,23 +300,23 @@ export function Membership({ onJoin }: MembershipProps) {
             </motion.div>
 
             {/* Column A (Inclusions 01–05): order-2 on mobile, order-1 on lg */}
-            <div className="order-2 flex flex-col gap-2 sm:gap-2.5 lg:order-1">
+            <div className="order-2 flex flex-col gap-2.5 sm:gap-3 lg:order-1">
               {memberBenefits.slice(0, 5).map(({ title, text, icon: Icon }, idx) => (
                 <div
                   key={title}
-                  className="group flex items-start gap-2.5 sm:gap-3 rounded-sm border border-line/80 bg-white p-3 sm:p-3.5 transition-all duration-300 hover:border-ink/40 hover:shadow-xs"
+                  className="group flex items-start gap-3 sm:gap-3.5 rounded-sm border border-line/80 bg-white p-3.5 sm:p-4 transition-all duration-300 hover:border-ink/40 hover:shadow-xs"
                 >
-                  <div className="grid h-7 w-7 sm:h-8 sm:w-8 shrink-0 place-items-center rounded-xs bg-[#FAF8F5] border border-line text-ink mt-0.5">
-                    <Icon size={14} strokeWidth={2} />
-                  </div>
+                  <Icon size={20} strokeWidth={1.75} className="mt-0.5 shrink-0 text-ink" aria-hidden="true" />
                   <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-[10px] font-bold text-ink-muted">0{idx + 1}</span>
-                      <h4 className="font-display text-xs sm:text-sm font-medium leading-snug text-ink truncate sm:whitespace-normal">
+                    <div className="flex items-baseline gap-2">
+                      <span className="font-display text-sm sm:text-base font-bold text-ink/70 tabular-nums">
+                        0{idx + 1}
+                      </span>
+                      <h4 className="font-display text-sm sm:text-base font-semibold leading-snug text-ink">
                         {title}
                       </h4>
                     </div>
-                    <p className="mt-0.5 text-[11px] sm:text-xs leading-relaxed text-ink-muted">
+                    <p className="mt-1 text-xs leading-relaxed text-ink-muted">
                       {text}
                     </p>
                   </div>
@@ -380,23 +325,23 @@ export function Membership({ onJoin }: MembershipProps) {
             </div>
 
             {/* Column B (Inclusions 06–10): order-3 on both mobile and lg */}
-            <div className="order-3 flex flex-col gap-2 sm:gap-2.5 lg:order-3">
+            <div className="order-3 flex flex-col gap-2.5 sm:gap-3 lg:order-3">
               {memberBenefits.slice(5, 10).map(({ title, text, icon: Icon }, idx) => (
                 <div
                   key={title}
-                  className="group flex items-start gap-2.5 sm:gap-3 rounded-sm border border-line/80 bg-white p-3 sm:p-3.5 transition-all duration-300 hover:border-ink/40 hover:shadow-xs"
+                  className="group flex items-start gap-3 sm:gap-3.5 rounded-sm border border-line/80 bg-white p-3.5 sm:p-4 transition-all duration-300 hover:border-ink/40 hover:shadow-xs"
                 >
-                  <div className="grid h-7 w-7 sm:h-8 sm:w-8 shrink-0 place-items-center rounded-xs bg-[#FAF8F5] border border-line text-ink mt-0.5">
-                    <Icon size={14} strokeWidth={2} />
-                  </div>
+                  <Icon size={20} strokeWidth={1.75} className="mt-0.5 shrink-0 text-ink" aria-hidden="true" />
                   <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-[10px] font-bold text-ink-muted">0{idx + 6}</span>
-                      <h4 className="font-display text-xs sm:text-sm font-medium leading-snug text-ink truncate sm:whitespace-normal">
+                    <div className="flex items-baseline gap-2">
+                      <span className="font-display text-sm sm:text-base font-bold text-ink/70 tabular-nums">
+                        {idx + 6 < 10 ? `0${idx + 6}` : idx + 6}
+                      </span>
+                      <h4 className="font-display text-sm sm:text-base font-semibold leading-snug text-ink">
                         {title}
                       </h4>
                     </div>
-                    <p className="mt-0.5 text-[11px] sm:text-xs leading-relaxed text-ink-muted">
+                    <p className="mt-1 text-xs leading-relaxed text-ink-muted">
                       {text}
                     </p>
                   </div>
