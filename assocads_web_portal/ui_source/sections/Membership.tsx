@@ -122,13 +122,13 @@ export function Membership({ onJoin }: MembershipProps) {
                       transition={{ duration: 0.45, ease: EASE }}
                       className={`relative flex flex-col justify-between overflow-hidden rounded-sm border transition-all duration-300 ${
                         isHighlight
-                          ? 'border-ink bg-white text-ink shadow-[0_16px_36px_-14px_rgba(46,36,44,0.22)] ring-2 ring-ink xl:-translate-y-1'
+                          ? 'border-ink bg-ink text-paper shadow-[0_20px_45px_-15px_rgba(20,14,18,0.55)] ring-2 ring-ink xl:-translate-y-1.5'
                           : 'border-line/80 bg-white text-ink shadow-[0_3px_14px_-6px_rgba(46,36,44,0.06)] hover:border-ink/40 hover:shadow-[0_12px_28px_-10px_rgba(46,36,44,0.12)]'
                       }`}
                     >
                       {/* Top Recommendation Banner (from Screenshot 1) */}
                       {isHighlight && (
-                        <div className="w-full bg-[#EBF3FC] border-b border-[#CADEF5] py-1 text-center text-[10px] font-bold tracking-wider text-[#1A4F8B] uppercase">
+                        <div className="w-full bg-[#2A2028] border-b border-paper/15 py-1.5 text-center text-[10px] font-bold tracking-wider text-amber-300 uppercase">
                           ASSOCADS Recommends
                         </div>
                       )}
@@ -137,45 +137,63 @@ export function Membership({ onJoin }: MembershipProps) {
                         {/* Header: Title & Persona */}
                         <div>
                           <div className="flex items-center justify-between gap-1 flex-wrap">
-                            <span className="text-[11px] font-semibold text-ink-muted">
+                            <span className={`text-[11px] font-semibold ${
+                              isHighlight ? 'text-amber-200' : 'text-ink-muted'
+                            }`}>
                               | {badge?.label?.toLowerCase() ?? 'membership plan'}
                             </span>
-                            <span className="text-[10px] font-medium text-ink-muted/80 bg-[#FAF8F5] border border-line/60 px-1.5 py-0.5 rounded-xs">
+                            <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded-xs border ${
+                              isHighlight
+                                ? 'bg-paper/10 border-paper/20 text-paper/80'
+                                : 'bg-[#FAF8F5] border-line/60 text-ink-muted/80'
+                            }`}>
                               {tier.perks.length} Features
                             </span>
                           </div>
 
-                          <h4 className="mt-2 font-display text-xl font-medium tracking-tight text-ink">
+                          <h4 className={`mt-2 font-display text-xl font-medium tracking-tight ${
+                            isHighlight ? 'text-paper' : 'text-ink'
+                          }`}>
                             {tier.name}
                           </h4>
-                          <p className="mt-0.5 min-h-[2rem] text-[11px] leading-snug text-ink-muted">
+                          <p className={`mt-0.5 min-h-[2rem] text-[11px] leading-snug ${
+                            isHighlight ? 'text-paper/75' : 'text-ink-muted'
+                          }`}>
                             {tier.forWho}
                           </p>
                         </div>
 
                         {/* Price Block */}
-                        <div className="mt-3 border-t border-line/60 pt-3">
-                          <span className="text-[10px] uppercase font-semibold text-ink-muted tracking-wider block">
+                        <div className={`mt-3 border-t pt-3 ${
+                          isHighlight ? 'border-paper/15' : 'border-line/60'
+                        }`}>
+                          <span className={`text-[10px] uppercase font-semibold tracking-wider block ${
+                            isHighlight ? 'text-paper/60' : 'text-ink-muted'
+                          }`}>
                             Starts at
                           </span>
                           <div className="flex items-baseline gap-1 mt-0.5">
-                            <span className="font-display text-2xl font-bold tracking-tight text-ink">
+                            <span className={`font-display text-2xl font-bold tracking-tight ${
+                              isHighlight ? 'text-paper' : 'text-ink'
+                            }`}>
                               {tier.price}
                             </span>
-                            <span className="text-[11px] font-medium text-ink-muted">
+                            <span className={`text-[11px] font-medium ${
+                              isHighlight ? 'text-paper/60' : 'text-ink-muted'
+                            }`}>
                               / {tier.period}
                             </span>
                           </div>
                         </div>
 
-                        {/* Prominent CTA Button (Placed prominently below price, matching Screenshot 1 & 2) */}
+                        {/* Prominent CTA Button */}
                         <div className="mt-4">
                           <button
                             type="button"
                             onClick={(e) => onJoin(tier.name, e.currentTarget)}
                             className={`btn min-h-10! w-full justify-center py-2 text-xs font-semibold tracking-wide transition-all duration-300 ${
                               isHighlight
-                                ? 'bg-[#F59E0B] hover:bg-[#D97706] text-ink font-bold border border-[#D97706] shadow-sm'
+                                ? 'bg-[#F59E0B] hover:bg-[#D97706] text-ink font-bold border border-[#F59E0B] shadow-sm'
                                 : 'btn-primary'
                             }`}
                           >
@@ -190,25 +208,35 @@ export function Membership({ onJoin }: MembershipProps) {
                           </button>
                         </div>
 
-                        {/* Highlighted Spec Row (from Screenshot 1) */}
+                        {/* Highlighted Spec Row */}
                         {keySpec && (
-                          <div className="mt-4 -mx-4 sm:-mx-5 bg-amber-50/80 border-y border-amber-200/60 px-3 py-2 text-center text-[11px] font-medium text-amber-950 leading-tight">
+                          <div className={`mt-4 -mx-4 sm:-mx-5 border-y px-3 py-2 text-center text-[11px] font-medium leading-tight ${
+                            isHighlight
+                              ? 'bg-white/10 border-white/15 text-amber-200'
+                              : 'bg-amber-50/80 border-amber-200/60 text-amber-950'
+                          }`}>
                             {keySpec}
                           </div>
                         )}
 
-                        {/* Features List with Emerald Circular Badges (from Screenshot 2) */}
+                        {/* Features List with Circular Checkmark Badges */}
                         <div className="mt-4 flex-1">
-                          <p className="text-[10px] font-bold uppercase tracking-wider text-ink-muted">
+                          <p className={`text-[10px] font-bold uppercase tracking-wider ${
+                            isHighlight ? 'text-paper/60' : 'text-ink-muted'
+                          }`}>
                             Included In This Plan:
                           </p>
                           <ul className="mt-2.5 space-y-2">
                             {tier.perks.map((perk) => (
                               <li key={perk} className="flex items-start gap-2 text-xs leading-snug">
-                                <span className="grid h-4 w-4 shrink-0 place-items-center rounded-full bg-emerald-500/15 text-emerald-700 mt-0.5">
+                                <span className={`grid h-4 w-4 shrink-0 place-items-center rounded-full mt-0.5 ${
+                                  isHighlight
+                                    ? 'bg-emerald-400/20 text-emerald-400'
+                                    : 'bg-emerald-500/15 text-emerald-700'
+                                }`}>
                                   <Check size={10} strokeWidth={3} />
                                 </span>
-                                <span className="text-ink-soft">
+                                <span className={isHighlight ? 'text-paper/90' : 'text-ink-soft'}>
                                   {perk}
                                 </span>
                               </li>

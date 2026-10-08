@@ -51,9 +51,6 @@ export function Team() {
 
   return (
     <div className="section-pad relative overflow-hidden">
-      {/* Pale band behind the lower half of the cards */}
-      <div className="absolute inset-x-0 bottom-0 top-1/2 z-0 bg-paper-2/70" aria-hidden="true" />
-
       <div className="container-page relative z-10">
         <div className="grid gap-12 lg:grid-cols-12 lg:items-start">
           {/* Left: Section Header & Actions */}
