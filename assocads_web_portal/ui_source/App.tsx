@@ -114,7 +114,7 @@ export default function App() {
           </section>
 
           {/* Section 10: State Summit — Flagship Midnight Velvet Ink */}
-          <section id="summit" className="bg-[#2E242C] border-b border-amber-400/25 text-paper shadow-2xl">
+          <section id="summit" className="bg-[#2E242C] border-b border-paper/10 text-paper shadow-2xl">
             <SectionDivider label="Summit" dark />
             <Summit />
           </section>
@@ -145,14 +145,10 @@ export default function App() {
 
           {/* Section 15: Questions (FAQ) — Soft Pearl Paper */}
           <section id="faq" className="bg-[#F9F7F2] border-b border-ink/15 shadow-[0_4px_20px_-10px_rgba(46,36,44,0.03)]">
-            <SectionDivider label="Questions" />
+            <SectionDivider label="FAQ" />
             <Faq />
           </section>
 
-          {/* Section 16: Marquee Outline Band — Deep Velvet Ink */}
-          <div className="bg-[#241C23] border-b border-paper/20 text-paper">
-            <Marquee items={TAGLINE_BAND} direction={-1} variant="outline" />
-          </div>
         </main>
         <SiteFooter onJoin={openJoinDefault} />
       </motion.div>

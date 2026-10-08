@@ -1,6 +1,6 @@
 // All page copy lives here. Content is mocked for the landing page (no backend calls).
 // Source of truth: "Proposed Roadmap for ASSOCADS.pptx" (27 Sept 2026) + the Trust deed.
-import { GraduationCap, Building2, Lightbulb, Rocket, HeartHandshake, Wrench, ShieldCheck, Handshake, FlaskConical, Landmark, Briefcase, Globe, type LucideIcon } from 'lucide-react';
+import { GraduationCap, Building2, Lightbulb, Rocket, HeartHandshake, Wrench, ShieldCheck, Handshake, FlaskConical, Landmark, Briefcase, Globe, Presentation, PlayCircle, Users, Network, UserCheck, Award, HandHeart, BadgePercent, type LucideIcon } from 'lucide-react';
 import type {
   NavLink,
   Stat,
@@ -69,15 +69,15 @@ export const vision =
   'To build the largest community in the state for data science, AI and new technology, one that connects colleges, companies, startups, government and the public.';
 
 // Each mission point with one plain sentence saying what it means in practice
-export const missionPoints: { title: string; text: string; icon: LucideIcon }[] = [
-  { title: 'Build real technical skills', text: 'Hands-on classes so people can actually do the work, not just read about it.', icon: Wrench },
-  { title: 'Promote safe and fair use of AI', text: 'Simple guidelines so AI helps people and does not harm or exclude anyone.', icon: ShieldCheck },
-  { title: 'Close the gap between colleges and companies', text: 'Students learn what jobs need, and companies find people who are ready.', icon: Handshake },
-  { title: 'Encourage research and new ideas', text: 'Support for studies and projects that solve problems in our own state.', icon: FlaskConical },
-  { title: 'Help startups grow', text: 'Mentors, investors and a stage to show your work.', icon: Rocket },
-  { title: 'Guide public policy with solid research', text: 'Clear, honest reports the government and public can rely on.', icon: Landmark },
-  { title: 'Help more people get good jobs', text: 'Internships, career fairs and a job board for members.', icon: Briefcase },
-  { title: 'Build a state community the world recognises', text: 'A strong network here that partners with others across the world.', icon: Globe }
+export const missionPoints: { title: string; text: string; icon: LucideIcon; badge: string; cta: string; href: `#${string}` }[] = [
+  { title: 'Build real technical skills', text: 'You join hands-on classes and leave able to do the work, not just talk about it.', icon: Wrench, badge: 'Learning', cta: 'See our training', href: '#programs' },
+  { title: 'Promote safe and fair use of AI', text: 'You learn how to use AI fairly, so it helps people instead of leaving anyone out.', icon: ShieldCheck, badge: 'Responsible AI', cta: 'Read our goals', href: '#goals' },
+  { title: 'Close the gap between colleges and companies', text: 'As a student you learn what jobs need. As a company you meet people who are ready.', icon: Handshake, badge: 'Industry', cta: 'See membership', href: '#membership' },
+  { title: 'Encourage research and new ideas', text: 'You get support and partners for research that solves problems here at home.', icon: FlaskConical, badge: 'Research', cta: 'Read our goals', href: '#goals' },
+  { title: 'Help startups grow', text: 'If you run a startup, you get mentors, investors and a stage to show your work.', icon: Rocket, badge: 'Startups', cta: 'See upcoming events', href: '#events' },
+  { title: 'Guide public policy with solid research', text: 'Your work feeds clear, honest reports that the government actually reads.', icon: Landmark, badge: 'Policy', cta: 'Read our updates', href: '#news' },
+  { title: 'Help more people get good jobs', text: 'You get internships, career fairs and a members-only job board.', icon: Briefcase, badge: 'Careers', cta: 'See membership', href: '#membership' },
+  { title: 'Build a state community the world recognises', text: 'You become part of a network that works with partners around the world.', icon: Globe, badge: 'Community', cta: 'Get in touch', href: '#contact' }
 ];
 
 export const programs: Program[] = [
@@ -325,17 +325,17 @@ export const newsArticles: NewsArticle[] = [
 ];
 
 // Roadmap slide 10 — included in every membership
-export const memberBenefits = [
-  'Access to workshops, webinars and conferences',
-  'Members-only technical talks and recordings',
-  'A place in Special Interest Groups',
-  'Networking with colleges, industry and government',
-  'Job and internship openings',
-  'Mentorship programmes',
-  'Research partnerships',
-  'Eligibility for awards and recognition',
-  'Volunteer and leadership roles',
-  'Discounts on certificates and events'
+export const memberBenefits: { title: string; text: string; icon: LucideIcon }[] = [
+  { title: 'Workshops, webinars and conferences', text: 'Come to our events free or at a member price, all year round.', icon: Presentation },
+  { title: 'Members-only talks and recordings', text: 'Missed a session? Watch the recording whenever you like.', icon: PlayCircle },
+  { title: 'Special interest groups', text: 'Join a small group on the topic you care about most.', icon: Users },
+  { title: 'Meet colleges, companies and government', text: 'Talk directly to the people who teach, hire and make policy.', icon: Network },
+  { title: 'Jobs and internships', text: 'See openings from our partners before they are posted anywhere else.', icon: Briefcase },
+  { title: 'A mentor', text: 'Get paired with someone who has done what you want to do.', icon: UserCheck },
+  { title: 'Research partners', text: 'Find people to work with on a study or project.', icon: FlaskConical },
+  { title: 'Awards and recognition', text: 'Your work can be put forward for our yearly awards.', icon: Award },
+  { title: 'Volunteer and lead', text: 'Run an event, a chapter or a group if you want to.', icon: HandHeart },
+  { title: 'Lower prices', text: 'Pay less for certificates, courses and our summit.', icon: BadgePercent }
 ];
 
 export const summit = {

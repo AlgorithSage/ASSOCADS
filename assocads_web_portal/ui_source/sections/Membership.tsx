@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, ArrowRight, ChevronLeft, ChevronRight, Sparkles, ShieldCheck } from 'lucide-react';
+import { Check, ArrowRight, ChevronLeft, ChevronRight, ShieldCheck } from 'lucide-react';
 import { tierGroups, tiers, memberBenefits } from '../content';
 import type { TierGroup } from '../types';
 import { DepthIn, EASE, Reveal, SectionHeading } from '../motion';
@@ -83,7 +83,7 @@ export function Membership({ onJoin }: MembershipProps) {
                 aria-selected={group === g.id}
                 aria-controls="tier-panel"
                 onClick={() => choose(g.id)}
-                className={`relative px-4 pb-3 pt-2 text-xs font-semibold uppercase tracking-[0.12em] transition-colors sm:px-8 sm:text-sm sm:tracking-[0.14em] ${
+                className={`relative px-4 pb-3 pt-2 text-xs font-semibold tracking-[0.01em] transition-colors sm:px-8 sm:text-sm sm:tracking-[0.01em] ${
                   group === g.id ? 'text-ink' : 'text-ink-muted hover:text-ink'
                 }`}
               >
@@ -102,12 +102,12 @@ export function Membership({ onJoin }: MembershipProps) {
 
         {/* Minimalistic Slider Navigation Header */}
         <div className="mt-8 flex items-center justify-between px-1">
-          <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-ink-muted">
+          <div className="flex items-center gap-2 text-xs font-medium tracking-[0.01em] text-ink-muted">
             <span>Viewing {list.length} {group === 'individuals' ? 'individual' : group === 'organisations' ? 'institutional' : 'honorary'} plans</span>
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="text-xs font-mono font-medium text-ink/40">
+            <span className="text-xs font-sans lining-nums tabular-nums font-medium text-ink/40">
               {String(activeCardIndex + 1).padStart(2, '0')} / {String(list.length).padStart(2, '0')}
             </span>
             <button
@@ -147,7 +147,7 @@ export function Membership({ onJoin }: MembershipProps) {
                 key={group}
                 custom={direction}
                 ref={trackRef}
-                className="scroll-x-clean -mx-5 flex snap-x snap-mandatory gap-6 overflow-x-auto px-5 pb-8 pt-4 md:-mx-8 md:px-8 scroll-smooth"
+                className="scroll-x-clean -mx-5 flex snap-x snap-mandatory gap-6 overflow-x-auto px-5 pb-8 pt-12 md:-mx-8 md:px-8 scroll-smooth"
                 initial="hidden"
                 animate="shown"
                 exit="gone"
@@ -164,44 +164,44 @@ export function Membership({ onJoin }: MembershipProps) {
                       hidden: { opacity: 0, y: 24 },
                       shown: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } }
                     }}
-                    className={`relative flex w-80 shrink-0 snap-start flex-col rounded-xl border transition-all duration-300 sm:w-88 lg:w-96 p-8 md:p-9 ${
+                    className={`relative flex w-72 shrink-0 snap-start first:ml-auto last:mr-auto flex-col rounded-xl border transition-all duration-300 sm:w-80 lg:w-[22rem] px-6 py-6 md:px-7 ${
                       tier.highlight
-                        ? 'border-ink bg-ink text-paper shadow-[0_24px_50px_-20px_rgba(46,36,44,0.55)] ring-1 ring-ink'
-                        : 'border-line/90 bg-white text-ink hover:border-ink/60 hover:shadow-xl hover:-translate-y-1'
+                        ? 'border-ink bg-ink text-paper'
+                        : 'border-line/90 bg-white text-ink hover:border-ink/60 hover:-translate-y-1'
                     }`}
                   >
                     {tier.highlight && (
-                      <div className="absolute -top-3 left-8 flex items-center gap-1.5 rounded-full border border-paper/30 bg-ink px-3.5 py-1 text-[0.65rem] font-bold uppercase tracking-[0.18em] text-paper shadow-md">
-                        <Sparkles size={11} className="text-amber-300" />
-                        <span>Most chosen</span>
+                      // Tab cut from the card itself: same ink, same border, same corner radius
+                      <div className="absolute -top-8 right-8 flex h-8 items-center rounded-t-xl border border-b-0 border-ink bg-ink px-4 text-xs font-medium text-paper">
+                        Most chosen
                       </div>
                     )}
 
                     <div className="flex items-start justify-between gap-4">
                       <div>
-                        <h3 className="font-display text-2xl font-semibold md:text-3xl">{tier.name}</h3>
-                        <p className={`mt-1.5 min-h-[2.5rem] text-xs leading-relaxed ${tier.highlight ? 'text-paper/70' : 'text-ink-muted'}`}>
+                        <h3 className="font-display text-2xl font-medium">{tier.name}</h3>
+                        <p className={`mt-1 min-h-[2.25rem] text-xs leading-snug ${tier.highlight ? 'text-paper/70' : 'text-ink-muted'}`}>
                           {tier.forWho}
                         </p>
                       </div>
                     </div>
 
-                    <div className="mt-6 border-y py-5" style={{ borderColor: tier.highlight ? 'rgba(246,244,239,0.15)' : 'rgba(46,36,44,0.08)' }}>
-                      <p className="font-display text-3xl font-medium tracking-tight md:text-4xl">{tier.price}</p>
-                      <p className={`mt-1 text-xs uppercase tracking-wider ${tier.highlight ? 'text-paper/60' : 'text-ink-muted'}`}>
+                    <div className="mt-4 border-y py-3.5" style={{ borderColor: tier.highlight ? 'rgba(246,244,239,0.15)' : 'rgba(46,36,44,0.08)' }}>
+                      <p className="whitespace-nowrap font-display text-[1.45rem] font-medium tracking-tight md:text-[1.6rem]">{tier.price}</p>
+                      <p className={`mt-0.5 text-xs ${tier.highlight ? 'text-paper/60' : 'text-ink-muted'}`}>
                         {tier.period}
                       </p>
                     </div>
 
-                    <div className="mt-6 flex-1">
-                      <p className={`text-[0.7rem] font-semibold uppercase tracking-[0.18em] ${tier.highlight ? 'text-paper/50' : 'text-ink-muted'}`}>
-                        Included deliverables & features:
+                    <div className="mt-4 flex-1">
+                      <p className={`text-[0.7rem] font-semibold tracking-[0.01em] ${tier.highlight ? 'text-paper/50' : 'text-ink-muted'}`}>
+                        What you get
                       </p>
-                      <ul className="mt-3.5 space-y-2.5">
+                      <ul className="mt-2.5 space-y-1.5">
                         {/* Included perks (checkmarks) */}
                         {tier.perks.map((perk) => (
-                          <li key={perk} className={`flex items-start gap-2.5 text-xs leading-relaxed sm:text-sm ${tier.highlight ? 'text-paper/95' : 'text-ink-soft'}`}>
-                            <span className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full ${tier.highlight ? 'bg-emerald-400/20 text-emerald-300' : 'bg-emerald-50 text-emerald-600'}`}>
+                          <li key={perk} className={`flex items-start gap-2.5 text-[0.85rem] leading-snug ${tier.highlight ? 'text-paper/95' : 'text-ink-soft'}`}>
+                            <span className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full ${tier.highlight ? 'bg-paper/15 text-paper' : 'bg-ink/8 text-ink'}`}>
                               <Check size={11} strokeWidth={2.5} />
                             </span>
                             <span>{perk}</span>
@@ -211,7 +211,7 @@ export function Membership({ onJoin }: MembershipProps) {
                         {/* Excluded perks for comparative tier clarity (crosses) */}
                         {tier.excludedPerks && tier.excludedPerks.map((perk) => (
                           <li key={perk} className={`flex items-start gap-2.5 text-xs leading-relaxed sm:text-sm opacity-40 line-through ${tier.highlight ? 'text-paper/50' : 'text-ink/50'}`}>
-                            <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-xs font-mono font-bold">
+                            <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-xs font-sans lining-nums tabular-nums font-bold">
                               ✕
                             </span>
                             <span>{perk}</span>
@@ -223,9 +223,9 @@ export function Membership({ onJoin }: MembershipProps) {
                     <button
                       type="button"
                       onClick={(e) => onJoin(tier.name, e.currentTarget)}
-                      className={`btn mt-8 w-full justify-center py-3 text-xs sm:text-sm font-semibold tracking-wide transition-all duration-300 ${
+                      className={`btn mt-5 min-h-11! w-full justify-center py-2.5 text-xs sm:text-sm font-semibold tracking-wide transition-all duration-300 ${
                         tier.highlight
-                          ? 'bg-amber-400 text-ink hover:bg-amber-300 shadow-lg hover:shadow-xl hover:scale-[1.02] border-0'
+                          ? 'border border-paper bg-paper text-ink hover:bg-white'
                           : 'btn-primary'
                       }`}
                     >
@@ -251,48 +251,64 @@ export function Membership({ onJoin }: MembershipProps) {
           </div>
         </DepthIn>
 
-        {/* 1. Improved UI: Benefits shared by every membership */}
-        <div className="mt-24 rounded-2xl border border-line/80 bg-white p-8 shadow-sm md:p-12 lg:p-14">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-line pb-8">
-            <Reveal>
-              <div className="inline-flex items-center gap-2 rounded-full border border-ink/15 bg-paper px-3.5 py-1 text-[0.68rem] font-bold uppercase tracking-[0.18em] text-ink">
-                <ShieldCheck size={13} />
-                <span>Universal Trust Guarantee</span>
-              </div>
-              <h3 className="mt-3 text-3xl font-medium text-ink md:text-4xl">
-                Ten things every member gets
-              </h3>
-            </Reveal>
-            <p className="max-w-md text-sm text-ink-muted leading-relaxed">
-              Every single membership tier includes full institutional backing, academic resources, statewide networking, and career pathways.
-            </p>
-          </div>
+        {/* Benefits every member gets, as a bento: a large ink intro tile and ten
+            icon tiles (two of them wide) that invert to ink on hover. */}
+        {/* Ten benefits: five left, the summary card in the middle, five right.
+            Each side column is a flex stack whose tiles share the height equally,
+            so both columns end exactly where the centre card ends. */}
+        <motion.div
+          className="mt-24 grid gap-4 lg:grid-cols-[1fr_1.15fr_1fr] lg:items-stretch"
+          initial="hidden"
+          whileInView="shown"
+          viewport={{ once: false, amount: 0.1 }}
+          variants={{ hidden: {}, shown: { transition: { staggerChildren: 0.05 } } }}
+        >
+          {[0, 1].map((side) => (
+            <div key={side} className={`flex flex-col gap-4 ${side === 0 ? 'lg:order-1' : 'lg:order-3'}`}>
+              {memberBenefits.slice(side * 5, side * 5 + 5).map(({ title, text, icon: Icon }) => (
+                <motion.article
+                  key={title}
+                  className="draw-border group flex flex-1 items-start gap-4 rounded-sm border border-line bg-white px-5 py-5 transition-shadow duration-500 hover:shadow-[0_20px_40px_-28px_rgba(46,36,44,0.5)]"
+                  variants={{
+                    hidden: { opacity: 0, x: side === 0 ? -20 : 20 },
+                    shown: { opacity: 1, x: 0, transition: { duration: 0.6, ease: EASE } }
+                  }}
+                >
+                  {['db-t', 'db-r', 'db-b', 'db-l'].map((edge) => (
+                    <span key={edge} className={`db ${edge}`} aria-hidden="true" />
+                  ))}
+                  <Icon size={22} strokeWidth={1.25} className="mt-0.5 shrink-0 text-ink" aria-hidden="true" />
+                  <div>
+                    <h4 className="font-display text-base font-medium leading-snug text-ink">{title}</h4>
+                    <p className="mt-1 text-sm leading-relaxed text-ink-muted">{text}</p>
+                  </div>
+                </motion.article>
+              ))}
+            </div>
+          ))}
 
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
-            {memberBenefits.map((benefit, i) => (
-              <motion.div
-                key={benefit}
-                className="group flex items-start gap-4 rounded-xl border border-line/60 bg-paper/60 p-4 sm:p-5 transition-all duration-300 hover:border-ink/50 hover:bg-white hover:shadow-md"
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.4 }}
-                transition={{ duration: 0.5, ease: EASE, delay: (i % 2) * 0.06 }}
-              >
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-ink text-paper font-mono text-xs font-semibold shadow-sm transition-transform duration-300 group-hover:scale-105">
-                  {String(i + 1).padStart(2, '0')}
-                </div>
-                <div className="pt-0.5">
-                  <p className="text-sm font-medium text-ink leading-snug group-hover:text-ink transition-colors">
-                    {benefit}
-                  </p>
-                  <p className="mt-1 text-xs text-ink-muted">
-                    Full access across chapters, conferences, and digital portals.
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
+          <motion.div
+            className="relative flex flex-col items-center justify-center overflow-hidden rounded-sm bg-ink px-8 py-14 text-center text-paper lg:order-2 md:px-12"
+            variants={{ hidden: { opacity: 0, scale: 0.96 }, shown: { opacity: 1, scale: 1, transition: { duration: 0.8, ease: EASE } } }}
+          >
+            <span
+              className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-[18rem] leading-none text-paper/[0.05]"
+              aria-hidden="true"
+            >
+              10
+            </span>
+            <span className="relative inline-flex items-center gap-2 text-sm text-paper/65">
+              <ShieldCheck size={15} /> Included with every plan
+            </span>
+            <h3 className="relative mt-5 font-display text-4xl font-medium leading-[1.06] md:text-5xl">
+              Ten things every member gets
+            </h3>
+            <span className="relative mt-8 block h-px w-12 bg-paper/30" aria-hidden="true" />
+            <p className="relative mt-8 max-w-xs leading-relaxed text-paper/75">
+              It does not matter which plan you pick. A student paying ₹500 gets all ten of these, the same as a company.
+            </p>
+          </motion.div>
+        </motion.div>
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Calendar, MapPin } from 'lucide-react';
-import { summit, SUMMIT_DATE, photos } from '../content';
+import { summit, SUMMIT_DATE } from '../content';
 import { Reveal, Words, scrollToId } from '../motion';
 
 interface TimeLeft {
@@ -31,8 +31,8 @@ function Countdown() {
     <div className="flex gap-3" aria-label={`${left.days} days, ${left.hours} hours and ${left.minutes} minutes to go`}>
       {parts.map(([label, value]) => (
         <div key={label} className="min-w-22 border border-paper/20 px-4 py-4 text-center">
-          <div className="font-display text-4xl text-paper tabular-nums md:text-5xl">{String(value).padStart(2, '0')}</div>
-          <div className="mt-1 text-[0.68rem] uppercase tracking-[0.2em] text-paper/60">{label}</div>
+          <div className="font-display text-4xl text-paper lining-nums tabular-nums md:text-5xl">{String(value).padStart(2, '0')}</div>
+          <div className="mt-1 text-[0.68rem] tracking-[0.01em] text-paper/60">{label}</div>
         </div>
       ))}
     </div>
@@ -40,27 +40,24 @@ function Countdown() {
 }
 
 export function Summit() {
-  const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'start 0.25'] });
-  // Panel opens up to full width as it scrolls into view
-  const inset = useTransform(scrollYProgress, [0, 1], [10, 0]);
-  const radius = useTransform(scrollYProgress, [0, 1], [24, 4]);
-  const clipPath = useTransform([inset, radius], ([i, r]) => `inset(${i}% ${i}% 0% ${i}% round ${r}px)`);
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1.25, 1]);
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+  // A huge, faint "2027" drifts slowly behind the content: texture without a photo,
+  // so nothing competes with the section colour or leaves a visible edge.
+  const bgX = useTransform(scrollYProgress, [0, 1], ['4%', '-8%']);
 
   return (
-    <div ref={ref} className="px-3 py-12 md:px-6">
-      <motion.div style={{ clipPath }} className="relative mx-auto max-w-[1400px] overflow-hidden">
-        <motion.div
-          style={{ scale: bgScale }}
-          className="absolute inset-0 bg-ink"
-          aria-hidden="true"
-        >
-          <img src={photos.summit.src} alt="" loading="lazy" className="h-full w-full object-cover opacity-40" />
-          <div className="absolute inset-0 bg-linear-to-r from-ink via-ink/85 to-ink/40" />
-        </motion.div>
+    <div ref={ref} className="relative overflow-hidden">
+      <motion.span
+        style={{ x: bgX }}
+        className="pointer-events-none absolute -right-10 top-1/2 -translate-y-1/2 select-none font-display text-[clamp(12rem,32vw,30rem)] leading-none text-paper/[0.04]"
+        aria-hidden="true"
+      >
+        2027
+      </motion.span>
+      <div className="relative mx-auto max-w-[1400px]">
 
-        <div className="relative grid gap-12 px-6 py-20 md:px-16 md:py-28 lg:grid-cols-[1.4fr_1fr] lg:items-end">
+        <div className="relative grid gap-12 px-6 pb-20 pt-0 md:px-16 md:pb-28 lg:grid-cols-[1.4fr_1fr] lg:items-end">
           <div>
             <Reveal>
               <span className="eyebrow text-paper/60!">Save the date</span>
@@ -79,7 +76,7 @@ export function Summit() {
             </Reveal>
           </div>
           <Reveal delay={0.25} direction="left">
-            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-paper/60">Time left</p>
+            <p className="mb-4 text-xs font-semibold tracking-[0.01em] text-paper/60">Time left</p>
             <Countdown />
             <a
               href="#events"
@@ -93,7 +90,7 @@ export function Summit() {
             </a>
           </Reveal>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }

@@ -1,236 +1,191 @@
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Phone, Mail, Send, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
+import { MapPin, Mail, ArrowRight, Check, AlertCircle, Loader2, Clock } from 'lucide-react';
 import { submitContactInquiry } from '../apiService';
+import { contact } from '../content';
 import { EASE, Reveal, Words } from '../motion';
+import { Magnetic } from '../effects';
 
+const TOPICS = ['Membership', 'A partnership', 'An event', 'Something else'] as const;
+type Topic = (typeof TOPICS)[number];
+
+// Input with the label sitting inside the field, lifting above it once you type or focus.
+function Field({
+  id,
+  label,
+  value,
+  onChange,
+  type = 'text',
+  required = false,
+  multiline = false
+}: {
+  id: string;
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  type?: string;
+  required?: boolean;
+  multiline?: boolean;
+}) {
+  const base =
+    'peer w-full rounded-sm border border-line bg-paper/50 px-4 pb-2.5 pt-6 text-ink outline-none transition-colors duration-300 placeholder-transparent focus:border-ink focus:bg-white';
+  return (
+    <div className="relative">
+      {multiline ? (
+        <textarea id={id} rows={5} required={required} placeholder={label} value={value} onChange={(e) => onChange(e.target.value)} className={`${base} resize-none`} />
+      ) : (
+        <input id={id} type={type} required={required} placeholder={label} value={value} onChange={(e) => onChange(e.target.value)} className={base} />
+      )}
+      <label
+        htmlFor={id}
+        className="pointer-events-none absolute left-4 top-2 text-xs text-ink-muted transition-all duration-200 peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-focus:top-2 peer-focus:text-xs"
+      >
+        {label}
+        {required ? '' : ' (optional)'}
+      </label>
+    </div>
+  );
+}
+
+// Get in touch: an ink panel with who to contact and what happens next,
+// next to a clean form with topic chips and floating labels.
 export function Contact() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: ''
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
+  const [topic, setTopic] = useState<Topic>('Membership');
+  const [sending, setSending] = useState(false);
+  const [status, setStatus] = useState<{ ok: boolean; text: string } | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
-      setStatusMessage({ type: 'error', text: 'Please fill in your name, email, and message.' });
-      return;
-    }
-
-    setIsSubmitting(true);
-    setStatusMessage(null);
-
+    setSending(true);
+    setStatus(null);
     try {
-      const res = await submitContactInquiry(formData);
+      const res = await submitContactInquiry({ ...form, message: `[${topic}] ${form.message}` });
       if (res.success) {
-        setStatusMessage({
-          type: 'success',
-          text: 'Thank you! Your message has been received by the ASSOCADS Secretariat.'
-        });
-        setFormData({ name: '', email: '', phone: '', message: '' });
+        setStatus({ ok: true, text: `Thanks${form.name ? `, ${form.name.split(' ')[0]}` : ''}. We will reply by email within two working days.` });
+        setForm({ name: '', email: '', phone: '', message: '' });
       } else {
-        setStatusMessage({ type: 'error', text: res.message || 'Submission failed. Please try again.' });
+        setStatus({ ok: false, text: res.message || 'That did not go through. Please try again.' });
       }
     } catch {
-      setStatusMessage({ type: 'error', text: 'An unexpected network error occurred. Please try again.' });
+      setStatus({ ok: false, text: 'That did not go through. Please check your connection and try again.' });
     } finally {
-      setIsSubmitting(false);
+      setSending(false);
     }
   };
 
   return (
-    <div className="section-pad relative overflow-hidden">
-      {/* Background world map / topological watermark matching Reference 3 */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.035] bg-[radial-gradient(#2E242C_1px,transparent_1px)] [background-size:24px_24px]"
-        aria-hidden="true"
-      />
-
-      <div className="container-page relative z-10">
-        <div className="grid gap-12 lg:grid-cols-12 lg:items-start">
-          {/* Left Column: Direct Info & Structured Cards matching Reference 3 */}
-          <div className="lg:col-span-5 lg:pr-6">
-            <Reveal>
-              {/* Eyebrow in coral/terracotta accent matching Reference 3 */}
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E05A47]">
-                Write Here
+    <div className="section-pad">
+      <div className="container-page">
+        <div className="grid overflow-hidden rounded-sm border border-line bg-white shadow-[0_40px_90px_-50px_rgba(46,36,44,0.45)] lg:grid-cols-12">
+          {/* Ink panel */}
+          <div className="relative flex flex-col justify-between overflow-hidden bg-ink p-8 text-paper md:p-12 lg:col-span-5">
+            <span className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full border border-paper/10" aria-hidden="true" />
+            <span className="pointer-events-none absolute -right-10 -top-10 h-44 w-44 rounded-full border border-paper/10" aria-hidden="true" />
+            <div className="relative">
+              <span className="text-sm text-paper/60">Write to us</span>
+              <Words text="Get in touch" className="mt-3 font-display text-5xl font-medium leading-[1.04] text-paper md:text-6xl" />
+              <p className="mt-6 max-w-sm leading-relaxed text-paper/75">
+                A question about joining, an idea for a partnership, or an event you want to run with us. Send it here and a
+                real person from our team will reply.
               </p>
-            </Reveal>
-
-            {/* Editorial Serif Heading matching Reference 3 */}
-            <Words
-              text="Get in Touch"
-              className="mt-2 text-3xl font-medium leading-[1.08] text-ink sm:text-5xl lg:text-6xl"
-            />
-
-            <Reveal delay={0.1}>
-              <p className="mt-5 max-w-md text-sm leading-relaxed text-ink-muted sm:text-base">
-                Whether you represent a college, a research laboratory, a tech startup, or wish to contribute as a mentor, our team is here to coordinate.
-              </p>
-            </Reveal>
-
-            {/* Three Contact Cards matching Reference 3 */}
-            <div className="mt-10 space-y-4">
-              {/* Address Card */}
-              <Reveal delay={0.15}>
-                <div className="flex items-start gap-4 rounded-2xl border border-ink/10 bg-white p-4 shadow-sm transition-all duration-300 hover:border-ink/20 hover:shadow-md">
-                  <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#E05A47]/10 text-[#E05A47]">
-                    <MapPin size={22} strokeWidth={1.75} />
-                  </div>
-                  <div>
-                    <h4 className="font-display text-base font-semibold text-ink">Address</h4>
-                    <p className="mt-1 text-xs leading-relaxed text-ink-muted sm:text-sm">
-                      Association for AI and Data Science (ASSOCADS)<br />
-                      Salt Lake Sector V, Bidhannagar, Kolkata, West Bengal 700091
-                    </p>
-                  </div>
-                </div>
-              </Reveal>
-
-              {/* Phone Card */}
-              <Reveal delay={0.2}>
-                <div className="flex items-start gap-4 rounded-2xl border border-ink/10 bg-white p-4 shadow-sm transition-all duration-300 hover:border-ink/20 hover:shadow-md">
-                  <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#E05A47]/10 text-[#E05A47]">
-                    <Phone size={22} strokeWidth={1.75} />
-                  </div>
-                  <div>
-                    <h4 className="font-display text-base font-semibold text-ink">Our Phone</h4>
-                    <p className="mt-1 text-xs leading-relaxed text-ink-muted sm:text-sm">
-                      Office phone: +91 (033) 2357-9000<br />
-                      Secretariat Helpdesk: +91 98300 12345
-                    </p>
-                  </div>
-                </div>
-              </Reveal>
-
-              {/* Email Card */}
-              <Reveal delay={0.25}>
-                <div className="flex items-start gap-4 rounded-2xl border border-ink/10 bg-white p-4 shadow-sm transition-all duration-300 hover:border-ink/20 hover:shadow-md">
-                  <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#E05A47]/10 text-[#E05A47]">
-                    <Mail size={22} strokeWidth={1.75} />
-                  </div>
-                  <div>
-                    <h4 className="font-display text-base font-semibold text-ink">Our Email</h4>
-                    <p className="mt-1 text-xs leading-relaxed text-ink-muted sm:text-sm">
-                      Main Email: <a href="mailto:secretariat@assocads.org" className="underline hover:text-ink">secretariat@assocads.org</a><br />
-                      Inquiries: <a href="mailto:memberships@assocads.org" className="underline hover:text-ink">memberships@assocads.org</a>
-                    </p>
-                  </div>
-                </div>
-              </Reveal>
             </div>
+
+            <ul className="relative mt-12 space-y-6">
+              {[
+                { icon: Mail, label: 'Email', value: contact.email, href: `mailto:${contact.email}` },
+                { icon: MapPin, label: 'Office', value: contact.address },
+                { icon: Clock, label: 'Reply time', value: 'Within two working days' }
+              ].map(({ icon: Icon, label, value, href }) => (
+                <li key={label} className="flex items-start gap-4">
+                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-paper/20">
+                    <Icon size={18} strokeWidth={1.6} />
+                  </span>
+                  <div>
+                    <p className="text-sm text-paper/55">{label}</p>
+                    {href ? (
+                      <a href={href} className="link-draw text-paper">
+                        {value}
+                      </a>
+                    ) : (
+                      <p className="text-paper">{value}</p>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          {/* Right Column: Pill-Shaped Input Form matching Reference 3 */}
-          <div className="lg:col-span-7">
-            <Reveal delay={0.2}>
-              <form
-                onSubmit={handleSubmit}
-                className="rounded-3xl border border-ink/10 bg-white/70 p-6 shadow-xl backdrop-blur-md sm:p-10"
-              >
-                <div className="space-y-4">
-                  {/* Name Input (Pill Shaped) */}
-                  <div>
-                    <label htmlFor="contact-name" className="sr-only">Name</label>
-                    <input
-                      id="contact-name"
-                      type="text"
-                      required
-                      placeholder="Name"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full rounded-full border border-ink/10 bg-white px-6 py-4 text-sm text-ink placeholder:text-ink-muted/70 shadow-sm outline-none transition focus:border-ink focus:ring-2 focus:ring-ink/10"
-                    />
+          {/* Form */}
+          <div className="p-8 md:p-12 lg:col-span-7">
+            <Reveal>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <fieldset>
+                  <legend className="text-sm text-ink-muted">What is it about?</legend>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {TOPICS.map((t) => (
+                      <button
+                        key={t}
+                        type="button"
+                        aria-pressed={topic === t}
+                        onClick={() => setTopic(t)}
+                        className={`relative rounded-full border px-4 py-2 text-sm transition-colors duration-300 ${
+                          topic === t ? 'border-ink text-paper' : 'border-line text-ink hover:border-ink'
+                        }`}
+                      >
+                        {topic === t && (
+                          <motion.span
+                            layoutId="contact-topic"
+                            className="absolute inset-0 rounded-full bg-ink"
+                            transition={{ type: 'spring', stiffness: 420, damping: 34 }}
+                          />
+                        )}
+                        <span className="relative">{t}</span>
+                      </button>
+                    ))}
                   </div>
+                </fieldset>
 
-                  {/* Email Input (Pill Shaped) */}
-                  <div>
-                    <label htmlFor="contact-email" className="sr-only">Email</label>
-                    <input
-                      id="contact-email"
-                      type="email"
-                      required
-                      placeholder="Email"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full rounded-full border border-ink/10 bg-white px-6 py-4 text-sm text-ink placeholder:text-ink-muted/70 shadow-sm outline-none transition focus:border-ink focus:ring-2 focus:ring-ink/10"
-                    />
-                  </div>
-
-                  {/* Phone / Organization Input (Pill Shaped) */}
-                  <div>
-                    <label htmlFor="contact-phone" className="sr-only">Phone</label>
-                    <input
-                      id="contact-phone"
-                      type="text"
-                      placeholder="Phone"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full rounded-full border border-ink/10 bg-white px-6 py-4 text-sm text-ink placeholder:text-ink-muted/70 shadow-sm outline-none transition focus:border-ink focus:ring-2 focus:ring-ink/10"
-                    />
-                  </div>
-
-                  {/* Message Input (Rounded Box) */}
-                  <div>
-                    <label htmlFor="contact-message" className="sr-only">Message</label>
-                    <textarea
-                      id="contact-message"
-                      required
-                      rows={5}
-                      placeholder="Message"
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      className="w-full rounded-3xl border border-ink/10 bg-white p-6 text-sm text-ink placeholder:text-ink-muted/70 shadow-sm outline-none transition focus:border-ink focus:ring-2 focus:ring-ink/10 resize-none"
-                    />
-                  </div>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <Field id="c-name" label="Your name" required value={form.name} onChange={(v) => setForm({ ...form, name: v })} />
+                  <Field id="c-email" label="Email" type="email" required value={form.email} onChange={(v) => setForm({ ...form, email: v })} />
                 </div>
+                <Field id="c-phone" label="Phone" type="tel" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} />
+                <Field id="c-message" label="Your message" multiline required value={form.message} onChange={(v) => setForm({ ...form, message: v })} />
 
-                {/* Status Message Alert */}
                 <AnimatePresence>
-                  {statusMessage && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -8 }}
+                  {status && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -6 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -8 }}
-                      className={`mt-4 flex items-center gap-3 rounded-2xl px-5 py-3 text-xs sm:text-sm ${
-                        statusMessage.type === 'success'
-                          ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
-                          : 'bg-rose-50 text-rose-800 border border-rose-200'
+                      exit={{ opacity: 0, y: -6 }}
+                      transition={{ duration: 0.25, ease: EASE }}
+                      className={`flex items-center gap-3 rounded-sm border px-4 py-3 text-sm ${
+                        status.ok ? 'border-ink bg-paper text-ink' : 'border-ink/40 bg-white text-ink'
                       }`}
+                      role="status"
                     >
-                      {statusMessage.type === 'success' ? (
-                        <CheckCircle2 size={18} className="shrink-0 text-emerald-600" />
-                      ) : (
-                        <AlertCircle size={18} className="shrink-0 text-rose-600" />
-                      )}
-                      <span>{statusMessage.text}</span>
-                    </motion.div>
+                      {status.ok ? <Check size={18} /> : <AlertCircle size={18} />}
+                      {status.text}
+                    </motion.p>
                   )}
                 </AnimatePresence>
 
-                {/* Coral Rounded Submit Button matching Reference 3 */}
-                <div className="mt-6">
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-[#E05A47] px-10 py-4 text-xs font-bold uppercase tracking-wider text-white shadow-lg transition-all duration-300 hover:bg-[#d04d3b] hover:shadow-xl hover:scale-105 active:scale-95 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <Loader2 size={16} className="animate-spin" />
-                        <span>Sending...</span>
-                      </>
-                    ) : (
-                      <>
-                        <span>Submit</span>
-                        <Send size={14} />
-                      </>
-                    )}
-                  </button>
+                <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
+                  <p className="text-sm text-ink-muted">We only use your details to reply to you.</p>
+                  <Magnetic>
+                    <button type="submit" disabled={sending} className="btn btn-primary disabled:opacity-60">
+                      {sending ? (
+                        <>
+                          <Loader2 size={16} className="animate-spin" /> Sending
+                        </>
+                      ) : (
+                        <>
+                          Send message <ArrowRight size={16} />
+                        </>
+                      )}
+                    </button>
+                  </Magnetic>
                 </div>
               </form>
             </Reveal>

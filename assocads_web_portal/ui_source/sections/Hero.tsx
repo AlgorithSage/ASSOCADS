@@ -1,9 +1,9 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, ArrowDown, Calendar } from 'lucide-react';
-import { hero, events, heroAudiences, contact } from '../content';
+import { ArrowRight, ArrowDown } from 'lucide-react';
+import { hero, heroAudiences, contact } from '../content';
 import { Magnetic, TypeWord } from '../effects';
-import { EASE, EASE_INOUT, Words, scrollToId, useMediaQuery, prefersReducedMotion } from '../motion';
+import { EASE, EASE_INOUT, Words, scrollToId, prefersReducedMotion } from '../motion';
 
 interface HeroProps {
   onJoin: (from?: HTMLElement | null) => void;
@@ -17,14 +17,9 @@ const T = { frame: 0, photo: 0.15, eyebrow: 0.35, line1: 0.42, line2: 0.6, intro
 export function Hero({ onJoin, ready }: HeroProps) {
   const ref = useRef<HTMLElement>(null);
   const reduced = prefersReducedMotion();
-  // The 3D pull-back is the most expensive effect (perspective + rotateX forces a large
-  // GPU layer); skip it below tablet width, where it's least visible and most likely to jank.
-  const allowTilt = useMediaQuery('(min-width: 768px)') && !reduced;
 
-  /* Scroll: camera pulls back. Frame recedes and tips away, photo drifts slower than text. */
+  /* Scroll: the full-bleed frame drifts down slightly while the text lifts away. */
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
-  const frameScale = useTransform(scrollYProgress, [0, 1], [1, allowTilt ? 0.93 : 1]);
-  const frameTilt = useTransform(scrollYProgress, [0, 1], [0, allowTilt ? 7 : 0]);
   const frameY = useTransform(scrollYProgress, [0, 1], ['0%', reduced ? '0%' : '6%']);
   const contentY = useTransform(scrollYProgress, [0, 1], ['0%', reduced ? '0%' : '-22%']);
   const contentOpacity = useTransform(scrollYProgress, [0.25, 0.7], [1, 0]);
@@ -36,18 +31,17 @@ export function Hero({ onJoin, ready }: HeroProps) {
     transition: { duration: 0.9, ease: EASE, delay: ready ? delay : 0 }
   });
 
-  const nextEvent = events[0];
 
   return (
-    <section ref={ref} id="top" className="relative px-3 pt-3 md:px-5 md:pt-5">
+    <section ref={ref} id="top" className="relative">
       {/* Outer layer: scroll-linked camera pull-back */}
       <motion.div
-        style={{ scale: frameScale, rotateX: frameTilt, y: frameY, transformPerspective: 1600, transformOrigin: '50% 100%' }}
+        style={{ y: frameY }}
         className="will-change-transform"
       >
         {/* Inner frame: settles from a slight zoom as the curtain lifts */}
         <motion.div
-          className="relative isolate flex min-h-[calc(100svh-24px)] flex-col overflow-hidden rounded-sm bg-ink text-paper md:min-h-[calc(100svh-40px)]"
+          className="relative isolate flex min-h-svh flex-col overflow-hidden bg-ink text-paper"
           initial={reduced ? false : { scale: 1.04 }}
           animate={ready ? { scale: 1 } : undefined}
           transition={{ duration: 1.4, ease: EASE_INOUT, delay: T.frame }}
@@ -126,23 +120,6 @@ export function Hero({ onJoin, ready }: HeroProps) {
                 </Magnetic>
               </motion.div>
 
-              <motion.a
-                href="#events"
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToId('#events');
-                }}
-                className="group mt-10 flex w-fit max-w-full items-center gap-3 rounded-sm border border-paper/15 bg-paper/10 py-1.5 pl-1.5 pr-4 text-left text-xs backdrop-blur-md transition-[border-color,transform] duration-300 hover:-translate-y-0.5 hover:border-paper/40"
-                {...enter(T.pill, { opacity: 0, y: 16 })}
-              >
-                <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-paper text-ink transition-transform duration-300 group-hover:scale-105">
-                  <Calendar size={16} />
-                </span>
-                <span className="min-w-0">
-                  <span className="block text-[0.68rem] text-paper/75">Next event · {nextEvent.date}</span>
-                  <span className="block truncate font-medium text-paper">{nextEvent.title}</span>
-                </span>
-              </motion.a>
             </motion.div>
           </motion.div>
 
@@ -156,7 +133,7 @@ export function Hero({ onJoin, ready }: HeroProps) {
               aria-hidden="true"
             />
             <motion.div
-              className="flex items-center justify-between text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-paper/60"
+              className="flex items-center justify-between text-[0.7rem] font-semibold tracking-[0.01em] text-paper/60"
               {...enter(T.bar, { opacity: 0, y: 8 })}
             >
               <span className="hidden sm:inline">{contact.address}</span>

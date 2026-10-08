@@ -91,7 +91,7 @@ export function Reveal({ children, className, delay = 0, direction = 'up', amoun
       className={className}
       initial={{ opacity: 0, x, y, filter: 'blur(8px)' }}
       whileInView={{ opacity: 1, x: 0, y: 0, filter: 'blur(0px)' }}
-      viewport={{ once: true, amount }}
+      viewport={{ once: false, amount }}
       transition={{ duration: 0.9, ease: EASE, delay }}
     >
       {children}
@@ -124,7 +124,7 @@ export function Stagger({ children, className, amount = 0.15 }: StaggerProps) {
       variants={groupVariants}
       initial="hidden"
       whileInView="shown"
-      viewport={{ once: true, amount }}
+      viewport={{ once: false, amount }}
     >
       {children}
     </motion.div>
@@ -162,7 +162,7 @@ export function Words({ text, className, as: Tag = 'h2', delay = 0, onMount = fa
   const words = text.split(' ');
   const trigger = onMount
     ? { animate: play ? 'shown' : 'hidden' }
-    : { whileInView: 'shown', viewport: { once: true, amount: 0.6 } };
+    : { whileInView: 'shown', viewport: { once: false, amount: 0.6 } };
   return (
     <Tag className={className} aria-label={text}>
       <motion.span
@@ -195,11 +195,16 @@ export function Words({ text, className, as: Tag = 'h2', delay = 0, onMount = fa
 
 export function CountUp({ value, suffix = '' }: { value: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, amount: 0.6 });
+  const inView = useInView(ref, { once: false, amount: 0.6 });
 
   useEffect(() => {
     const node = ref.current;
-    if (!node || !inView) return;
+    if (!node) return;
+    // Back to zero when it leaves the screen, so it counts up again next time it comes back
+    if (!inView) {
+      node.textContent = `0${suffix}`;
+      return;
+    }
     if (prefersReducedMotion()) {
       node.textContent = `${value.toLocaleString('en-IN')}${suffix}`;
       return;
@@ -336,18 +341,18 @@ export function SectionDivider({ label, dark = false }: { label: string; dark?: 
   };
   return (
     <motion.div
-      className="container-page flex items-center gap-6 py-6 md:gap-10 md:py-10 lg:py-12"
+      className="container-page flex items-center gap-6 py-12 md:gap-10 md:py-16 lg:py-20"
       role="separator"
       aria-label={label}
       initial="hidden"
       whileInView="shown"
-      viewport={{ once: true, amount: 1 }}
+      viewport={{ once: false, amount: 1 }}
     >
       <motion.span className={`h-px flex-1 origin-right ${dark ? 'bg-paper/30' : 'bg-ink/20'}`} variants={rule} />
       <motion.span
-        className={`shrink-0 text-center font-display text-lg font-medium uppercase leading-none tracking-[0.24em] ${
+        className={`shrink-0 text-center font-display text-lg font-medium leading-none tracking-[0.01em] ${
           dark ? 'text-paper' : 'text-ink'
-        } md:text-2xl md:tracking-[0.28em] lg:text-[1.85rem]`}
+        } md:text-2xl md:tracking-[0.01em] lg:text-[1.85rem]`}
         variants={{ hidden: { opacity: 0, y: 8 }, shown: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EASE } } }}
       >
         {label}

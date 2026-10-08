@@ -14,7 +14,7 @@ export function Logo({ className = 'text-paper' }: { className?: string }) {
       <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-paper p-1 shadow-[inset_0_0_0_1px_rgba(46,36,44,0.12)]">
         <img src="/logo-mark.webp" alt="" width={36} height={36} className="h-full w-full object-contain" />
       </span>
-      <span className="font-display text-xl font-semibold tracking-[0.12em]">ASSOCADS</span>
+      <span className="font-display text-xl font-semibold tracking-[0.01em]">ASSOCADS</span>
     </a>
   );
 }
@@ -22,14 +22,15 @@ export function Logo({ className = 'text-paper' }: { className?: string }) {
 export function SiteHeader({ onJoin }: SiteHeaderProps) {
   const { scrollY, scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.3 });
-  const [solid, setSolid] = useState(false);
+  // Over the hero the bar runs edge to edge; past it, it becomes the floating glass bar
+  const [overHero, setOverHero] = useState(true);
   const [hidden, setHidden] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [active, setActive] = useState<string>('');
   const lastY = useRef(0);
 
   useMotionValueEvent(scrollY, 'change', (y) => {
-    setSolid(y > 24);
+    setOverHero(y < window.innerHeight - 120);
     setHidden(y > lastY.current && y > 400 && !menuOpen);
     lastY.current = y;
   });
@@ -69,13 +70,17 @@ export function SiteHeader({ onJoin }: SiteHeaderProps) {
         aria-hidden="true"
       />
       <motion.header
-        className="fixed inset-x-0 top-0 z-50 px-6 pt-6 md:px-9 md:pt-8"
+        className={`fixed inset-x-0 top-0 z-50 transition-[padding] duration-500 ease-out-soft ${
+          overHero ? 'px-0 pt-0' : 'px-6 pt-6 md:px-9 md:pt-8'
+        }`}
         animate={{ y: hidden ? '-130%' : '0%' }}
         transition={{ duration: 0.4, ease: EASE }}
       >
         <nav
-          className={`mx-auto flex h-16 max-w-[1240px] items-center justify-between rounded-sm border border-paper/10 px-3 backdrop-blur-xl backdrop-saturate-150 transition-[background-color,box-shadow] duration-500 md:px-5 ${
-            solid ? 'bg-ink/80 shadow-[0_12px_30px_-18px_rgba(46,36,44,0.45)]' : 'bg-ink/25'
+          className={`mx-auto flex items-center justify-between backdrop-blur-xl backdrop-saturate-150 transition-all duration-500 ease-out-soft ${
+            overHero
+              ? 'h-20 max-w-full border-b border-paper/15 bg-ink/20 px-5 md:px-10 lg:px-14'
+              : 'h-16 max-w-[1240px] rounded-sm border border-paper/10 bg-ink/80 px-3 shadow-[0_12px_30px_-18px_rgba(46,36,44,0.45)] md:px-5'
           }`}
           aria-label="Main"
         >
@@ -135,7 +140,8 @@ export function SiteHeader({ onJoin }: SiteHeaderProps) {
         {menuOpen && (
           <motion.div
             id="mobile-menu"
-            className="fixed inset-0 z-40 overflow-y-auto bg-ink/95 backdrop-blur-xl xl:hidden"
+            data-lenis-prevent
+            className="fixed inset-0 z-40 overflow-y-auto overscroll-contain bg-ink/95 backdrop-blur-xl xl:hidden"
             initial={{ clipPath: 'circle(0% at 92% 36px)' }}
             animate={{ clipPath: 'circle(150% at 92% 36px)' }}
             exit={{ clipPath: 'circle(0% at 92% 36px)' }}

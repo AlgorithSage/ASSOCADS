@@ -12,7 +12,7 @@ export function RevealImage({ src, alt, className = '' }: { src: string; alt: st
   const drift = useTransform(scrollYProgress, [0, 1], reduced ? ['0%', '0%'] : ['-6%', '6%']);
 
   return (
-    <motion.div ref={ref} className={className} initial="hidden" whileInView="shown" viewport={{ once: true, amount: 0.2 }}>
+    <motion.div ref={ref} className={className} initial="hidden" whileInView="shown" viewport={{ once: false, amount: 0.2 }}>
       <motion.div
         className="h-full w-full overflow-hidden rounded-sm bg-paper-2"
         variants={{

@@ -29,7 +29,7 @@ export function Events({ onRegister }: EventsProps) {
                   type="button"
                   onClick={() => setFilter(f)}
                   aria-pressed={filter === f}
-                  className={`border px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] transition-colors ${
+                  className={`border px-4 py-2 text-xs font-semibold tracking-[0.01em] transition-colors ${
                     filter === f ? 'border-ink bg-ink text-paper' : 'border-line text-ink-muted hover:text-ink'
                   }`}
                 >
@@ -49,7 +49,7 @@ export function Events({ onRegister }: EventsProps) {
                 layout
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
+                viewport={{ once: false, amount: 0.3 }}
                 exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.2 } }}
                 transition={{ duration: 0.7, ease: EASE, delay: (i % 2) * 0.1 }}
               >
@@ -67,7 +67,7 @@ export function Events({ onRegister }: EventsProps) {
                   </div>
                   <div className="flex flex-1 flex-col p-7">
                   <div className="flex items-center justify-between gap-4">
-                    <span className="border border-line px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-ink-soft">{ev.kind}</span>
+                    <span className="border border-line px-2.5 py-1 text-[0.68rem] font-semibold tracking-[0.01em] text-ink-soft">{ev.kind}</span>
                     <span className="text-xs font-semibold text-ink">{ev.status}</span>
                   </div>
                   <h3 className="mt-5 text-xl font-semibold text-ink md:text-2xl">{ev.title}</h3>

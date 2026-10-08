@@ -56,7 +56,7 @@ export function Preloader({ done, onDone }: { done: boolean; onDone: () => void 
           </motion.span>
           <div className="mt-6 overflow-hidden">
             <motion.p
-              className="font-display text-3xl tracking-[0.3em]"
+              className="font-display text-3xl tracking-[0.01em]"
               initial={{ y: '100%' }}
               animate={{ y: '0%' }}
               transition={{ duration: 0.8, ease: EASE, delay: 0.3 }}

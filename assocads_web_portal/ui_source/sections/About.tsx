@@ -43,14 +43,14 @@ function Stats() {
           <span className="eyebrow">Year-one targets</span>
         </Reveal>
         <Reveal delay={0.1}>
-          <span className="text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-ink-muted">2026–2027</span>
+          <span className="text-[0.7rem] font-semibold tracking-[0.01em] text-ink-muted">2026–2027</span>
         </Reveal>
       </div>
       <motion.ul
         className="grid grid-cols-2 lg:grid-cols-4"
         initial="hidden"
         whileInView="shown"
-        viewport={{ once: true, amount: 0.4 }}
+        viewport={{ once: false, amount: 0.4 }}
         variants={{ hidden: {}, shown: { transition: { staggerChildren: 0.1 } } }}
       >
         {stats.map((stat, i) => (
@@ -75,11 +75,11 @@ function Stats() {
                 aria-hidden="true"
               />
             ) : null}
-            <div className="flex items-baseline justify-between text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-ink-muted transition-colors duration-500 group-hover:text-paper/60">
+            <div className="flex items-baseline justify-between text-[0.7rem] font-semibold tracking-[0.01em] text-ink-muted transition-colors duration-500 group-hover:text-paper/60">
               <span>{stat.name}</span>
               <span className="font-display text-sm tracking-normal">{String(i + 1).padStart(2, '0')}</span>
             </div>
-            <div className="mt-6 font-display text-4xl leading-none tabular-nums text-ink transition-[color,transform] duration-500 ease-out-soft group-hover:-translate-y-1 group-hover:text-paper md:text-5xl xl:text-6xl">
+            <div className="mt-6 font-display text-4xl leading-none lining-nums tabular-nums text-ink transition-[color,transform] duration-500 ease-out-soft group-hover:-translate-y-1 group-hover:text-paper md:text-5xl xl:text-6xl">
               <CountUp value={stat.value} suffix={stat.suffix} />
             </div>
             {/* meter fills as the number counts up */}
@@ -106,14 +106,13 @@ export function About() {
       <div className="container-page">
         <Stats />
 
-        {/* Label row */}
-        <div className="mt-24 grid gap-y-4 md:mt-32 lg:grid-cols-12 lg:gap-x-16">
-          <Reveal className="lg:col-span-7 lg:col-start-6" delay={0.05}>
-            <p className="max-w-xl text-lg text-ink-muted">
-              A state-wide association that connects people who want to learn with people who can teach, hire and invest.
-            </p>
-          </Reveal>
-        </div>
+        {/* Intro: one centred statement across the full width, sitting above the photo row */}
+        <Reveal className="mx-auto mt-20 max-w-4xl text-center md:mt-28" delay={0.05}>
+          <p className="font-display text-2xl leading-snug text-ink md:text-[2rem] md:leading-[1.3]">
+            A state-wide association that connects people who want to learn with people who can teach, hire and invest.
+          </p>
+          <span className="mx-auto mt-8 block h-px w-16 bg-ink/30" aria-hidden="true" />
+        </Reveal>
 
         {/* Photo + statement: a flex row so the photo always stretches to match the text column's
             actual height (whatever it turns out to be), instead of the two ending at different points */}
