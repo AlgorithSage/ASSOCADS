@@ -48,14 +48,23 @@ export function Team() {
     }
   };
 
-  const scrollBy = (offset: number) => {
+  const scrollCards = (direction: 'left' | 'right') => {
     if (!trackRef.current) return;
+    const firstCard = trackRef.current.firstElementChild as HTMLElement | null;
+    const cardWidth = firstCard?.offsetWidth || 260;
+    const gap = 16;
+    const offset = (cardWidth + gap) * (direction === 'right' ? 1 : -1);
     trackRef.current.scrollBy({ left: offset, behavior: 'smooth' });
   };
 
-
-
   // Lock body scroll and listen for Escape key when modal is open
+  useEffect(() => {
+    checkScrollBounds();
+    const handleResize = () => checkScrollBounds();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   useEffect(() => {
     if (!showAll) return;
     const prevOverflow = document.body.style.overflow;
@@ -105,7 +114,7 @@ export function Team() {
                 <div className="flex items-center gap-1.5 rounded-full border border-ink/15 bg-white/80 p-1 backdrop-blur-sm">
                   <button
                     type="button"
-                    onClick={() => scrollBy(-280)}
+                    onClick={() => scrollCards('left')}
                     disabled={!canScrollLeft}
                     aria-label="Previous leaders"
                     className="grid h-9 w-9 place-items-center rounded-full text-ink transition-colors hover:bg-ink hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-ink cursor-pointer disabled:cursor-not-allowed"
@@ -114,7 +123,7 @@ export function Team() {
                   </button>
                   <button
                     type="button"
-                    onClick={() => scrollBy(280)}
+                    onClick={() => scrollCards('right')}
                     disabled={!canScrollRight}
                     aria-label="Next leaders"
                     className="grid h-9 w-9 place-items-center rounded-full text-ink transition-colors hover:bg-ink hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-ink cursor-pointer disabled:cursor-not-allowed"
@@ -131,17 +140,17 @@ export function Team() {
             </Reveal>
           </div>
 
-          {/* Right: Smooth horizontal slider of portrait cards */}
-          <div className="lg:col-span-8">
+          {/* Right: Exactly 3 portrait cards visible on desktop, clipped cleanly */}
+          <div className="lg:col-span-8 overflow-hidden">
             <div
               ref={trackRef}
               onScroll={checkScrollBounds}
-              className="scroll-x-clean -mx-5 flex snap-x snap-mandatory touch-pan-x gap-3.5 overflow-x-auto px-5 pb-5 pt-2 overscroll-x-contain sm:gap-5 md:-mx-8 md:px-8 lg:mr-[calc(50%-50vw)] lg:pr-[calc(50vw-50%+2rem)]"
+              className="scroll-x-clean flex snap-x snap-mandatory touch-pan-x gap-4 overflow-x-auto pb-4 pt-1 overscroll-x-contain"
             >
               {team.map((person, i) => (
                 <article
                   key={person.role}
-                  className="group relative flex w-[68vw] max-w-[260px] shrink-0 snap-start flex-col overflow-hidden rounded-sm border border-line bg-white shadow-[0_18px_40px_-28px_rgba(46,36,44,0.45)] transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_26px_50px_-26px_rgba(46,36,44,0.55)] sm:w-60 md:w-64"
+                  className="group relative flex w-[78vw] max-w-[280px] shrink-0 snap-start flex-col overflow-hidden rounded-sm border border-line bg-white shadow-[0_18px_40px_-28px_rgba(46,36,44,0.45)] transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_26px_50px_-26px_rgba(46,36,44,0.55)] sm:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-2rem)/3)]"
                 >
                   {/* Photo and caption are one card: same width, flush edge, no floating panel */}
                   <div className="relative aspect-4/5 overflow-hidden bg-paper-2 select-none">
