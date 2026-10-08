@@ -83,6 +83,7 @@ export interface TeamRole {
   role: string;
   looksAfter: string;
   initials: string;
+  linkedin?: string;
 }
 
 export interface FaqItem {

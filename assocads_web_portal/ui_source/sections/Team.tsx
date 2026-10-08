@@ -6,6 +6,27 @@ import { EASE, Reveal, Words } from '../motion';
 
 const photo = (i: number) => `/images/team-${String(i + 1).padStart(2, '0')}.webp`;
 
+function LinkedInIcon({ className = 'h-3.5 w-3.5' }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="24"
+      height="24"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      fill="none"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+      <rect x="2" y="9" width="4" height="12" />
+      <circle cx="4" cy="4" r="2" />
+    </svg>
+  );
+}
+
 // Office bearers: intro on the left, a smooth sideways slider row of portrait cards on the right.
 // "See all 17" opens everyone in one panel, grouped into officers, chairs and advisers.
 export function Team() {
@@ -123,9 +144,17 @@ export function Team() {
                 >
                   {/* Photo and caption are one card: same width, flush edge, no floating panel */}
                   <div className="relative aspect-4/5 overflow-hidden bg-paper-2 select-none">
-                    <span className="absolute left-3 top-3 z-10 rounded-full bg-ink/75 px-2 py-0.5 font-display text-[11px] text-paper backdrop-blur-sm">
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
+                    <a
+                      href={person.linkedin || `https://www.linkedin.com/search/results/all/?keywords=${encodeURIComponent(person.role + ' ASSOCADS')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      aria-label={`LinkedIn profile for ${person.role}`}
+                      title={`Connect with ${person.role} on LinkedIn`}
+                      className="absolute left-3 top-3 z-10 grid h-7 w-7 place-items-center rounded-full bg-ink/75 text-paper backdrop-blur-sm transition-all duration-200 hover:bg-[#0A66C2] hover:text-white hover:scale-110 shadow-xs cursor-pointer"
+                    >
+                      <LinkedInIcon className="h-3.5 w-3.5" />
+                    </a>
                     <img
                       src={photo(i)}
                       alt={`Photo for ${person.role}`}
@@ -222,7 +251,18 @@ export function Team() {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.4, ease: EASE, delay: 0.03 * i }}
                           >
-                            <div className="aspect-4/5 overflow-hidden bg-paper-2">
+                            <div className="relative aspect-4/5 overflow-hidden bg-paper-2">
+                              <a
+                                href={person.linkedin || `https://www.linkedin.com/search/results/all/?keywords=${encodeURIComponent(person.role + ' ASSOCADS')}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
+                                aria-label={`LinkedIn profile for ${person.role}`}
+                                title={`Connect with ${person.role} on LinkedIn`}
+                                className="absolute left-2.5 top-2.5 z-10 grid h-6 w-6 place-items-center rounded-full bg-ink/75 text-paper backdrop-blur-sm transition-all duration-200 hover:bg-[#0A66C2] hover:text-white hover:scale-110 shadow-xs cursor-pointer"
+                              >
+                                <LinkedInIcon className="h-3 w-3" />
+                              </a>
                               <img
                                 src={photo(i)}
                                 alt={`Photo for ${person.role}`}
