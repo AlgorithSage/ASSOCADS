@@ -304,15 +304,9 @@ export function Partners() {
       <div className="container-page mb-10">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div className="max-w-xl">
-            <Reveal>
-              <span className="eyebrow">
-                <span className="h-px w-8 bg-ink/40" aria-hidden="true" />
-                Our network
-              </span>
-            </Reveal>
             <Words
               text="Member organisations & campus chapters"
-              className="mt-4 text-3xl font-medium text-ink md:text-5xl"
+              className="text-3xl font-medium text-ink md:text-5xl"
             />
           </div>
           <Reveal delay={0.1}>
