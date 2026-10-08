@@ -74,7 +74,7 @@ export function Hero({ onJoin, ready }: HeroProps) {
             className="container-page relative flex flex-1 flex-col justify-center pb-10 pt-28 sm:pt-32 md:pt-36"
             style={{ y: contentY, opacity: contentOpacity }}
           >
-            <motion.div className="relative z-10 max-w-[40rem] [text-shadow:0_2px_18px_rgba(20,14,18,0.6)]">
+            <motion.div className="relative z-10 max-w-[44rem] lg:max-w-[50rem] [text-shadow:0_2px_18px_rgba(20,14,18,0.6)]">
               <motion.span className="eyebrow text-paper/65!" {...enter(T.eyebrow, { opacity: 0, x: -16 })}>
                 {hero.eyebrow}
               </motion.span>

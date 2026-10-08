@@ -41,8 +41,8 @@ export function SiteFooter({ onJoin }: SiteFooterProps) {
         <div className="container-page flex flex-col gap-8 border-b border-paper/12 py-16 md:flex-row md:items-end md:justify-between md:py-20">
           <Reveal>
             <p className="max-w-xl font-display text-4xl font-medium leading-[1.08] md:text-5xl">
-              Learn it. Build it.
-              <span className="block text-paper/55">Share it with everyone.</span>
+              Building Bengal's AI ecosystem.
+              <span className="block text-paper/55">Catalyzing research, enterprise, and talent.</span>
             </p>
           </Reveal>
           <Reveal delay={0.1}>

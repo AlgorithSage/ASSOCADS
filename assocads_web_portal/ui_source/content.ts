@@ -32,9 +32,9 @@ export const navLinks: NavLink[] = [
 
 export const hero = {
   eyebrow: 'Association for AI and Data Science',
-  titleLines: ['Learn it. Build it.', 'Share it with'],
+  titleLines: ["Building Bengal's AI ecosystem.", 'Empowering research, enterprise and'],
   intro:
-    'ASSOCADS brings students, teachers, companies, startups and government together to learn data science, work on real projects and make sure the benefits reach every community in the state.',
+    'ASSOCADS connects academia, industry, startups and government across West Bengal to advance AI education, foster indigenous research and translate innovation into real-world impact.',
   primaryCta: 'Become a member',
   secondaryCta: 'See what we do'
 };
@@ -524,7 +524,7 @@ export const faqs: FaqItem[] = [
 export const tagline = ['Collaborate', 'Connect', 'Create impact'];
 
 // Who the hero typing line cycles through
-export const heroAudiences = ['students', 'teachers', 'companies', 'startups', 'government', 'everyone'];
+export const heroAudiences = ['startups', 'researchers', 'students', 'industry', 'every community'];
 
 // Mock photos (Unsplash, full colour). Replace with real ASSOCADS photos later.
 export const photos = {
