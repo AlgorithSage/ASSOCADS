@@ -13,13 +13,18 @@ export function Team() {
   const [showAll, setShowAll] = useState(false);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
-  // Check scroll bounds for slider arrows
+  // Check scroll bounds for slider arrows and mobile progress bar
   const checkScrollBounds = () => {
     if (!trackRef.current) return;
     const { scrollLeft, scrollWidth, clientWidth } = trackRef.current;
+    const maxScroll = scrollWidth - clientWidth;
     setCanScrollLeft(scrollLeft > 10);
-    setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
+    setCanScrollRight(scrollLeft < maxScroll - 10);
+    if (maxScroll > 0) {
+      setScrollProgress(Math.min(1, Math.max(0, scrollLeft / maxScroll)));
+    }
   };
 
   const scrollBy = (offset: number) => {
@@ -106,20 +111,21 @@ export function Team() {
             </Reveal>
           </div>
 
-          {/* Right: Smooth horizontal slider of portrait cards (no mouse-wheel hijacking) */}
+          {/* Right: Smooth horizontal slider of portrait cards */}
           <div className="lg:col-span-8">
             <div
               ref={trackRef}
               onScroll={checkScrollBounds}
-              className="scroll-x-clean -mx-5 flex snap-x snap-proximity gap-5 overflow-x-auto px-5 pb-6 pt-2 md:-mx-8 md:px-8 lg:mr-[calc(50%-50vw)] lg:pr-[calc(50vw-50%+2rem)]"
+              data-lenis-prevent
+              className="scroll-x-clean -mx-5 flex snap-x snap-mandatory touch-pan-x gap-3.5 overflow-x-auto px-5 pb-5 pt-2 overscroll-x-contain sm:gap-5 md:-mx-8 md:px-8 lg:mr-[calc(50%-50vw)] lg:pr-[calc(50vw-50%+2rem)]"
             >
               {team.map((person, i) => (
                 <article
                   key={person.role}
-                  className="group relative flex w-60 shrink-0 snap-start flex-col overflow-hidden rounded-sm border border-line bg-white shadow-[0_18px_40px_-28px_rgba(46,36,44,0.45)] transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_26px_50px_-26px_rgba(46,36,44,0.55)] sm:w-64"
+                  className="group relative flex w-[68vw] max-w-[260px] shrink-0 snap-start flex-col overflow-hidden rounded-sm border border-line bg-white shadow-[0_18px_40px_-28px_rgba(46,36,44,0.45)] transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_26px_50px_-26px_rgba(46,36,44,0.55)] sm:w-60 md:w-64"
                 >
                   {/* Photo and caption are one card: same width, flush edge, no floating panel */}
-                  <div className="relative aspect-4/5 overflow-hidden bg-paper-2">
+                  <div className="relative aspect-4/5 overflow-hidden bg-paper-2 select-none">
                     <span className="absolute left-3 top-3 z-10 rounded-full bg-ink/75 px-2 py-0.5 font-display text-[11px] text-paper backdrop-blur-sm">
                       {String(i + 1).padStart(2, '0')}
                     </span>
@@ -128,19 +134,31 @@ export function Team() {
                       alt={`Photo for ${person.role}`}
                       loading="lazy"
                       decoding="async"
-                      className="h-full w-full object-cover transition-transform duration-700 ease-out-soft group-hover:scale-105"
+                      draggable={false}
+                      className="h-full w-full object-cover transition-transform duration-700 ease-out-soft group-hover:scale-105 pointer-events-none"
                     />
                   </div>
-                  <div className="flex min-h-28 flex-1 flex-col items-center justify-center border-t border-line px-5 py-4 text-center transition-colors duration-300 group-hover:bg-ink">
-                    <h3 className="font-display text-base font-medium leading-snug text-ink transition-colors duration-300 group-hover:text-paper">
+                  <div className="flex min-h-24 sm:min-h-28 flex-1 flex-col items-center justify-center border-t border-line px-4 py-3.5 sm:px-5 sm:py-4 text-center transition-colors duration-300 group-hover:bg-ink">
+                    <h3 className="font-display text-sm sm:text-base font-medium leading-snug text-ink transition-colors duration-300 group-hover:text-paper">
                       {person.role}
                     </h3>
-                    <p className="mt-1 text-xs leading-snug text-ink-muted transition-colors duration-300 group-hover:text-paper/70">
+                    <p className="mt-1 text-[11px] sm:text-xs leading-snug text-ink-muted transition-colors duration-300 group-hover:text-paper/70">
                       {person.looksAfter}
                     </p>
                   </div>
                 </article>
               ))}
+            </div>
+
+            {/* Mobile swipe cue & progress bar */}
+            <div className="mt-2 flex items-center justify-between px-1 sm:hidden">
+              <span className="text-[11px] font-medium text-ink-muted">Swipe to see leaders</span>
+              <div className="h-1 w-20 overflow-hidden rounded-full bg-ink/10">
+                <div
+                  className="h-full rounded-full bg-ink transition-all duration-150"
+                  style={{ width: `${Math.max(15, scrollProgress * 100)}%` }}
+                />
+              </div>
             </div>
           </div>
         </div>
