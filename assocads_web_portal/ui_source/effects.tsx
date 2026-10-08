@@ -79,9 +79,6 @@ export function Preloader({ done, onDone }: { done: boolean; onDone: () => void 
             animate={{ scaleX: 1 }}
             transition={{ duration: 1.2, ease: EASE, delay: 0.3 }}
           />
-          <span className="mt-6 text-[10px] uppercase tracking-widest text-paper/40">
-            Tap anywhere to enter
-          </span>
         </motion.div>
       )}
     </AnimatePresence>
