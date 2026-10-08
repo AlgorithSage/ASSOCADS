@@ -56,9 +56,9 @@ export function Hero({ onJoin, ready }: HeroProps) {
               fetchPriority="high"
               decoding="async"
               className="h-full w-full object-cover object-[65%_center]"
-              initial={{ opacity: 0, filter: 'blur(14px)' }}
-              animate={ready ? { opacity: 1, filter: 'blur(0px)' } : undefined}
-              transition={{ duration: 1.6, ease: EASE, delay: T.photo }}
+              initial={{ opacity: 0 }}
+              animate={ready ? { opacity: 1 } : undefined}
+              transition={{ duration: 0.9, ease: EASE, delay: T.photo }}
             />
           </div>
           {/* No overlay behind the headline: the text sits straight on the photo.
@@ -71,7 +71,7 @@ export function Hero({ onJoin, ready }: HeroProps) {
           />
 
           <motion.div
-            className="container-page relative flex flex-1 flex-col justify-center pb-10 pt-32 md:pt-36"
+            className="container-page relative flex flex-1 flex-col justify-center pb-10 pt-28 sm:pt-32 md:pt-36"
             style={{ y: contentY, opacity: contentOpacity }}
           >
             <motion.div className="relative z-10 max-w-[40rem] [text-shadow:0_2px_18px_rgba(20,14,18,0.6)]">
@@ -79,7 +79,7 @@ export function Hero({ onJoin, ready }: HeroProps) {
                 {hero.eyebrow}
               </motion.span>
 
-              <h1 className="mt-6 text-[2.05rem] leading-[1.06] sm:text-[2.55rem] md:text-[3.2rem] lg:text-[3.85rem]">
+              <h1 className="mt-5 text-[1.85rem] leading-[1.08] sm:text-[2.4rem] md:text-[3.2rem] lg:text-[3.85rem]">
                 <Words as="span" text={hero.titleLines[0]} onMount play={ready} delay={T.line1} className="block font-bold" />
                 <span className="block font-medium text-paper/80">
                   <Words as="span" text={hero.titleLines[1]} onMount play={ready} delay={T.line2} />
@@ -90,18 +90,18 @@ export function Hero({ onJoin, ready }: HeroProps) {
               </h1>
 
               <motion.p
-                className="mt-6 max-w-lg text-base text-paper/90 md:text-[1.06rem]"
-                {...enter(T.intro, { opacity: 0, y: 20, filter: 'blur(6px)' })}
+                className="mt-5 max-w-lg text-[0.95rem] leading-relaxed text-paper/90 sm:text-base md:text-[1.06rem]"
+                {...enter(T.intro, { opacity: 0, y: 16 })}
               >
                 {hero.intro}
               </motion.p>
 
-              <motion.div className="mt-8 flex flex-col gap-3 sm:flex-row" {...enter(T.cta)}>
+              <motion.div className="mt-7 flex flex-col gap-3 sm:flex-row" {...enter(T.cta)}>
                 <Magnetic>
                   <button
                     type="button"
                     onClick={(e) => onJoin(e.currentTarget)}
-                    className="btn min-h-[43px]! px-6! text-[0.7rem]! w-full border border-paper bg-paper text-ink hover:bg-white sm:w-auto"
+                    className="btn min-h-[48px]! px-7! text-xs! sm:text-[0.8rem]! w-full border border-paper bg-paper text-ink hover:bg-white sm:w-auto"
                   >
                     {hero.primaryCta} <ArrowRight size={18} />
                   </button>
@@ -113,13 +113,12 @@ export function Hero({ onJoin, ready }: HeroProps) {
                       e.preventDefault();
                       scrollToId('#programs');
                     }}
-                    className="btn btn-on-dark min-h-[43px]! px-6! text-[0.7rem]! w-full backdrop-blur-sm sm:w-auto"
+                    className="btn btn-on-dark min-h-[48px]! px-7! text-xs! sm:text-[0.8rem]! w-full backdrop-blur-sm sm:w-auto"
                   >
                     {hero.secondaryCta}
                   </a>
                 </Magnetic>
               </motion.div>
-
             </motion.div>
           </motion.div>
 

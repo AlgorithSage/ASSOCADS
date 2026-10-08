@@ -30,8 +30,17 @@ export function SiteHeader({ onJoin }: SiteHeaderProps) {
   const lastY = useRef(0);
 
   useMotionValueEvent(scrollY, 'change', (y) => {
+    // Retract immediately as soon as someone starts scrolling down
+    const isScrollingDown = y > lastY.current && y > 20;
+    const isScrollingUp = y < lastY.current;
+
+    if (isScrollingDown && !menuOpen) {
+      setHidden(true);
+    } else if (isScrollingUp || y <= 20) {
+      setHidden(false);
+    }
+
     setOverHero(y < window.innerHeight - 120);
-    setHidden(y > lastY.current && y > 400 && !menuOpen);
     lastY.current = y;
   });
 
@@ -65,13 +74,13 @@ export function SiteHeader({ onJoin }: SiteHeaderProps) {
   return (
     <>
       <motion.div
-        className="fixed inset-x-0 top-0 z-60 h-0.5 origin-left bg-ink"
+        className="fixed inset-x-0 top-0 z-80 h-[2px] origin-left bg-ink pointer-events-none"
         style={{ scaleX: progress }}
         aria-hidden="true"
       />
       <motion.header
-        className={`fixed inset-x-0 top-0 z-50 transition-[padding] duration-500 ease-out-soft ${
-          overHero ? 'px-0 pt-0' : 'px-6 pt-6 md:px-9 md:pt-8'
+        className={`fixed inset-x-0 z-50 transition-[padding,top] duration-500 ease-out-soft ${
+          overHero ? 'top-9 px-0 pt-0' : 'top-0 px-6 pt-6 md:px-9 md:pt-8'
         }`}
         animate={{ y: hidden ? '-130%' : '0%' }}
         transition={{ duration: 0.4, ease: EASE }}
@@ -79,14 +88,14 @@ export function SiteHeader({ onJoin }: SiteHeaderProps) {
         <nav
           className={`mx-auto flex items-center justify-between backdrop-blur-xl backdrop-saturate-150 transition-all duration-500 ease-out-soft ${
             overHero
-              ? 'h-20 max-w-full border-b border-paper/15 bg-ink/20 px-5 md:px-10 lg:px-14'
-              : 'h-16 max-w-[1240px] rounded-sm border border-paper/10 bg-ink/80 px-3 shadow-[0_12px_30px_-18px_rgba(46,36,44,0.45)] md:px-5'
+              ? 'h-20 max-w-full border-b border-paper/15 bg-ink/20 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12'
+              : 'h-16 max-w-[1360px] rounded-sm border border-paper/10 bg-ink/80 px-3 shadow-[0_12px_30px_-18px_rgba(46,36,44,0.45)] md:px-5'
           }`}
           aria-label="Main"
         >
           <Logo />
 
-          <ul className="hidden items-center gap-0.5 xl:flex">
+          <ul className="hidden items-center gap-0 lg:gap-0.5 xl:gap-1 min-[920px]:flex">
             {navLinks.map((link) => (
               <li key={link.href}>
                 <a
@@ -95,19 +104,19 @@ export function SiteHeader({ onJoin }: SiteHeaderProps) {
                     e.preventDefault();
                     go(link.href);
                   }}
-                  className={`group relative px-3.5 py-2 text-sm font-medium transition-colors ${
-                    active === link.href ? 'text-paper' : 'text-paper/65 hover:text-paper'
+                  className={`group relative px-2 py-1.5 text-xs font-medium transition-colors lg:px-2.5 lg:text-[13px] xl:px-3.5 xl:text-sm ${
+                    active === link.href ? 'text-white font-semibold' : 'text-paper/75 hover:text-white'
                   }`}
                 >
                   {active === link.href && (
                     <motion.span
                       layoutId="nav-active"
-                      className="absolute inset-x-3.5 bottom-0 h-px bg-paper"
+                      className="absolute inset-x-2 bottom-0 h-0.5 bg-paper rounded-full lg:inset-x-2.5 xl:inset-x-3.5"
                       transition={{ type: 'spring', stiffness: 380, damping: 32 }}
                     />
                   )}
                   <span
-                    className="absolute inset-x-3.5 bottom-0 h-px origin-left scale-x-0 bg-paper/40 transition-transform duration-300 ease-out-soft group-hover:scale-x-100"
+                    className="absolute inset-x-2 bottom-0 h-px origin-left scale-x-0 bg-paper/60 transition-transform duration-300 ease-out-soft group-hover:scale-x-100 lg:inset-x-2.5 xl:inset-x-3.5"
                     aria-hidden="true"
                   />
                   {link.label}
@@ -118,13 +127,17 @@ export function SiteHeader({ onJoin }: SiteHeaderProps) {
 
           <div className="flex items-center gap-2">
             {!menuOpen && (
-              <button type="button" onClick={(e) => onJoin(e.currentTarget)} className="btn hidden min-h-10.5! border border-paper bg-paper px-5! text-ink hover:bg-white sm:inline-flex">
+              <button
+                type="button"
+                onClick={(e) => onJoin(e.currentTarget)}
+                className="btn hidden min-h-10! border border-paper bg-paper px-4! text-xs font-semibold text-ink hover:bg-white sm:inline-flex lg:min-h-10.5! lg:px-5! lg:text-sm"
+              >
                 Join now
               </button>
             )}
             <button
               type="button"
-              className="grid h-11 w-11 place-items-center rounded-full border border-paper/25 text-paper xl:hidden"
+              className="grid h-10 w-10 place-items-center rounded-full border border-paper/25 text-paper min-[920px]:hidden hover:border-paper hover:bg-paper/10"
               onClick={() => setMenuOpen((o) => !o)}
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
@@ -141,7 +154,7 @@ export function SiteHeader({ onJoin }: SiteHeaderProps) {
           <motion.div
             id="mobile-menu"
             data-lenis-prevent
-            className="fixed inset-0 z-40 overflow-y-auto overscroll-contain bg-ink/95 backdrop-blur-xl xl:hidden"
+            className="fixed inset-0 z-40 overflow-y-auto overscroll-contain bg-ink/95 backdrop-blur-xl min-[920px]:hidden"
             initial={{ clipPath: 'circle(0% at 92% 36px)' }}
             animate={{ clipPath: 'circle(150% at 92% 36px)' }}
             exit={{ clipPath: 'circle(0% at 92% 36px)' }}

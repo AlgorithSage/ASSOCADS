@@ -18,6 +18,14 @@ export function prefersReducedMotion(): boolean {
 export function useSmoothScroll(): void {
   useEffect(() => {
     if (prefersReducedMotion()) return;
+    // On touch devices / mobile phones, use native hardware-accelerated momentum scrolling for 60/120fps performance
+    const isTouch = typeof window !== 'undefined' && (
+      'ontouchstart' in window ||
+      navigator.maxTouchPoints > 0 ||
+      window.matchMedia('(pointer: coarse)').matches
+    );
+    if (isTouch) return;
+
     const instance = new Lenis({
       autoRaf: true,
       lerp: 0.1,
@@ -84,15 +92,15 @@ interface RevealProps {
   amount?: number;
 }
 
-export function Reveal({ children, className, delay = 0, direction = 'up', amount = 0.25 }: RevealProps) {
+export function Reveal({ children, className, delay = 0, direction = 'up', amount = 0.15 }: RevealProps) {
   const { x, y } = OFFSETS[direction];
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, x, y, filter: 'blur(8px)' }}
-      whileInView={{ opacity: 1, x: 0, y: 0, filter: 'blur(0px)' }}
-      viewport={{ once: false, amount }}
-      transition={{ duration: 0.9, ease: EASE, delay }}
+      initial={{ opacity: 0, x, y }}
+      whileInView={{ opacity: 1, x: 0, y: 0 }}
+      viewport={{ once: true, amount }}
+      transition={{ duration: 0.65, ease: EASE, delay }}
     >
       {children}
     </motion.div>
@@ -117,14 +125,14 @@ interface StaggerProps {
   amount?: number;
 }
 
-export function Stagger({ children, className, amount = 0.15 }: StaggerProps) {
+export function Stagger({ children, className, amount = 0.1 }: StaggerProps) {
   return (
     <motion.div
       className={className}
       variants={groupVariants}
       initial="hidden"
       whileInView="shown"
-      viewport={{ once: false, amount }}
+      viewport={{ once: true, amount }}
     >
       {children}
     </motion.div>
@@ -162,7 +170,7 @@ export function Words({ text, className, as: Tag = 'h2', delay = 0, onMount = fa
   const words = text.split(' ');
   const trigger = onMount
     ? { animate: play ? 'shown' : 'hidden' }
-    : { whileInView: 'shown', viewport: { once: false, amount: 0.6 } };
+    : { whileInView: 'shown', viewport: { once: true, amount: 0.2 } };
   return (
     <Tag className={className} aria-label={text}>
       <motion.span
@@ -170,7 +178,7 @@ export function Words({ text, className, as: Tag = 'h2', delay = 0, onMount = fa
         className="inline"
         initial="hidden"
         {...trigger}
-        variants={{ hidden: {}, shown: { transition: { staggerChildren: 0.06, delayChildren: delay } } }}
+        variants={{ hidden: {}, shown: { transition: { staggerChildren: 0.05, delayChildren: delay } } }}
       >
         {words.map((word, i) => (
           <span key={`${word}-${i}`} className="inline-block overflow-hidden pb-[0.12em] -mb-[0.12em] align-bottom">
@@ -178,7 +186,7 @@ export function Words({ text, className, as: Tag = 'h2', delay = 0, onMount = fa
               className="inline-block"
               variants={{
                 hidden: { y: '110%', rotate: 4 },
-                shown: { y: '0%', rotate: 0, transition: { duration: 0.9, ease: EASE } }
+                shown: { y: '0%', rotate: 0, transition: { duration: 0.8, ease: EASE } }
               }}
             >
               {word}
@@ -195,12 +203,11 @@ export function Words({ text, className, as: Tag = 'h2', delay = 0, onMount = fa
 
 export function CountUp({ value, suffix = '' }: { value: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: false, amount: 0.6 });
+  const inView = useInView(ref, { once: true, amount: 0.3 });
 
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
-    // Back to zero when it leaves the screen, so it counts up again next time it comes back
     if (!inView) {
       node.textContent = `0${suffix}`;
       return;
@@ -210,7 +217,7 @@ export function CountUp({ value, suffix = '' }: { value: number; suffix?: string
       return;
     }
     const controls = animate(0, value, {
-      duration: 1.8,
+      duration: 1.6,
       ease: EASE,
       onUpdate: (latest) => {
         node.textContent = `${Math.round(latest).toLocaleString('en-IN')}${suffix}`;
@@ -346,7 +353,7 @@ export function SectionDivider({ label, dark = false }: { label: string; dark?: 
       aria-label={label}
       initial="hidden"
       whileInView="shown"
-      viewport={{ once: false, amount: 1 }}
+      viewport={{ once: true, amount: 0.4 }}
     >
       <motion.span className={`h-px flex-1 origin-right ${dark ? 'bg-paper/30' : 'bg-ink/20'}`} variants={rule} />
       <motion.span
@@ -371,9 +378,7 @@ interface SectionHeadingProps {
   align?: 'left' | 'center';
 }
 
-// Jumbo section heading. Internal rhythm sits on the 8pt grid (24px eyebrow→title,
-// 32px title→standfirst); the standfirst is capped by measure, not by the title's width,
-// so long titles can run wide while the supporting line stays readable.
+// Jumbo section heading. Responsive typography ensures graceful shrinking on mobile screens down to 320px.
 export function SectionHeading({ eyebrow, title, text, align = 'center' }: SectionHeadingProps) {
   const centered = align === 'center';
   return (
@@ -385,11 +390,11 @@ export function SectionHeading({ eyebrow, title, text, align = 'center' }: Secti
       )}
       <Words
         text={title}
-        className={`${eyebrow ? 'mt-6' : ''} text-[2.75rem] font-medium leading-[1.06] tracking-[-0.02em] text-ink sm:text-6xl md:text-7xl xl:text-[5.25rem]`}
+        className={`${eyebrow ? 'mt-6' : ''} text-[2.15rem] font-medium leading-[1.08] tracking-[-0.02em] text-ink sm:text-[2.75rem] md:text-6xl lg:text-7xl xl:text-[5rem]`}
       />
       {text && (
         <Reveal delay={0.15}>
-          <p className={`mt-8 max-w-[52ch] text-lg leading-relaxed text-ink-muted md:text-xl ${centered ? 'mx-auto' : ''}`}>
+          <p className={`mt-6 max-w-[52ch] text-base leading-relaxed text-ink-muted sm:text-lg md:text-xl ${centered ? 'mx-auto' : ''}`}>
             {text}
           </p>
         </Reveal>

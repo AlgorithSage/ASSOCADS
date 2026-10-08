@@ -1,6 +1,6 @@
 // All page copy lives here. Content is mocked for the landing page (no backend calls).
 // Source of truth: "Proposed Roadmap for ASSOCADS.pptx" (27 Sept 2026) + the Trust deed.
-import { GraduationCap, Building2, Lightbulb, Rocket, HeartHandshake, Wrench, ShieldCheck, Handshake, FlaskConical, Landmark, Briefcase, Globe, Presentation, PlayCircle, Users, Network, UserCheck, Award, HandHeart, BadgePercent, type LucideIcon } from 'lucide-react';
+import { GraduationCap, Building2, Lightbulb, Rocket, HeartHandshake, Wrench, ShieldCheck, Handshake, FlaskConical, Landmark, Briefcase, Globe, Presentation, PlayCircle, Users, Network, UserCheck, Award, HandHeart, BadgePercent, Target, BookOpen, Cpu, Scale, Sprout, UserPlus, Building, Phone, type LucideIcon } from 'lucide-react';
 import type {
   NavLink,
   Stat,
@@ -19,6 +19,7 @@ export const SUMMIT_DATE = '2027-09-25T09:30:00+05:30';
 
 export const navLinks: NavLink[] = [
   { label: 'About', href: '#about' },
+  { label: 'Leaders', href: '#leaders' },
   { label: 'What we do', href: '#programs' },
   { label: 'Plan', href: '#plan' },
   { label: 'Goals', href: '#goals' },
@@ -340,12 +341,63 @@ export const memberBenefits: { title: string; text: string; icon: LucideIcon }[]
 
 export const summit = {
   title: 'State Data Science Summit 2027',
-  date: '25–26 September 2027',
+  date: '25 to 26 September 2027',
   place: 'Kolkata',
-  text: 'Our first summit: two days of talks, hands-on sessions and awards for the people who made a difference this year. Students, teachers, companies and government, all in one place.'
+  text: 'Our first summit brings together students, teachers, startups, companies and government for two days of talks, workshops and project awards in Kolkata.'
 };
 
-// Mock events, placed in line with the 12-month plan
+export interface ConferenceOffering {
+  title: string;
+  subtitle: string;
+  points: string[];
+  icon: LucideIcon;
+}
+
+// 4 core pillars detailing what ASSOCADS conferences and the State Summit offer
+export const conferenceOfferings: ConferenceOffering[] = [
+  {
+    title: 'Research & Papers',
+    subtitle: 'For students, teachers and scholars',
+    points: [
+      'Paper presentations and poster sessions',
+      'Travel stipends and publication grants',
+      'Joint research projects across colleges'
+    ],
+    icon: GraduationCap
+  },
+  {
+    title: 'Startup Showcase',
+    subtitle: 'For founders and student innovators',
+    points: [
+      'Live demo day with angel networks and mentors',
+      'Exhibition booths for working prototypes',
+      'Guidance on state grants and seed funding'
+    ],
+    icon: Rocket
+  },
+  {
+    title: 'Industry & Hiring',
+    subtitle: 'For tech companies and recruiters',
+    points: [
+      'Campus hiring drives and interview desks',
+      'Company booths showcasing practical tools',
+      'Internship opportunities for top participants'
+    ],
+    icon: Building2
+  },
+  {
+    title: 'Community & Awards',
+    subtitle: 'For mentors, educators and partners',
+    points: [
+      'Annual recognition for students and faculty',
+      'Keynotes from experienced practitioners',
+      'Release of the annual State AI Outlook Report'
+    ],
+    icon: Award
+  }
+];
+
+// Mock events, placed in line with the 12-month plan (including quarterly conferences)
 export const events: EventItem[] = [
   {
     id: 'ev-launch',
@@ -378,6 +430,16 @@ export const events: EventItem[] = [
     image: '/images/classroom.webp'
   },
   {
+    id: 'ev-q1-conf',
+    title: 'Bengal AI & Data Science Spring Conference 2027',
+    kind: 'Conference',
+    date: '20–21 March 2027',
+    place: 'Biswa Bangla Convention Centre, Kolkata + Hybrid',
+    summary: 'Q1 flagship gathering on Generative AI and regional language models. Academic paper tracks, student poster sessions, and enterprise hiring pavilion.',
+    status: 'Call for papers open',
+    image: '/images/conference-audience.webp'
+  },
+  {
     id: 'ev-hackathon',
     title: 'State hackathon and startup showcase',
     kind: 'Hackathon',
@@ -386,6 +448,16 @@ export const events: EventItem[] = [
     summary: 'Students and professionals work on health, farming, education and local government problems. Startups show their work to investors.',
     status: 'Opens in February',
     image: '/images/laptop-discussion.webp'
+  },
+  {
+    id: 'ev-q2-conf',
+    title: 'State Healthcare AI & Agritech Symposium 2027',
+    kind: 'Conference',
+    date: '18–19 June 2027',
+    place: 'Science City Auditorium, Kolkata',
+    summary: 'Q2 research symposium on applied AI in medicine and agriculture. Research presentations, open datasets, and startup technology showcase.',
+    status: 'Abstract submission opens March',
+    image: '/images/meetup-talk.webp'
   },
   {
     id: 'ev-summit',
@@ -469,5 +541,138 @@ export const photos = {
 
 export const contact = {
   email: 'secretariat@assocads.org',
-  address: 'Salt Lake Sector V, Kolkata, West Bengal'
+  adminEmail: 'admin@assocads.org',
+  phone: '+91 33 4060 XXXX',
+  address: 'Salt Lake Sector V, Kolkata, West Bengal',
+  registeredOffice: 'Registered Trust Office, Salt Lake Sector V, Kolkata 700091, West Bengal',
+  secretariat: 'Office of the General Secretary, ASSOCADS Trust, Salt Lake Sector V, Kolkata 700091'
 };
+
+// Live bulletin ticker: cycles at the top of the header
+export const bulletins: string[] = [
+  'Applications now open: State-wide AI & Data Science University Fellowship 2027',
+  'Call for Papers: Bengal Emerging AI Spring Conference 2027 at Biswa Bangla Convention Centre, Kolkata',
+  'Over 60 engineering colleges successfully certified in Faculty Training Bootcamp',
+  'ASSOCADS Startup Showcase and Investor Connect, submissions closing 28 February 2027',
+  'Monthly meetup series launching November 2026 in Salt Lake, Kolkata'
+];
+
+// Five-pillar objectives grid (below Vision & Mission)
+export interface Objective {
+  title: string;
+  description: string;
+  icon: LucideIcon;
+  metric: string;
+}
+
+export const objectives: Objective[] = [
+  {
+    title: 'Advance technical excellence',
+    description: 'Raise the quality of data science and AI education across every college and workplace in the state through rigorous, practical training programmes.',
+    icon: Target,
+    metric: '100+ workshops · 5,000+ members'
+  },
+  {
+    title: 'Democratise knowledge access',
+    description: 'Make cutting-edge AI learning available to everyone, regardless of institution, location or income, through open resources, local-language content and scholarships.',
+    icon: BookOpen,
+    metric: 'Open datasets · Local-language labs'
+  },
+  {
+    title: 'Drive responsible innovation',
+    description: 'Champion ethical, transparent and fair use of AI so that technology benefits society broadly, with published guidelines and government-ready policy research.',
+    icon: Cpu,
+    metric: 'State AI Report · Ethics guidelines'
+  },
+  {
+    title: 'Bridge academia and industry',
+    description: 'Close the gap between what colleges teach and what the workplace needs by fostering internships, placement drives, joint research and curriculum reform.',
+    icon: Scale,
+    metric: 'Career fairs · Placement partners'
+  },
+  {
+    title: 'Nurture the startup ecosystem',
+    description: 'Support early-stage founders with mentorship, investor access, innovation challenges and a public platform to demonstrate and scale new ideas.',
+    icon: Sprout,
+    metric: 'Annual startup showcase · Investor connects'
+  }
+];
+
+// Dual engagement pathways (before Membership)
+export interface EngagementPathway {
+  id: 'member' | 'partner';
+  eyebrow: string;
+  title: string;
+  description: string;
+  points: string[];
+  cta: string;
+  icon: LucideIcon;
+}
+
+export const engagementPathways: EngagementPathway[] = [
+  {
+    id: 'member',
+    eyebrow: 'For individuals',
+    title: 'Become a member',
+    description: 'Students, teachers, working professionals and researchers can join the community, access events and learning, and build their career in data science and AI.',
+    points: [
+      'Access all workshops, webinars and conferences',
+      'Join special interest groups and mentorship programmes',
+      'Priority on the job and internship board',
+      'Nominate and vote for yearly awards',
+      'Discounted summit and certification passes'
+    ],
+    cta: 'Apply for membership',
+    icon: UserPlus
+  },
+  {
+    id: 'partner',
+    eyebrow: 'For organisations',
+    title: 'Partner with us',
+    description: 'Colleges, companies, startups and government bodies can collaborate on research, recruit talent, sponsor events and shape the future of AI in the state.',
+    points: [
+      'Co-brand at conferences and the State Summit',
+      'Direct campus recruitment drives and talent fairs',
+      'Joint research projects and sponsored fellowships',
+      'Startup incubation and innovation challenge access',
+      'Advisory board and policy roundtable seats'
+    ],
+    cta: 'Explore partnership',
+    icon: Building
+  }
+];
+
+// Partner logos and campus chapters
+export interface PartnerLogo {
+  name: string;
+  type: 'university' | 'company' | 'research' | 'government';
+}
+
+export const partners: PartnerLogo[] = [
+  { name: 'Jadavpur University', type: 'university' },
+  { name: 'IIT Kharagpur', type: 'university' },
+  { name: 'ISI Kolkata', type: 'research' },
+  { name: 'University of Calcutta', type: 'university' },
+  { name: 'NIT Durgapur', type: 'university' },
+  { name: 'IIEST Shibpur', type: 'university' },
+  { name: 'Presidency University', type: 'university' },
+  { name: 'TCS', type: 'company' },
+  { name: 'Infosys', type: 'company' },
+  { name: 'Wipro', type: 'company' },
+  { name: 'Cognizant', type: 'company' },
+  { name: 'Dept. of IT & Electronics, GoWB', type: 'government' },
+  { name: 'NASSCOM East', type: 'company' },
+  { name: 'STPI Kolkata', type: 'government' },
+  { name: 'Bengal Chamber of Commerce', type: 'company' },
+  { name: 'IIM Calcutta', type: 'university' }
+];
+
+// Footer governance links
+export const governanceLinks = [
+  { label: 'Trust Aims & Objects (Deed)', href: '#' },
+  { label: 'Audited Accounts', href: '#' },
+  { label: 'Academic MOUs', href: '#' },
+  { label: 'Terms & Bylaws', href: '#' },
+  { label: 'Privacy Statement', href: '#' },
+  { label: 'Refund Policy', href: '#' }
+];

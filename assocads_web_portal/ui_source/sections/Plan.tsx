@@ -117,7 +117,7 @@ function HorizontalPlan() {
               return (
                 <motion.li
                   key={item.when}
-                  className="relative flex w-84 shrink-0 flex-col xl:w-92"
+                  className="relative flex w-76 shrink-0 flex-col xl:w-82"
                   animate={{ opacity: reached || isNow ? 1 : 0.55, y: focused ? -6 : 0 }}
                   transition={{ duration: 0.5, ease: EASE }}
                 >
@@ -155,24 +155,24 @@ function HorizontalPlan() {
                   </span>
 
                   <article
-                    className={`mt-3 flex flex-1 flex-col rounded-sm border p-6 transition-colors duration-500 ${
+                    className={`mt-3 flex flex-1 flex-col rounded-sm border p-4.5 sm:p-5 transition-colors duration-500 ${
                       isNow ? 'border-ink bg-ink' : focused ? 'border-ink bg-white' : 'border-line bg-white'
                     }`}
                   >
-                    <div className="flex items-center justify-between gap-3">
-                      <span className={`text-sm font-medium ${isNow ? 'text-paper' : 'text-ink'}`}>{item.when}</span>
+                    <div className="flex items-center justify-between gap-2.5">
+                      <span className={`text-xs font-semibold ${isNow ? 'text-paper' : 'text-ink'}`}>{item.when}</span>
                       <span
-                        className={`rounded-sm border px-2 py-0.5 text-xs ${
+                        className={`rounded-xs border px-2 py-0.5 text-[0.68rem] font-semibold ${
                           isNow ? 'border-paper/40 text-paper' : item.status === 'Done' ? 'border-ink text-ink' : 'border-line text-ink-muted'
                         }`}
                       >
                         {STATUS_LABEL[item.status]}
                       </span>
                     </div>
-                    <h3 className={`mt-4 font-display text-[1.45rem] font-medium leading-tight ${isNow ? 'text-paper' : 'text-ink'}`}>
+                    <h3 className={`mt-2.5 font-display text-lg font-medium leading-snug ${isNow ? 'text-paper' : 'text-ink'}`}>
                       {item.title}
                     </h3>
-                    <p className={`mt-3 text-[0.95rem] leading-relaxed ${isNow ? 'text-paper/75' : 'text-ink-muted'}`}>{item.detail}</p>
+                    <p className={`mt-2 text-xs leading-relaxed ${isNow ? 'text-paper/75' : 'text-ink-muted'}`}>{item.detail}</p>
                   </article>
                 </motion.li>
               );

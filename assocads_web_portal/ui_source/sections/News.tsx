@@ -90,13 +90,13 @@ export function News() {
 
             {/* Modal Box */}
             <motion.div
-              className="relative z-10 flex max-h-[90vh] w-full max-w-3xl flex-col overflow-hidden rounded-sm border border-line bg-paper"
+              className="relative z-10 flex max-h-[85vh] w-full max-w-2xl flex-col overflow-hidden rounded-sm border border-line bg-paper"
               initial={{ opacity: 0, scale: 0.92, y: 30 }}
               animate={{ opacity: 1, scale: 1, y: 0, transition: { type: 'spring', damping: 28, stiffness: 280 } }}
               exit={{ opacity: 0, scale: 0.94, y: 20, transition: { duration: 0.22, ease: EASE } }}
             >
               {/* Image banner */}
-              <div className="relative h-60 w-full overflow-hidden bg-ink sm:h-72">
+              <div className="relative h-44 w-full overflow-hidden bg-ink sm:h-52">
                 <img
                   src={selectedArticle.image}
                   alt={selectedArticle.title}
@@ -106,29 +106,29 @@ export function News() {
                 <button
                   type="button"
                   onClick={() => setSelectedArticle(null)}
-                  className="absolute top-4 right-4 grid h-10 w-10 place-items-center rounded-sm bg-ink/60 text-paper backdrop-blur-sm transition hover:bg-ink hover:scale-105"
+                  className="absolute top-3 right-3 grid h-8 w-8 place-items-center rounded-sm bg-ink/70 text-paper backdrop-blur-sm transition hover:bg-ink"
                   aria-label="Close article"
                 >
-                  <X size={18} />
+                  <X size={16} />
                 </button>
-                <div className="absolute bottom-4 left-6 right-6">
-                  <span className="rounded-sm bg-paper/20 px-2.5 py-1 text-xs text-paper backdrop-blur-sm">
+                <div className="absolute bottom-3 left-5 right-5">
+                  <span className="rounded-xs bg-paper/20 px-2.5 py-0.5 text-xs text-paper backdrop-blur-sm">
                     {selectedArticle.category}
                   </span>
-                  <p className="mt-2 text-xs font-medium text-paper/75">{selectedArticle.date}</p>
+                  <p className="mt-1.5 text-xs font-medium text-paper/75">{selectedArticle.date}</p>
                 </div>
               </div>
 
               {/* Body */}
-              <div className="scroll-x-clean overflow-y-auto overscroll-contain p-6 sm:p-10" data-lenis-prevent>
-                <h3 id="article-modal-title" className="font-display text-2xl font-medium leading-tight text-ink sm:text-3xl">
+              <div className="scroll-x-clean overflow-y-auto overscroll-contain p-5 sm:p-7" data-lenis-prevent>
+                <h3 id="article-modal-title" className="font-display text-xl font-medium leading-tight text-ink sm:text-2xl">
                   {selectedArticle.title}
                 </h3>
-                <p className="mt-4 font-display text-base leading-relaxed text-ink/75 sm:text-lg">
+                <p className="mt-3 font-display text-sm leading-relaxed text-ink/75 sm:text-base">
                   &ldquo;{selectedArticle.summary}&rdquo;
                 </p>
-                <div className="mt-6 border-t border-ink/10 pt-6">
-                  <p className="text-sm leading-relaxed text-ink-muted sm:text-base">
+                <div className="mt-4 border-t border-ink/10 pt-4">
+                  <p className="text-xs leading-relaxed text-ink-muted sm:text-sm">
                     {selectedArticle.content}
                   </p>
                 </div>

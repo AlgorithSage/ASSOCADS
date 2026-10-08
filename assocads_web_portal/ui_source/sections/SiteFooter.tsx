@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, ArrowUp, Mail, MapPin } from 'lucide-react';
-import { navLinks, contact } from '../content';
+import { ArrowRight, ArrowUp, Mail, MapPin, Phone, Rocket, Building2, FileText, Shield, Scale, BookOpen, ExternalLink } from 'lucide-react';
+import { navLinks, contact, governanceLinks } from '../content';
 import { Reveal, Words, scrollToId } from '../motion';
 
 interface SiteFooterProps {
@@ -46,18 +46,31 @@ export function SiteFooter({ onJoin }: SiteFooterProps) {
             </p>
           </Reveal>
           <Reveal delay={0.1}>
-            <button
-              type="button"
-              onClick={(e) => onJoin(e.currentTarget)}
-              className="btn border border-paper bg-paper text-ink hover:bg-white"
-            >
-              Become a member <ArrowRight size={16} />
-            </button>
+            <div className="flex flex-wrap gap-3">
+              <button
+                type="button"
+                onClick={(e) => onJoin(e.currentTarget)}
+                className="btn border border-paper bg-paper text-ink hover:bg-white"
+              >
+                Become a member <ArrowRight size={16} />
+              </button>
+              <a
+                href="#contact"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToId('#contact');
+                }}
+                className="btn btn-on-dark"
+              >
+                Partner with us <Rocket size={16} />
+              </a>
+            </div>
           </Reveal>
         </div>
 
-        {/* Columns */}
-        <div className="container-page grid gap-12 py-14 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr] lg:gap-10">
+        {/* Expanded columns: 6-column institutional footer */}
+        <div className="container-page grid gap-12 py-14 sm:grid-cols-2 lg:grid-cols-[1.4fr_0.8fr_0.8fr_1fr_1.4fr] lg:gap-8">
+          {/* Column 1: About */}
           <Reveal>
             <a href="#top" className="flex items-center gap-3" aria-label="ASSOCADS, back to top">
               <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-paper p-1">
@@ -66,15 +79,19 @@ export function SiteFooter({ onJoin }: SiteFooterProps) {
               <span className="font-display text-xl font-semibold tracking-[0.04em]">ASSOCADS</span>
             </a>
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-paper/60">
-              Association for AI and Data Science. A registered non-profit public trust. Our audited accounts are published every
-              year.
+              Association for AI and Data Science. A registered non-profit public trust dedicated to
+              building the state's largest community for data science, AI and emerging technology.
+            </p>
+            <p className="mt-4 text-[0.7rem] leading-relaxed text-paper/40">
+              Our audited accounts are published every year. All governance documents are available on request.
             </p>
           </Reveal>
 
+          {/* Column 2: Explore */}
           <Reveal delay={0.05}>
             <h2 className="text-sm text-paper/50">Explore</h2>
             <ul className="mt-5 space-y-3 text-[0.95rem]">
-              {navLinks.slice(0, 4).map((link) => (
+              {navLinks.slice(0, 5).map((link) => (
                 <li key={link.href}>
                   <a
                     href={link.href}
@@ -91,10 +108,11 @@ export function SiteFooter({ onJoin }: SiteFooterProps) {
             </ul>
           </Reveal>
 
+          {/* Column 3: Get involved */}
           <Reveal delay={0.1}>
             <h2 className="text-sm text-paper/50">Get involved</h2>
             <ul className="mt-5 space-y-3 text-[0.95rem]">
-              {navLinks.slice(4).map((link) => (
+              {navLinks.slice(5).map((link) => (
                 <li key={link.href}>
                   <a
                     href={link.href}
@@ -108,28 +126,75 @@ export function SiteFooter({ onJoin }: SiteFooterProps) {
                   </a>
                 </li>
               ))}
+              <li>
+                <button
+                  type="button"
+                  onClick={(e) => onJoin(e.currentTarget)}
+                  className="link-draw text-paper/85 hover:text-paper"
+                >
+                  Apply for membership
+                </button>
+              </li>
             </ul>
           </Reveal>
 
+          {/* Column 4: Trust governance */}
           <Reveal delay={0.15}>
-            <h2 className="text-sm text-paper/50">Talk to us</h2>
-            <ul className="mt-5 space-y-4 text-[0.95rem] text-paper/85">
+            <h2 className="text-sm text-paper/50">Trust & governance</h2>
+            <ul className="mt-5 space-y-3 text-[0.95rem]">
+              {governanceLinks.map((link) => (
+                <li key={link.label}>
+                  <a
+                    href={link.href}
+                    className="link-draw inline-flex items-center gap-1.5 text-paper/85 hover:text-paper"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+
+          {/* Column 5: Contact / Secretariat */}
+          <Reveal delay={0.2}>
+            <h2 className="text-sm text-paper/50">Secretariat</h2>
+            <ul className="mt-5 space-y-4 text-[0.92rem] text-paper/85">
               <li>
-                <a href={`mailto:${contact.email}`} className="link-draw inline-flex items-center gap-2.5 hover:text-paper">
-                  <Mail size={16} strokeWidth={1.6} /> {contact.email}
+                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.06em] text-paper/45">Registered Trust Office</p>
+                <p className="mt-1.5 flex items-start gap-2.5 leading-relaxed text-paper/75">
+                  <MapPin size={14} strokeWidth={1.6} className="mt-1 shrink-0" />
+                  {contact.registeredOffice}
+                </p>
+              </li>
+              <li>
+                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.06em] text-paper/45">General Secretary's Desk</p>
+                <p className="mt-1.5 flex items-start gap-2.5 leading-relaxed text-paper/75">
+                  <MapPin size={14} strokeWidth={1.6} className="mt-1 shrink-0" />
+                  {contact.secretariat}
+                </p>
+              </li>
+              <li className="space-y-2 border-t border-paper/10 pt-4">
+                <a href={`mailto:${contact.email}`} className="link-draw flex items-center gap-2 text-paper/80 hover:text-paper">
+                  <Mail size={14} strokeWidth={1.6} />
+                  {contact.email}
                 </a>
+                <a href={`mailto:${contact.adminEmail}`} className="link-draw flex items-center gap-2 text-paper/80 hover:text-paper">
+                  <Mail size={14} strokeWidth={1.6} />
+                  {contact.adminEmail}
+                </a>
+                <span className="flex items-center gap-2 text-paper/60">
+                  <Phone size={14} strokeWidth={1.6} />
+                  {contact.phone}
+                </span>
               </li>
-              <li className="flex items-start gap-2.5">
-                <MapPin size={16} strokeWidth={1.6} className="mt-1 shrink-0" /> {contact.address}
-              </li>
-              <li className="text-sm text-paper/55">We reply within two working days.</li>
+              <li className="text-xs text-paper/45">We reply within two working days.</li>
             </ul>
           </Reveal>
         </div>
 
         {/* Bottom row */}
         <div className="container-page flex flex-col gap-4 border-t border-paper/12 py-6 text-sm text-paper/50 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} ASSOCADS Trust. Made in West Bengal.</p>
+          <p>© {new Date().getFullYear()} ASSOCADS Trust. Registered non-profit. Made in West Bengal.</p>
           <button
             type="button"
             onClick={() => scrollToId('#top')}

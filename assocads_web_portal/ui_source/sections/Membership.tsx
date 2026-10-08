@@ -1,266 +1,247 @@
-import { useRef, useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, ArrowRight, ChevronLeft, ChevronRight, ShieldCheck } from 'lucide-react';
+import { Check, ArrowRight, Sparkles, Shield, GraduationCap, Award, Building2, HeartHandshake, FileCheck } from 'lucide-react';
 import { tierGroups, tiers, memberBenefits } from '../content';
-import type { TierGroup } from '../types';
-import { DepthIn, EASE, Reveal, SectionHeading } from '../motion';
+import type { TierGroup, Tier } from '../types';
+import { EASE, Reveal, SectionHeading } from '../motion';
 
 interface MembershipProps {
   onJoin: (tierName: string, from?: HTMLElement | null) => void;
 }
 
+const tierBadges: Record<string, { label: string; icon: typeof Sparkles; color: string }> = {
+  'Student': { label: 'Scholarships Available', icon: GraduationCap, color: 'bg-emerald-50 text-emerald-800 border-emerald-200' },
+  'Professional': { label: 'Most Popular', icon: Sparkles, color: 'bg-amber-100 text-amber-900 border-amber-300' },
+  'Academic': { label: 'Faculty & Research', icon: Award, color: 'bg-blue-50 text-blue-800 border-blue-200' },
+  'Life member': { label: 'Lifetime Impact', icon: Shield, color: 'bg-purple-50 text-purple-900 border-purple-200' },
+  'Startup': { label: 'Fastest Growing', icon: Sparkles, color: 'bg-amber-100 text-amber-900 border-amber-300' },
+  'College or university': { label: 'Campus Chapters', icon: GraduationCap, color: 'bg-emerald-50 text-emerald-800 border-emerald-200' },
+  'Company': { label: 'Enterprise Reach', icon: Building2, color: 'bg-blue-50 text-blue-800 border-blue-200' },
+  'Fellow': { label: 'By Invitation', icon: Award, color: 'bg-amber-50 text-amber-900 border-amber-200' },
+  'Patron': { label: 'Endowment Leadership', icon: HeartHandshake, color: 'bg-purple-50 text-purple-900 border-purple-200' }
+};
+
 export function Membership({ onJoin }: MembershipProps) {
   const [group, setGroup] = useState<TierGroup>('individuals');
-  const [direction, setDirection] = useState(1);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-  const [activeCardIndex, setActiveCardIndex] = useState(0);
-
-  const trackRef = useRef<HTMLDivElement>(null);
-
-  const choose = (next: TierGroup) => {
-    const order = tierGroups.map((g) => g.id);
-    setDirection(order.indexOf(next) >= order.indexOf(group) ? 1 : -1);
-    setGroup(next);
-    setActiveCardIndex(0);
-    if (trackRef.current) {
-      trackRef.current.scrollTo({ left: 0, behavior: 'smooth' });
-    }
-  };
-
-  const checkScroll = () => {
-    if (trackRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = trackRef.current;
-      setCanScrollLeft(scrollLeft > 10);
-      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
-      const cardWidth = 360;
-      const index = Math.round(scrollLeft / cardWidth);
-      setActiveCardIndex(index);
-    }
-  };
-
-  useEffect(() => {
-    checkScroll();
-    const el = trackRef.current;
-    if (!el) return;
-    el.addEventListener('scroll', checkScroll, { passive: true });
-    window.addEventListener('resize', checkScroll);
-    return () => {
-      el.removeEventListener('scroll', checkScroll);
-      window.removeEventListener('resize', checkScroll);
-    };
-  }, [group]);
-
-  const slide = (dir: 'left' | 'right') => {
-    if (trackRef.current) {
-      const amount = trackRef.current.clientWidth * 0.75;
-      trackRef.current.scrollBy({
-        left: dir === 'left' ? -amount : amount,
-        behavior: 'smooth'
-      });
-    }
-  };
 
   const list = tiers[group];
 
   return (
     <div className="relative section-pad">
       <div className="container-page">
+        {/* Section Heading */}
         <SectionHeading
           eyebrow="Pricing & Membership"
-          title="Choose a plan to start your journey"
-          text="Transparent annual fees designed for students, working practitioners, and institutions. Scholarships available for applicants with financial need."
+          title="Transparent plans for every stage of your career"
+          text="Whether you are a student taking your first steps in data science, a working practitioner, or an institution shaping the ecosystem, join our network across Bengal."
         />
 
-        {/* Category Tabs */}
-        <Reveal className="mt-12 flex justify-center">
-          <div role="tablist" aria-label="Membership type" className="inline-flex border-b border-line">
-            {tierGroups.map((g) => (
-              <button
-                key={g.id}
-                role="tab"
-                type="button"
-                aria-selected={group === g.id}
-                aria-controls="tier-panel"
-                onClick={() => choose(g.id)}
-                className={`relative px-4 pb-3 pt-2 text-xs font-semibold tracking-[0.01em] transition-colors sm:px-8 sm:text-sm sm:tracking-[0.01em] ${
-                  group === g.id ? 'text-ink' : 'text-ink-muted hover:text-ink'
-                }`}
-              >
-                {group === g.id && (
-                  <motion.span
-                    layoutId="tier-pill"
-                    className="absolute inset-x-0 -bottom-px h-0.5 bg-ink"
-                    transition={{ type: 'spring', stiffness: 400, damping: 34 }}
-                  />
-                )}
-                <span className="relative">{g.label}</span>
-              </button>
-            ))}
-          </div>
-        </Reveal>
-
-        {/* Minimalistic Slider Navigation Header */}
-        <div className="mt-8 flex items-center justify-between px-1">
-          <div className="flex items-center gap-2 text-xs font-medium tracking-[0.01em] text-ink-muted">
-            <span>Viewing {list.length} {group === 'individuals' ? 'individual' : group === 'organisations' ? 'institutional' : 'honorary'} plans</span>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <span className="text-xs font-sans lining-nums tabular-nums font-medium text-ink/40">
-              {String(activeCardIndex + 1).padStart(2, '0')} / {String(list.length).padStart(2, '0')}
-            </span>
-            <button
-              type="button"
-              onClick={() => slide('left')}
-              disabled={!canScrollLeft}
-              aria-label="Previous plan"
-              className={`flex h-9 w-9 items-center justify-center rounded-full border transition-all duration-200 ${
-                canScrollLeft
-                  ? 'border-ink text-ink hover:bg-ink hover:text-paper shadow-sm active:scale-95'
-                  : 'border-line text-ink/25 cursor-not-allowed opacity-50'
-              }`}
-            >
-              <ChevronLeft size={16} />
-            </button>
-            <button
-              type="button"
-              onClick={() => slide('right')}
-              disabled={!canScrollRight}
-              aria-label="Next plan"
-              className={`flex h-9 w-9 items-center justify-center rounded-full border transition-all duration-200 ${
-                canScrollRight
-                  ? 'border-ink text-ink hover:bg-ink hover:text-paper shadow-sm active:scale-95'
-                  : 'border-line text-ink/25 cursor-not-allowed opacity-50'
-              }`}
-            >
-              <ChevronRight size={16} />
-            </button>
+        {/* Category Segmented Control */}
+        <div className="mt-7 flex justify-center">
+          <div
+            role="tablist"
+            aria-label="Membership categories"
+            className="inline-flex rounded-sm border border-line bg-white/90 p-1 shadow-xs backdrop-blur-sm"
+          >
+            {tierGroups.map((g) => {
+              const active = group === g.id;
+              return (
+                <button
+                  key={g.id}
+                  role="tab"
+                  type="button"
+                  aria-selected={active}
+                  aria-controls="tier-grid"
+                  onClick={() => setGroup(g.id)}
+                  className={`relative rounded-xs px-4 py-1.5 text-xs font-semibold tracking-wide transition-all duration-300 sm:px-6 ${
+                    active ? 'text-white' : 'text-ink-muted hover:text-ink'
+                  }`}
+                >
+                  {active && (
+                    <motion.span
+                      layoutId="tier-pill-active"
+                      className="absolute inset-0 rounded-xs bg-ink shadow-sm"
+                      transition={{ type: 'spring', stiffness: 450, damping: 35 }}
+                    />
+                  )}
+                  <span className="relative z-10">{g.label}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
-        {/* Cards Track with smooth native horizontal swipe without mouse-wheel hijacking */}
-        <DepthIn>
-          <div id="tier-panel" role="tabpanel" className="mt-4">
-            <AnimatePresence mode="wait" custom={direction}>
-              <motion.div
-                key={group}
-                custom={direction}
-                ref={trackRef}
-                className="scroll-x-clean -mx-5 flex snap-x snap-mandatory gap-6 overflow-x-auto px-5 pb-8 pt-12 md:-mx-8 md:px-8 scroll-smooth"
-                initial="hidden"
-                animate="shown"
-                exit="gone"
-                variants={{
-                  hidden: (d: number) => ({ opacity: 0, x: d * 30 }),
-                  shown: { opacity: 1, x: 0, transition: { duration: 0.45, ease: EASE, staggerChildren: 0.06 } },
-                  gone: (d: number) => ({ opacity: 0, x: d * -30, transition: { duration: 0.25, ease: EASE } })
-                }}
-              >
-                {list.map((tier) => (
+        {/* Pricing Cards Grid — Compact, Comparative, Shorter Cards */}
+        <div id="tier-grid" className="mt-8">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={group}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.35, ease: EASE }}
+              className={`grid gap-3.5 sm:gap-4 xl:gap-4.5 ${
+                group === 'individuals'
+                  ? 'sm:grid-cols-2 xl:grid-cols-4'
+                  : group === 'organisations'
+                  ? 'sm:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto'
+                  : 'sm:grid-cols-2 max-w-3xl mx-auto'
+              }`}
+            >
+              {list.map((tier) => {
+                const badge = tierBadges[tier.name];
+                const isHighlight = Boolean(tier.highlight);
+
+                return (
                   <motion.article
                     key={tier.name}
-                    variants={{
-                      hidden: { opacity: 0, y: 24 },
-                      shown: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } }
-                    }}
-                    className={`relative flex w-72 shrink-0 snap-start first:ml-auto last:mr-auto flex-col rounded-xl border transition-all duration-300 sm:w-80 lg:w-[22rem] px-6 py-6 md:px-7 ${
-                      tier.highlight
-                        ? 'border-ink bg-ink text-paper'
-                        : 'border-line/90 bg-white text-ink hover:border-ink/60 hover:-translate-y-1'
-                    }`}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.45, ease: EASE }}
+                    className={`relative flex flex-col justify-between items-center text-center rounded-sm border transition-all duration-300 ${
+                      isHighlight
+                        ? 'border-ink bg-ink text-paper shadow-[0_16px_36px_-14px_rgba(46,36,44,0.35)] xl:-translate-y-1.5'
+                        : 'border-line/80 bg-white text-ink shadow-[0_3px_14px_-6px_rgba(46,36,44,0.06)] hover:-translate-y-1 hover:border-ink/40 hover:shadow-[0_12px_28px_-10px_rgba(46,36,44,0.14)]'
+                    } p-4 sm:p-5`}
                   >
-                    {tier.highlight && (
-                      // Tab cut from the card itself: same ink, same border, same corner radius
-                      <div className="absolute -top-8 right-8 flex h-8 items-center rounded-t-xl border border-b-0 border-ink bg-ink px-4 text-xs font-medium text-paper">
-                        Most chosen
+                    <div className="w-full flex flex-col items-center">
+                      {/* Top Row: | label representation */}
+                      <div className="flex items-center justify-center">
+                        <span className={`text-[11px] font-medium tracking-wide ${
+                          isHighlight ? 'text-amber-200' : 'text-ink-muted'
+                        }`}>
+                          | {badge?.label?.toLowerCase() ?? 'membership plan'}
+                        </span>
                       </div>
-                    )}
 
-                    <div className="flex items-start justify-between gap-4">
-                      <div>
-                        <h3 className="font-display text-2xl font-medium">{tier.name}</h3>
-                        <p className={`mt-1 min-h-[2.25rem] text-xs leading-snug ${tier.highlight ? 'text-paper/70' : 'text-ink-muted'}`}>
+                      {/* Tier Name & Audience Persona */}
+                      <div className="mt-2.5 text-center">
+                        <h3 className="font-display text-xl font-medium tracking-tight">
+                          {tier.name}
+                        </h3>
+                        <p className={`mt-0.5 min-h-[1.85rem] text-[11px] leading-snug ${
+                          isHighlight ? 'text-paper/75' : 'text-ink-muted'
+                        }`}>
                           {tier.forWho}
                         </p>
                       </div>
+
+                      {/* Pricing Display */}
+                      <div className={`mt-3 border-y py-2.5 w-full flex items-baseline justify-center gap-1 flex-wrap ${
+                        isHighlight ? 'border-paper/15' : 'border-line/70'
+                      }`}>
+                        <span className="font-display text-2xl font-medium tracking-tight">
+                          {tier.price}
+                        </span>
+                        <span className={`text-[10px] font-medium uppercase tracking-wider ${
+                          isHighlight ? 'text-paper/60' : 'text-ink-muted'
+                        }`}>
+                          / {tier.period}
+                        </span>
+                      </div>
+
+                      {/* Benefits & Perks List */}
+                      <div className="mt-3.5 w-full flex flex-col items-center">
+                        <p className={`text-[0.65rem] font-bold uppercase tracking-wider text-center ${
+                          isHighlight ? 'text-paper/50' : 'text-ink-muted/80'
+                        }`}>
+                          Key Deliverables
+                        </p>
+
+                        <ul className="mt-2 space-y-1.5 w-full text-center">
+                          {tier.perks.map((perk) => (
+                            <li key={perk} className="flex items-center justify-center gap-1.5 text-xs leading-snug text-center">
+                              <Check size={11} strokeWidth={2.5} className={`shrink-0 ${isHighlight ? 'text-amber-300' : 'text-ink/60'}`} />
+                              <span className={isHighlight ? 'text-paper/90' : 'text-ink-soft'}>
+                                {perk}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
 
-                    <div className="mt-4 border-y py-3.5" style={{ borderColor: tier.highlight ? 'rgba(246,244,239,0.15)' : 'rgba(46,36,44,0.08)' }}>
-                      <p className="whitespace-nowrap font-display text-[1.45rem] font-medium tracking-tight md:text-[1.6rem]">{tier.price}</p>
-                      <p className={`mt-0.5 text-xs ${tier.highlight ? 'text-paper/60' : 'text-ink-muted'}`}>
-                        {tier.period}
-                      </p>
+                    {/* Action CTA Button */}
+                    <div className="mt-5 pt-1.5 w-full">
+                      <button
+                        type="button"
+                        onClick={(e) => onJoin(tier.name, e.currentTarget)}
+                        className={`btn min-h-10! w-full justify-center py-2 text-xs font-semibold tracking-wide transition-all duration-300 ${
+                          isHighlight
+                            ? 'border border-paper bg-paper text-ink hover:bg-white shadow-sm'
+                            : 'btn-primary'
+                        }`}
+                      >
+                        <span>
+                          {tier.price.startsWith('By')
+                            ? 'Request Fellowship'
+                            : tier.price.startsWith('Any')
+                            ? 'Make Contribution'
+                            : `Join as ${tier.name}`}
+                        </span>
+                        <ArrowRight size={14} />
+                      </button>
                     </div>
-
-                    <div className="mt-4 flex-1">
-                      <p className={`text-[0.7rem] font-semibold tracking-[0.01em] ${tier.highlight ? 'text-paper/50' : 'text-ink-muted'}`}>
-                        What you get
-                      </p>
-                      <ul className="mt-2.5 space-y-1.5">
-                        {/* Included perks (checkmarks) */}
-                        {tier.perks.map((perk) => (
-                          <li key={perk} className={`flex items-start gap-2.5 text-[0.85rem] leading-snug ${tier.highlight ? 'text-paper/95' : 'text-ink-soft'}`}>
-                            <span className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full ${tier.highlight ? 'bg-paper/15 text-paper' : 'bg-ink/8 text-ink'}`}>
-                              <Check size={11} strokeWidth={2.5} />
-                            </span>
-                            <span>{perk}</span>
-                          </li>
-                        ))}
-
-                        {/* Excluded perks for comparative tier clarity (crosses) */}
-                        {tier.excludedPerks && tier.excludedPerks.map((perk) => (
-                          <li key={perk} className={`flex items-start gap-2.5 text-xs leading-relaxed sm:text-sm opacity-40 line-through ${tier.highlight ? 'text-paper/50' : 'text-ink/50'}`}>
-                            <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-xs font-sans lining-nums tabular-nums font-bold">
-                              ✕
-                            </span>
-                            <span>{perk}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <button
-                      type="button"
-                      onClick={(e) => onJoin(tier.name, e.currentTarget)}
-                      className={`btn mt-5 min-h-11! w-full justify-center py-2.5 text-xs sm:text-sm font-semibold tracking-wide transition-all duration-300 ${
-                        tier.highlight
-                          ? 'border border-paper bg-paper text-ink hover:bg-white'
-                          : 'btn-primary'
-                      }`}
-                    >
-                      <span>{tier.price.startsWith('By') ? 'Suggest someone' : `Join as ${tier.name.toLowerCase()}`}</span>
-                      <ArrowRight size={15} />
-                    </button>
                   </motion.article>
-                ))}
-              </motion.div>
-            </AnimatePresence>
+                );
+              })}
+            </motion.div>
+          </AnimatePresence>
+        </div>
 
-            {/* Slider track dots indicator */}
-            <div className="mt-4 flex justify-center gap-1.5" aria-hidden="true">
-              {list.map((_, i) => (
-                <span
-                  key={i}
-                  className={`h-1 rounded-full transition-all duration-300 ${
-                    activeCardIndex === i ? 'w-6 bg-ink' : 'w-2 bg-ink/20'
-                  }`}
-                />
-              ))}
+        {/* Trust & Guarantee Banner — Centrally Placed */}
+        <Reveal className="mt-10">
+          <div className="rounded-sm border border-line/80 bg-white p-5 shadow-xs sm:p-6">
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="flex flex-col items-center text-center gap-2">
+                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-sm bg-[#FAF8F5] text-ink border border-line">
+                  <Shield size={18} />
+                </div>
+                <div>
+                  <h4 className="font-display text-sm font-medium text-ink">Public Trust</h4>
+                  <p className="mt-1 text-xs leading-relaxed text-ink-muted">Registered non-profit. Accounts audited and published annually.</p>
+                </div>
+              </div>
+
+              <div className="flex flex-col items-center text-center gap-2">
+                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-sm bg-[#FAF8F5] text-ink border border-line">
+                  <GraduationCap size={18} />
+                </div>
+                <div>
+                  <h4 className="font-display text-sm font-medium text-ink">Need-Based Aid</h4>
+                  <p className="mt-1 text-xs leading-relaxed text-ink-muted">100% scholarship fee waivers reserved for underprivileged students.</p>
+                </div>
+              </div>
+
+              <div className="flex flex-col items-center text-center gap-2">
+                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-sm bg-[#FAF8F5] text-ink border border-line">
+                  <FileCheck size={18} />
+                </div>
+                <div>
+                  <h4 className="font-display text-sm font-medium text-ink">Verified Member ID</h4>
+                  <p className="mt-1 text-xs leading-relaxed text-ink-muted">Instant verifiable digital member credentials & portal access.</p>
+                </div>
+              </div>
+
+              <div className="flex flex-col items-center text-center gap-2">
+                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-sm bg-[#FAF8F5] text-ink border border-line">
+                  <HeartHandshake size={18} />
+                </div>
+                <div>
+                  <h4 className="font-display text-sm font-medium text-ink">Tax Exemption</h4>
+                  <p className="mt-1 text-xs leading-relaxed text-ink-muted">Contributions eligible under 80G tax exemptions for donations.</p>
+                </div>
+              </div>
             </div>
           </div>
-        </DepthIn>
+        </Reveal>
 
-        {/* Benefits every member gets, as a bento: a large ink intro tile and ten
-            icon tiles (two of them wide) that invert to ink on hover. */}
-        {/* Ten benefits: five left, the summary card in the middle, five right.
-            Each side column is a flex stack whose tiles share the height equally,
-            so both columns end exactly where the centre card ends. */}
+        {/* Benefits Every Member Gets (The Core 10 Inclusions Bento) */}
         <motion.div
-          className="mt-24 grid gap-4 lg:grid-cols-[1fr_1.15fr_1fr] lg:items-stretch"
+          className="mt-20 grid gap-4 lg:grid-cols-[1fr_1.15fr_1fr] lg:items-stretch"
           initial="hidden"
           whileInView="shown"
-          viewport={{ once: false, amount: 0.1 }}
+          viewport={{ once: true, amount: 0.1 }}
           variants={{ hidden: {}, shown: { transition: { staggerChildren: 0.05 } } }}
         >
           {[0, 1].map((side) => (
@@ -268,44 +249,45 @@ export function Membership({ onJoin }: MembershipProps) {
               {memberBenefits.slice(side * 5, side * 5 + 5).map(({ title, text, icon: Icon }) => (
                 <motion.article
                   key={title}
-                  className="draw-border group flex flex-1 items-start gap-4 rounded-sm border border-line bg-white px-5 py-5 transition-shadow duration-500 hover:shadow-[0_20px_40px_-28px_rgba(46,36,44,0.5)]"
+                  className="draw-border group flex flex-1 items-start gap-4 rounded-sm border border-line bg-white px-5 py-5 transition-shadow duration-500 hover:shadow-[0_16px_36px_-20px_rgba(46,36,44,0.35)]"
                   variants={{
-                    hidden: { opacity: 0, x: side === 0 ? -20 : 20 },
+                    hidden: { opacity: 0, x: side === 0 ? -16 : 16 },
                     shown: { opacity: 1, x: 0, transition: { duration: 0.6, ease: EASE } }
                   }}
                 >
                   {['db-t', 'db-r', 'db-b', 'db-l'].map((edge) => (
                     <span key={edge} className={`db ${edge}`} aria-hidden="true" />
                   ))}
-                  <Icon size={22} strokeWidth={1.25} className="mt-0.5 shrink-0 text-ink" aria-hidden="true" />
+                  <Icon size={20} strokeWidth={1.5} className="mt-0.5 shrink-0 text-ink" aria-hidden="true" />
                   <div>
                     <h4 className="font-display text-base font-medium leading-snug text-ink">{title}</h4>
-                    <p className="mt-1 text-sm leading-relaxed text-ink-muted">{text}</p>
+                    <p className="mt-1 text-xs leading-relaxed text-ink-muted">{text}</p>
                   </div>
                 </motion.article>
               ))}
             </div>
           ))}
 
+          {/* Centerpiece Banner */}
           <motion.div
-            className="relative flex flex-col items-center justify-center overflow-hidden rounded-sm bg-ink px-8 py-14 text-center text-paper lg:order-2 md:px-12"
-            variants={{ hidden: { opacity: 0, scale: 0.96 }, shown: { opacity: 1, scale: 1, transition: { duration: 0.8, ease: EASE } } }}
+            className="relative flex flex-col items-center justify-center overflow-hidden rounded-sm bg-ink px-8 py-14 text-center text-paper lg:order-2 md:px-10"
+            variants={{ hidden: { opacity: 0, scale: 0.97 }, shown: { opacity: 1, scale: 1, transition: { duration: 0.7, ease: EASE } } }}
           >
             <span
-              className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-[18rem] leading-none text-paper/[0.05]"
+              className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-[16rem] leading-none text-paper/[0.04]"
               aria-hidden="true"
             >
               10
             </span>
-            <span className="relative inline-flex items-center gap-2 text-sm text-paper/65">
-              <ShieldCheck size={15} /> Included with every plan
+            <span className="relative inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-paper/70">
+              <Shield size={14} /> Universal Charter Inclusions
             </span>
-            <h3 className="relative mt-5 font-display text-4xl font-medium leading-[1.06] md:text-5xl">
+            <h3 className="relative mt-4 font-display text-3xl font-medium leading-[1.08] sm:text-4xl md:text-5xl">
               Ten things every member gets
             </h3>
-            <span className="relative mt-8 block h-px w-12 bg-paper/30" aria-hidden="true" />
-            <p className="relative mt-8 max-w-xs leading-relaxed text-paper/75">
-              It does not matter which plan you pick. A student paying ₹500 gets all ten of these, the same as a company.
+            <span className="relative mt-6 block h-px w-12 bg-paper/30" aria-hidden="true" />
+            <p className="relative mt-6 max-w-xs text-sm leading-relaxed text-paper/80">
+              Every member receives all ten baseline entitlements. A student paying ₹500 receives equal core community access as an enterprise partner.
             </p>
           </motion.div>
         </motion.div>

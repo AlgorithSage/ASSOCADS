@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Calendar, MapPin } from 'lucide-react';
-import { summit, SUMMIT_DATE } from '../content';
+import { summit, SUMMIT_DATE, conferenceOfferings } from '../content';
 import { Reveal, Words, scrollToId } from '../motion';
 
 interface TimeLeft {
@@ -57,7 +57,7 @@ export function Summit() {
       </motion.span>
       <div className="relative mx-auto max-w-[1400px]">
 
-        <div className="relative grid gap-12 px-6 pb-20 pt-0 md:px-16 md:pb-28 lg:grid-cols-[1.4fr_1fr] lg:items-end">
+        <div className="relative grid gap-12 px-6 pb-16 pt-0 md:px-16 md:pb-20 lg:grid-cols-[1.4fr_1fr] lg:items-end">
           <div>
             <Reveal>
               <span className="eyebrow text-paper/60!">Save the date</span>
@@ -90,6 +90,56 @@ export function Summit() {
             </a>
           </Reveal>
         </div>
+
+        {/* Summit Highlights */}
+        <div className="relative border-t border-paper/15 px-6 pt-16 pb-20 md:px-16 md:pt-20 md:pb-28">
+          <Reveal>
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10">
+              <div>
+                <span className="eyebrow text-paper/60!">Summit highlights</span>
+                <h3 className="mt-3 font-display text-3xl font-medium text-paper md:text-4xl">
+                  What to expect at the summit
+                </h3>
+              </div>
+              <p className="max-w-md text-sm leading-relaxed text-paper/70">
+                Two days of talks, practical workshops, student and startup project showcases, and hiring connections in Kolkata.
+              </p>
+            </div>
+          </Reveal>
+
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+            {conferenceOfferings.map((offering, idx) => {
+              const Icon = offering.icon;
+              return (
+                <Reveal key={offering.title} delay={idx * 0.08}>
+                  <div className="group flex h-full flex-col justify-between rounded-sm border border-ink/8 bg-white p-6 shadow-[0_2px_8px_-4px_rgba(46,36,44,0.10)] transition-all duration-300 hover:shadow-[0_16px_36px_-16px_rgba(46,36,44,0.22)] hover:border-ink/15">
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <span className="grid h-10 w-10 place-items-center rounded-sm border border-line bg-[#FAF8F5] text-ink transition-colors duration-200 group-hover:border-ink/30 group-hover:bg-[#F2ECE1]">
+                          <Icon size={18} strokeWidth={1.5} />
+                        </span>
+                      </div>
+                      <h4 className="mt-5 font-display text-lg font-medium leading-snug text-ink">
+                        {offering.title}
+                      </h4>
+                      <p className="mt-1 text-xs text-ink-muted">{offering.subtitle}</p>
+
+                      <ul className="mt-5 space-y-2.5 border-t border-ink/8 pt-4 text-xs leading-relaxed text-ink-soft">
+                        {offering.points.map((pt) => (
+                          <li key={pt} className="flex items-start gap-2">
+                            <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-ink/40" aria-hidden="true" />
+                            <span>{pt}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </Reveal>
+              );
+            })}
+          </div>
+        </div>
+
       </div>
     </div>
   );

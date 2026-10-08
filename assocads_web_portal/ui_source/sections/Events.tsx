@@ -6,7 +6,7 @@ import type { EventKind } from '../types';
 import { DepthIn, EASE, Reveal, SectionHeading, Tilt } from '../motion';
 
 type Filter = 'All' | EventKind;
-const FILTERS: Filter[] = ['All', 'Workshop', 'Hackathon', 'Teacher training', 'Summit'];
+const FILTERS: Filter[] = ['All', 'Conference', 'Workshop', 'Hackathon', 'Teacher training', 'Summit'];
 
 interface EventsProps {
   onRegister: (from?: HTMLElement | null) => void;

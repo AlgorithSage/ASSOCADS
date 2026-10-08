@@ -27,8 +27,22 @@ import { EASE, prefersReducedMotion, setPageScrollLocked, useMediaQuery } from '
 export function Preloader({ done, onDone }: { done: boolean; onDone: () => void }) {
   useEffect(() => {
     if (done) return;
+    try {
+      if (sessionStorage.getItem('assocads_intro_seen')) {
+        onDone();
+        return;
+      }
+    } catch (_) {}
+
     setPageScrollLocked(true);
-    const t = window.setTimeout(onDone, 1600);
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const t = window.setTimeout(() => {
+      try {
+        sessionStorage.setItem('assocads_intro_seen', '1');
+      } catch (_) {}
+      onDone();
+    }, isMobile ? 650 : 1100);
+
     return () => window.clearTimeout(t);
   }, [done, onDone]);
 
@@ -36,30 +50,40 @@ export function Preloader({ done, onDone }: { done: boolean; onDone: () => void 
     if (done) setPageScrollLocked(false);
   }, [done]);
 
+  const handleSkip = () => {
+    try {
+      sessionStorage.setItem('assocads_intro_seen', '1');
+    } catch (_) {}
+    onDone();
+  };
+
   return (
     <AnimatePresence>
       {!done && (
         <motion.div
-          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-ink text-paper"
+          className="fixed inset-0 z-[100] flex cursor-pointer flex-col items-center justify-center bg-ink text-paper select-none"
           exit={{ clipPath: 'inset(0 0 100% 0)' }}
           initial={{ clipPath: 'inset(0 0 0% 0)' }}
-          transition={{ duration: 1, ease: [0.76, 0, 0.24, 1] }}
-          aria-hidden="true"
+          transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+          onClick={handleSkip}
+          onTouchStart={handleSkip}
+          role="button"
+          aria-label="Skip introduction"
         >
           <motion.span
-            className="grid h-24 w-24 place-items-center rounded-full bg-paper p-2"
+            className="grid h-24 w-24 place-items-center rounded-full bg-paper p-2 shadow-lg"
             initial={{ scale: 0.6, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.8, ease: EASE }}
+            transition={{ duration: 0.6, ease: EASE }}
           >
-            <img src="/logo-mark.webp" alt="" className="h-full w-full object-contain" />
+            <img src="/logo-mark.webp" alt="" width={80} height={80} className="h-full w-full object-contain" />
           </motion.span>
           <div className="mt-6 overflow-hidden">
             <motion.p
               className="font-display text-3xl tracking-[0.01em]"
               initial={{ y: '100%' }}
               animate={{ y: '0%' }}
-              transition={{ duration: 0.8, ease: EASE, delay: 0.3 }}
+              transition={{ duration: 0.6, ease: EASE, delay: 0.15 }}
             >
               ASSOCADS
             </motion.p>
@@ -68,8 +92,11 @@ export function Preloader({ done, onDone }: { done: boolean; onDone: () => void 
             className="mt-6 h-px w-40 origin-left bg-paper/60"
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
-            transition={{ duration: 1.2, ease: EASE, delay: 0.3 }}
+            transition={{ duration: 0.9, ease: EASE, delay: 0.2 }}
           />
+          <span className="mt-6 text-[10px] uppercase tracking-widest text-paper/40">
+            Tap anywhere to enter
+          </span>
         </motion.div>
       )}
     </AnimatePresence>
@@ -174,21 +201,25 @@ interface MarqueeProps {
 }
 
 // Infinite band of text; scrolling the page speeds it up and can flip its direction
-export function Marquee({ items, baseSpeed = 2.5, direction = 1, variant = 'solid', dark = false }: MarqueeProps) {
+export function Marquee({ items, baseSpeed = 2.2, direction = 1, variant = 'solid', dark = false }: MarqueeProps) {
   const baseX = useMotionValue(0);
   const { scrollY } = useScroll();
   const velocity = useSpring(useVelocity(scrollY), { damping: 50, stiffness: 400 });
-  const factor = useTransform(velocity, [-2000, 0, 2000], [-4, 0, 4], { clamp: false });
+  const factor = useTransform(velocity, [-2000, 0, 2000], [-3, 0, 3], { clamp: false });
   const dir = useRef<number>(direction);
   const x = useTransform(baseX, (v) => `${wrap(-50, 0, v)}%`);
   const reduced = prefersReducedMotion();
 
   useAnimationFrame((_, delta) => {
     if (reduced) return;
+    const isTouch = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    const boost = isTouch ? 0 : Math.abs(factor.get());
     const f = factor.get();
-    if (f < 0) dir.current = -direction;
-    else if (f > 0) dir.current = direction;
-    const move = dir.current * baseSpeed * (delta / 1000) * (1 + Math.abs(f));
+    if (!isTouch) {
+      if (f < 0) dir.current = -direction;
+      else if (f > 0) dir.current = direction;
+    }
+    const move = dir.current * baseSpeed * (delta / 1000) * (1 + boost * 0.8);
     baseX.set(baseX.get() - move);
   });
 

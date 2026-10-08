@@ -59,10 +59,10 @@ export function Team() {
                 <span>Leadership & Governance</span>
               </div>
             </Reveal>
-            <Words text="Office bearers" className="mt-2 text-[2.75rem] font-medium leading-[1.06] text-ink sm:text-6xl" />
+            <Words text="Leaders & Governors" className="mt-2 text-[2.75rem] font-medium leading-[1.06] text-ink sm:text-6xl" />
             <Reveal delay={0.1}>
               <p className="mt-6 max-w-sm leading-relaxed text-ink-muted">
-                Seventeen people, each with one clear job. Together they run ASSOCADS day to day. Photos are placeholders until the team is announced.
+                Seventeen dedicated officers, committee chairs, and advisors guiding ASSOCADS's mission, governance, and policy day to day.
               </p>
 
               {/* Slider Controls & Full View Trigger */}
@@ -82,7 +82,7 @@ export function Team() {
                     type="button"
                     onClick={() => scrollBy(-280)}
                     disabled={!canScrollLeft}
-                    aria-label="Previous office bearers"
+                    aria-label="Previous leaders"
                     className="grid h-9 w-9 place-items-center rounded-full text-ink transition-colors hover:bg-ink hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-ink cursor-pointer disabled:cursor-not-allowed"
                   >
                     <ChevronLeft size={18} />
@@ -91,7 +91,7 @@ export function Team() {
                     type="button"
                     onClick={() => scrollBy(280)}
                     disabled={!canScrollRight}
-                    aria-label="Next office bearers"
+                    aria-label="Next leaders"
                     className="grid h-9 w-9 place-items-center rounded-full text-ink transition-colors hover:bg-ink hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-ink cursor-pointer disabled:cursor-not-allowed"
                   >
                     <ChevronRight size={18} />
@@ -166,37 +166,37 @@ export function Team() {
             />
 
             <motion.div
-              className="relative z-10 flex max-h-[90vh] w-full max-w-6xl flex-col overflow-hidden rounded-sm border border-line bg-paper"
+              className="relative z-10 flex max-h-[85vh] w-full max-w-5xl flex-col overflow-hidden rounded-sm border border-line bg-paper"
               initial={{ opacity: 0, y: 24, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1, transition: { type: 'spring', stiffness: 420, damping: 36, mass: 0.8 } }}
               exit={{ opacity: 0, y: 16, scale: 0.98, transition: { duration: 0.2, ease: EASE } }}
             >
-              <header className="flex items-center justify-between gap-6 border-b border-line px-6 py-5 sm:px-10">
-                <div className="flex items-baseline gap-4">
-                  <h2 id="all-team-title" className="font-display text-3xl font-medium text-ink">
-                    Office bearers
+              <header className="flex items-center justify-between gap-4 border-b border-line px-5 py-3.5 sm:px-8">
+                <div className="flex items-baseline gap-3">
+                  <h2 id="all-team-title" className="font-display text-2xl font-medium text-ink">
+                    Leaders & Governors
                   </h2>
-                  <span className="text-sm text-ink-muted">{team.length} roles</span>
+                  <span className="text-xs text-ink-muted">{team.length} roles</span>
                 </div>
                 <button
                   type="button"
                   onClick={() => setShowAll(false)}
-                  className="grid h-10 w-10 place-items-center rounded-sm border border-line text-ink transition-colors hover:border-ink hover:bg-ink hover:text-paper"
+                  className="grid h-8 w-8 place-items-center rounded-sm border border-line text-ink transition-colors hover:border-ink hover:bg-ink hover:text-paper"
                   aria-label="Close"
                 >
-                  <X size={18} />
+                  <X size={16} />
                 </button>
               </header>
 
-              <div className="scroll-x-clean overflow-y-auto overscroll-contain px-6 py-8 sm:px-10" data-lenis-prevent>
+              <div className="scroll-x-clean overflow-y-auto overscroll-contain px-5 py-5 sm:px-8" data-lenis-prevent>
                 {[
                   { title: 'Officers', from: 0, to: 5 },
                   { title: 'Chairs', from: 5, to: 15 },
                   { title: 'Advisers', from: 15, to: team.length }
                 ].map((group) => (
-                  <section key={group.title} className="mb-10 last:mb-0">
-                    <h3 className="mb-4 border-b border-line pb-2 text-sm text-ink-muted">{group.title}</h3>
-                    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+                  <section key={group.title} className="mb-6 last:mb-0">
+                    <h3 className="mb-3 border-b border-line pb-1.5 text-xs font-semibold uppercase tracking-wider text-ink-muted">{group.title}</h3>
+                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
                       {team.slice(group.from, group.to).map((person, j) => {
                         const i = group.from + j;
                         return (

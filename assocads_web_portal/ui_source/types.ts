@@ -52,7 +52,7 @@ export interface NewsArticle {
   featured?: boolean;
 }
 
-export type EventKind = 'Meetup' | 'Workshop' | 'Teacher training' | 'Hackathon' | 'Summit';
+export type EventKind = 'Meetup' | 'Workshop' | 'Teacher training' | 'Hackathon' | 'Conference' | 'Summit';
 
 export interface EventItem {
   id: string;

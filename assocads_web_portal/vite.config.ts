@@ -8,6 +8,23 @@ export default defineConfig({
     react()
   ],
   publicDir: 'public_assets',
+  build: {
+    target: 'es2020',
+    cssCodeSplit: true,
+    chunkSizeWarningLimit: 600,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules/framer-motion')) {
+            return 'vendor-motion';
+          }
+          if (id.includes('node_modules/lucide-react')) {
+            return 'vendor-icons';
+          }
+        }
+      }
+    }
+  },
   server: {
     port: 5173,
     host: '127.0.0.1',

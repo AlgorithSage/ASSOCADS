@@ -24,7 +24,7 @@ const ALL_TYPES = Object.values(tiers)
   .map((t) => t.name);
 
 const fieldClass =
-  'mt-1.5 w-full rounded-sm border border-line bg-paper/70 px-4 py-3 text-ink placeholder:text-ink-muted/60 transition-colors focus:border-ink focus:ring-2 focus:ring-ink/15 focus-visible:outline-none';
+  'mt-1 w-full rounded-sm border border-line bg-paper/60 px-3 py-2 text-xs sm:text-[13px] text-ink placeholder:text-ink-muted/50 transition-colors focus:border-ink focus:bg-white focus:outline-none';
 
 export function JoinModal({ open, initialType, origin, onClose }: JoinModalProps) {
   const desktop = useMediaQuery('(min-width: 640px)');
@@ -76,7 +76,7 @@ export function JoinModal({ open, initialType, origin, onClose }: JoinModalProps
     <AnimatePresence>
       {open && (
         <motion.div
-          className="fixed inset-0 z-70 flex items-end justify-center p-0 sm:items-center sm:p-6"
+          className="fixed inset-0 z-70 flex items-center justify-center p-3 sm:p-4"
           initial={{ opacity: 1 }}
           // Held for the length of the children's exit so the panel can fly back to its button
           exit={{ opacity: 1, transition: { duration: 0.35 } }}
@@ -98,7 +98,7 @@ export function JoinModal({ open, initialType, origin, onClose }: JoinModalProps
             aria-modal="true"
             aria-labelledby={titleId}
             data-lenis-prevent
-            className="relative max-h-[92svh] w-full max-w-xl overflow-y-auto rounded-t-sm border border-line bg-white p-6 shadow-2xl sm:rounded-sm md:p-8"
+            className="relative max-h-[94svh] w-full max-w-[460px] overflow-y-auto rounded-sm border border-line bg-white p-5 shadow-2xl sm:p-6"
             initial={away}
             animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
             exit={{ ...away, transition: { duration: 0.28, ease: EASE } }}
@@ -107,22 +107,22 @@ export function JoinModal({ open, initialType, origin, onClose }: JoinModalProps
             <button
               type="button"
               onClick={onClose}
-              className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full border border-line text-ink-muted transition-colors hover:text-ink"
+              className="absolute right-3.5 top-3.5 grid h-8 w-8 place-items-center rounded-sm border border-line text-ink-muted transition-colors hover:border-ink hover:bg-ink hover:text-paper"
               aria-label="Close form"
             >
-              <X size={18} />
+              <X size={16} />
             </button>
 
             <AnimatePresence mode="wait">
               {status === 'sent' ? (
                 <motion.div
                   key="sent"
-                  className="py-10 text-center"
-                  initial={{ opacity: 0, y: 20 }}
+                  className="py-6 text-center"
+                  initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, ease: EASE }}
                 >
-                  <svg viewBox="0 0 64 64" className="mx-auto h-16 w-16 text-ink" aria-hidden="true">
+                  <svg viewBox="0 0 64 64" className="mx-auto h-12 w-12 text-ink" aria-hidden="true">
                     <motion.circle
                       cx="32" cy="32" r="30" fill="none" stroke="currentColor" strokeWidth="1.5"
                       initial={{ pathLength: 0, rotate: -90 }}
@@ -137,37 +137,37 @@ export function JoinModal({ open, initialType, origin, onClose }: JoinModalProps
                       transition={{ duration: 0.45, ease: EASE, delay: 0.6 }}
                     />
                   </svg>
-                  <h2 id={titleId} className="mt-6 text-2xl font-semibold text-ink">
+                  <h2 id={titleId} className="mt-4 text-xl font-semibold text-ink">
                     Thank you{firstName ? `, ${firstName}` : ''}!
                   </h2>
-                  <p className="mx-auto mt-3 max-w-sm text-ink-muted">
+                  <p className="mx-auto mt-2 max-w-sm text-xs leading-relaxed text-ink-muted">
                     We have your details. Someone from our team will email you within two working days.
                   </p>
-                  <button type="button" onClick={onClose} className="btn btn-primary mt-8">
+                  <button type="button" onClick={onClose} className="btn btn-primary mt-6 min-h-9! px-6! text-xs font-semibold">
                     Done
                   </button>
                 </motion.div>
               ) : (
                 <motion.form key="form" onSubmit={handleSubmit} exit={{ opacity: 0, y: -10 }}>
-                  <h2 id={titleId} className="pr-12 text-2xl font-semibold text-ink">
+                  <h2 id={titleId} className="pr-10 text-xl font-semibold text-ink">
                     Apply for membership
                   </h2>
-                  <p className="mt-2 text-sm text-ink-muted">Fill this in and we will get back to you by email.</p>
+                  <p className="mt-1 text-xs text-ink-muted">Fill this in and we will get back to you by email.</p>
 
-                  <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                    <label className="block text-sm font-medium text-ink-soft sm:col-span-2">
+                  <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                    <label className="block text-xs font-medium text-ink-soft sm:col-span-2">
                       Full name
                       <input ref={firstFieldRef} name="name" required autoComplete="name" maxLength={80} className={fieldClass} placeholder="Your name" />
                     </label>
-                    <label className="block text-sm font-medium text-ink-soft">
+                    <label className="block text-xs font-medium text-ink-soft">
                       Email
                       <input name="email" type="email" required autoComplete="email" maxLength={120} className={fieldClass} placeholder="you@example.com" />
                     </label>
-                    <label className="block text-sm font-medium text-ink-soft">
-                      Phone <span className="text-ink-muted">(optional)</span>
+                    <label className="block text-xs font-medium text-ink-soft">
+                      Phone <span className="text-ink-muted font-normal">(optional)</span>
                       <input name="phone" type="tel" autoComplete="tel" maxLength={20} pattern="[0-9+\s\-]{7,20}" className={fieldClass} placeholder="+91" />
                     </label>
-                    <label className="block text-sm font-medium text-ink-soft sm:col-span-2">
+                    <label className="block text-xs font-medium text-ink-soft sm:col-span-2">
                       Membership type
                       <select name="type" key={initialType} defaultValue={initialType} className={fieldClass}>
                         {ALL_TYPES.map((name) => (
@@ -177,20 +177,20 @@ export function JoinModal({ open, initialType, origin, onClose }: JoinModalProps
                         ))}
                       </select>
                     </label>
-                    <label className="block text-sm font-medium text-ink-soft sm:col-span-2">
-                      Anything you'd like us to know? <span className="text-ink-muted">(optional)</span>
-                      <textarea name="message" rows={3} maxLength={1000} className={fieldClass} placeholder="Your college, company or what you hope to get from joining" />
+                    <label className="block text-xs font-medium text-ink-soft sm:col-span-2">
+                      Anything you'd like us to know? <span className="text-ink-muted font-normal">(optional)</span>
+                      <textarea name="message" rows={2} maxLength={1000} className={`${fieldClass} resize-none`} placeholder="Your college, company or goals" />
                     </label>
                   </div>
 
-                  <label className="mt-5 flex items-start gap-3 text-sm text-ink-muted">
-                    <input type="checkbox" required className="mt-1 h-4 w-4 shrink-0 accent-[#2E242C]" />
+                  <label className="mt-3.5 flex items-start gap-2.5 text-[11px] leading-snug text-ink-muted">
+                    <input type="checkbox" required className="mt-0.5 h-3.5 w-3.5 shrink-0 rounded-xs accent-[#2E242C]" />
                     <span>
-                      I agree that ASSOCADS can use these details to process my membership and contact me about it. My details will not be shared or sold.
+                      I agree that ASSOCADS can use these details to process my membership and contact me.
                     </span>
                   </label>
 
-                  <button type="submit" disabled={status === 'sending'} className="btn btn-primary relative mt-6 w-full overflow-hidden disabled:cursor-progress">
+                  <button type="submit" disabled={status === 'sending'} className="btn btn-primary relative mt-4 min-h-10! w-full py-2.5 text-xs font-semibold overflow-hidden disabled:cursor-progress">
                     <AnimatePresence mode="wait" initial={false}>
                       <motion.span
                         key={status}
