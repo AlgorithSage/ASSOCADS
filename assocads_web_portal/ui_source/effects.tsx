@@ -170,10 +170,11 @@ interface MarqueeProps {
   baseSpeed?: number;
   direction?: 1 | -1;
   variant?: 'outline' | 'solid';
+  dark?: boolean;
 }
 
 // Infinite band of text; scrolling the page speeds it up and can flip its direction
-export function Marquee({ items, baseSpeed = 2.5, direction = 1, variant = 'solid' }: MarqueeProps) {
+export function Marquee({ items, baseSpeed = 2.5, direction = 1, variant = 'solid', dark = false }: MarqueeProps) {
   const baseX = useMotionValue(0);
   const { scrollY } = useScroll();
   const velocity = useSpring(useVelocity(scrollY), { damping: 50, stiffness: 400 });
@@ -191,18 +192,24 @@ export function Marquee({ items, baseSpeed = 2.5, direction = 1, variant = 'soli
     baseX.set(baseX.get() - move);
   });
 
+  const textClass = dark
+    ? variant === 'outline'
+      ? 'text-outline-white'
+      : 'text-white'
+    : variant === 'outline'
+    ? 'text-outline'
+    : 'text-ink';
+
+  const diamondClass = dark ? 'border-white/50' : 'border-ink/60';
+
   const row = (
     <div className="flex shrink-0 items-center">
       {items.map((item, i) => (
         <span key={`${item}-${i}`} className="flex items-center">
-          <span
-            className={`whitespace-nowrap px-8 font-display text-5xl leading-none md:text-7xl ${
-              variant === 'outline' ? 'text-outline' : 'text-ink'
-            }`}
-          >
+          <span className={`whitespace-nowrap px-8 font-display text-5xl leading-none md:text-7xl ${textClass}`}>
             {item}
           </span>
-          <span className="h-3 w-3 rotate-45 border border-ink/60" aria-hidden="true" />
+          <span className={`h-3 w-3 rotate-45 border ${diamondClass}`} aria-hidden="true" />
         </span>
       ))}
     </div>

@@ -91,8 +91,8 @@ export default function App() {
           </section>
 
           {/* Section 6: Marquee Tagline Band — Deep Velvet Ink Contrast */}
-          <div className="bg-[#241C23] border-b border-paper/20 text-paper">
-            <Marquee items={TAGLINE_BAND} />
+          <div className="bg-[#241C23] border-b border-paper/20 text-white">
+            <Marquee items={TAGLINE_BAND} dark />
           </div>
 
           {/* Section 7: The Plan — Soft Alabaster Paper */}
