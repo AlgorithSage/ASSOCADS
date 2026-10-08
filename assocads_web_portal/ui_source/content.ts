@@ -123,38 +123,38 @@ export const programs: Program[] = [
 export const milestones: Milestone[] = [
   {
     when: 'Month 1',
-    title: 'Set up the association',
-    detail: 'Agree our vision and rules, bring the founding members together, complete legal registration, form the executive committee and start our special-interest groups.',
+    title: 'Setting up the association',
+    detail: 'Establishing our vision and constitution, bringing founding members together, completing legal registration, forming the executive committee, and launching special-interest groups.',
     status: 'Done'
   },
   {
     when: 'Month 2',
-    title: 'Go live and open membership',
-    detail: 'Launch this website and our brand, start the membership drive and open our social media pages.',
+    title: 'Going live and opening membership',
+    detail: 'Launching this portal and our brand, rolling out the membership drive, and opening active community channels.',
     status: 'Now'
   },
   {
     when: 'Month 3',
-    title: 'Sign our first partners',
-    detail: 'First agreements with colleges, universities and companies.',
+    title: 'Signing our first partners',
+    detail: 'Formalizing initial agreements with colleges, universities, IT enterprises, and startups.',
     status: 'Next'
   },
   {
     when: 'Months 4–6',
-    title: 'Meetups, webinars and campus ambassadors',
-    detail: 'Monthly meetups, online webinars and a campus ambassador programme in colleges.',
+    title: 'Hosting meetups, webinars, and campus ambassadors',
+    detail: 'Running monthly technical meetups, conducting online webinars, and rolling out campus ambassador networks across colleges.',
     status: 'Later'
   },
   {
     when: 'Months 7–9',
-    title: 'State report, hackathons and startup showcase',
-    detail: 'Publish our first state report on AI and data science, and run hackathons and a startup showcase with industry and colleges.',
+    title: 'Publishing the state report and running hackathons',
+    detail: 'Authoring Bengal’s first State AI report, hosting statewide hackathons, and organizing startup showcases with industry partners.',
     status: 'Later'
   },
   {
     when: 'Months 10–12',
-    title: 'Our first state summit',
-    detail: 'Host the first State Data Science Summit, honour people who made a difference, publish our yearly impact report and plan year two.',
+    title: 'Convening our first state summit',
+    detail: 'Hosting the Annual State AI & Data Science Summit, recognizing ecosystem contributors, publishing our annual impact report, and planning year two.',
     status: 'Later'
   }
 ];
