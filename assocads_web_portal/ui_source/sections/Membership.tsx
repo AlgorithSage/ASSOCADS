@@ -325,61 +325,86 @@ export function Membership({ onJoin }: MembershipProps) {
           </div>
         </Reveal>
 
-        {/* Benefits Every Member Gets (The Core 10 Inclusions Bento) */}
-        <motion.div
-          className="mt-20 grid gap-4 lg:grid-cols-[1fr_1.15fr_1fr] lg:items-stretch"
-          initial="hidden"
-          whileInView="shown"
-          viewport={{ once: true, amount: 0.1 }}
-          variants={{ hidden: {}, shown: { transition: { staggerChildren: 0.05 } } }}
-        >
-          {[0, 1].map((side) => (
-            <div key={side} className={`flex flex-col gap-4 ${side === 0 ? 'lg:order-1' : 'lg:order-3'}`}>
-              {memberBenefits.slice(side * 5, side * 5 + 5).map(({ title, text, icon: Icon }) => (
-                <motion.article
+        {/* Benefits Every Member Gets (The Core 10 Inclusions Bento — Mobile Optimized & Scaled) */}
+        <div className="mt-14 sm:mt-18 lg:mt-20">
+          <div className="grid gap-3 sm:gap-3.5 lg:gap-4 lg:grid-cols-[1fr_1.15fr_1fr] lg:items-stretch">
+            {/* Centerpiece Banner — Rendered FIRST on mobile (< lg), Centered on desktop (lg:order-2) */}
+            <motion.div
+              className="relative order-first flex flex-col items-center justify-center overflow-hidden rounded-sm bg-ink p-5 text-center text-paper sm:p-7 lg:order-2 lg:px-8 lg:py-14"
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: EASE }}
+            >
+              <span
+                className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-[8rem] sm:text-[12rem] lg:text-[16rem] leading-none text-paper/[0.04]"
+                aria-hidden="true"
+              >
+                10
+              </span>
+              <span className="relative inline-flex items-center gap-1.5 text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-paper/70">
+                <Shield size={13} /> Universal Charter Inclusions
+              </span>
+              <h3 className="relative mt-2 sm:mt-3 font-display text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-medium leading-[1.12]">
+                Ten things every member gets
+              </h3>
+              <span className="relative mt-3 sm:mt-5 block h-px w-10 sm:w-12 bg-paper/30" aria-hidden="true" />
+              <p className="relative mt-3 sm:mt-5 max-w-sm text-xs sm:text-sm leading-relaxed text-paper/80">
+                Every member receives all ten baseline entitlements. A student paying ₹500 receives equal core community access as an enterprise partner.
+              </p>
+            </motion.div>
+
+            {/* Column A (Inclusions 01–05): order-2 on mobile, order-1 on lg */}
+            <div className="order-2 flex flex-col gap-2 sm:gap-2.5 lg:order-1">
+              {memberBenefits.slice(0, 5).map(({ title, text, icon: Icon }, idx) => (
+                <div
                   key={title}
-                  className="draw-border group flex flex-1 items-start gap-4 rounded-sm border border-line bg-white px-5 py-5 transition-shadow duration-500 hover:shadow-[0_16px_36px_-20px_rgba(46,36,44,0.35)]"
-                  variants={{
-                    hidden: { opacity: 0, x: side === 0 ? -16 : 16 },
-                    shown: { opacity: 1, x: 0, transition: { duration: 0.6, ease: EASE } }
-                  }}
+                  className="group flex items-start gap-2.5 sm:gap-3 rounded-sm border border-line/80 bg-white p-3 sm:p-3.5 transition-all duration-300 hover:border-ink/40 hover:shadow-xs"
                 >
-                  {['db-t', 'db-r', 'db-b', 'db-l'].map((edge) => (
-                    <span key={edge} className={`db ${edge}`} aria-hidden="true" />
-                  ))}
-                  <Icon size={20} strokeWidth={1.5} className="mt-0.5 shrink-0 text-ink" aria-hidden="true" />
-                  <div>
-                    <h4 className="font-display text-base font-medium leading-snug text-ink">{title}</h4>
-                    <p className="mt-1 text-xs leading-relaxed text-ink-muted">{text}</p>
+                  <div className="grid h-7 w-7 sm:h-8 sm:w-8 shrink-0 place-items-center rounded-xs bg-[#FAF8F5] border border-line text-ink mt-0.5">
+                    <Icon size={14} strokeWidth={2} />
                   </div>
-                </motion.article>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[10px] font-bold text-ink-muted">0{idx + 1}</span>
+                      <h4 className="font-display text-xs sm:text-sm font-medium leading-snug text-ink truncate sm:whitespace-normal">
+                        {title}
+                      </h4>
+                    </div>
+                    <p className="mt-0.5 text-[11px] sm:text-xs leading-relaxed text-ink-muted">
+                      {text}
+                    </p>
+                  </div>
+                </div>
               ))}
             </div>
-          ))}
 
-          {/* Centerpiece Banner */}
-          <motion.div
-            className="relative flex flex-col items-center justify-center overflow-hidden rounded-sm bg-ink px-8 py-14 text-center text-paper lg:order-2 md:px-10"
-            variants={{ hidden: { opacity: 0, scale: 0.97 }, shown: { opacity: 1, scale: 1, transition: { duration: 0.7, ease: EASE } } }}
-          >
-            <span
-              className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-[16rem] leading-none text-paper/[0.04]"
-              aria-hidden="true"
-            >
-              10
-            </span>
-            <span className="relative inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-paper/70">
-              <Shield size={14} /> Universal Charter Inclusions
-            </span>
-            <h3 className="relative mt-4 font-display text-3xl font-medium leading-[1.08] sm:text-4xl md:text-5xl">
-              Ten things every member gets
-            </h3>
-            <span className="relative mt-6 block h-px w-12 bg-paper/30" aria-hidden="true" />
-            <p className="relative mt-6 max-w-xs text-sm leading-relaxed text-paper/80">
-              Every member receives all ten baseline entitlements. A student paying ₹500 receives equal core community access as an enterprise partner.
-            </p>
-          </motion.div>
-        </motion.div>
+            {/* Column B (Inclusions 06–10): order-3 on both mobile and lg */}
+            <div className="order-3 flex flex-col gap-2 sm:gap-2.5 lg:order-3">
+              {memberBenefits.slice(5, 10).map(({ title, text, icon: Icon }, idx) => (
+                <div
+                  key={title}
+                  className="group flex items-start gap-2.5 sm:gap-3 rounded-sm border border-line/80 bg-white p-3 sm:p-3.5 transition-all duration-300 hover:border-ink/40 hover:shadow-xs"
+                >
+                  <div className="grid h-7 w-7 sm:h-8 sm:w-8 shrink-0 place-items-center rounded-xs bg-[#FAF8F5] border border-line text-ink mt-0.5">
+                    <Icon size={14} strokeWidth={2} />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[10px] font-bold text-ink-muted">0{idx + 6}</span>
+                      <h4 className="font-display text-xs sm:text-sm font-medium leading-snug text-ink truncate sm:whitespace-normal">
+                        {title}
+                      </h4>
+                    </div>
+                    <p className="mt-0.5 text-[11px] sm:text-xs leading-relaxed text-ink-muted">
+                      {text}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
