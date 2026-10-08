@@ -53,33 +53,7 @@ export function Team() {
     trackRef.current.scrollBy({ left: offset, behavior: 'smooth' });
   };
 
-  // Enable horizontal mouse wheel scroll when cursor is active on the cards track
-  useEffect(() => {
-    const el = trackRef.current;
-    if (!el) return;
 
-    const onWheel = (e: WheelEvent) => {
-      // If user is already scrolling horizontally (e.g. trackpad gesture), let native browser do it
-      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
-      if (e.deltaY === 0) return;
-
-      const maxScroll = el.scrollWidth - el.clientWidth;
-      if (maxScroll <= 0) return;
-
-      // Prevent vertical webpage scrolling while cursor is active over the slider
-      e.preventDefault();
-      e.stopPropagation();
-
-      const delta = e.deltaMode === 1 ? e.deltaY * 33 : e.deltaY;
-      el.scrollLeft += delta;
-      checkScrollBounds();
-    };
-
-    el.addEventListener('wheel', onWheel, { passive: false });
-    return () => {
-      el.removeEventListener('wheel', onWheel);
-    };
-  }, []);
 
   // Lock body scroll and listen for Escape key when modal is open
   useEffect(() => {
@@ -162,8 +136,7 @@ export function Team() {
             <div
               ref={trackRef}
               onScroll={checkScrollBounds}
-              data-lenis-prevent
-              className="scroll-x-clean -mx-5 flex snap-x snap-proximity touch-pan-x gap-3.5 overflow-x-auto px-5 pb-5 pt-2 overscroll-x-contain sm:gap-5 md:-mx-8 md:px-8 lg:mr-[calc(50%-50vw)] lg:pr-[calc(50vw-50%+2rem)]"
+              className="scroll-x-clean -mx-5 flex snap-x snap-mandatory touch-pan-x gap-3.5 overflow-x-auto px-5 pb-5 pt-2 overscroll-x-contain sm:gap-5 md:-mx-8 md:px-8 lg:mr-[calc(50%-50vw)] lg:pr-[calc(50vw-50%+2rem)]"
             >
               {team.map((person, i) => (
                 <article
