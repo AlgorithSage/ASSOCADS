@@ -35,6 +35,15 @@ export function Team() {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [activeStart, setActiveStart] = useState(0);
+  const [visibleCount, setVisibleCount] = useState(3);
+
+  const getVisibleCount = () => {
+    if (typeof window === 'undefined') return 3;
+    if (window.innerWidth >= 1024) return 3;
+    if (window.innerWidth >= 640) return 2;
+    return 1;
+  };
 
   // Check scroll bounds for slider arrows and mobile progress bar
   const checkScrollBounds = () => {
@@ -46,15 +55,33 @@ export function Team() {
     if (maxScroll > 0) {
       setScrollProgress(Math.min(1, Math.max(0, scrollLeft / maxScroll)));
     }
+
+    const firstCard = trackRef.current.firstElementChild as HTMLElement | null;
+    if (firstCard) {
+      const cardStep = firstCard.offsetWidth + 16;
+      const count = getVisibleCount();
+      setVisibleCount(count);
+      const idx = Math.round(scrollLeft / cardStep);
+      setActiveStart(Math.min(Math.max(0, idx), team.length - count));
+    }
   };
 
   const scrollCards = (direction: 'left' | 'right') => {
     if (!trackRef.current) return;
     const firstCard = trackRef.current.firstElementChild as HTMLElement | null;
-    const cardWidth = firstCard?.offsetWidth || 260;
-    const gap = 16;
-    const offset = (cardWidth + gap) * (direction === 'right' ? 1 : -1);
-    trackRef.current.scrollBy({ left: offset, behavior: 'smooth' });
+    if (!firstCard) return;
+    const cardStep = firstCard.offsetWidth + 16;
+    const count = getVisibleCount();
+    const maxStart = Math.max(0, team.length - count);
+    const nextStart = direction === 'right'
+      ? Math.min(maxStart, activeStart + 1)
+      : Math.max(0, activeStart - 1);
+
+    trackRef.current.scrollTo({
+      left: nextStart * cardStep,
+      behavior: 'smooth'
+    });
+    setActiveStart(nextStart);
   };
 
   // Lock body scroll and listen for Escape key when modal is open
@@ -100,7 +127,7 @@ export function Team() {
               </p>
 
               {/* Slider Controls & Full View Trigger */}
-              <div className="mt-8 flex flex-wrap items-center gap-4">
+              <div className="mt-8 flex flex-wrap items-center gap-3.5">
                 <button
                   type="button"
                   onClick={() => setShowAll(true)}
@@ -110,25 +137,32 @@ export function Team() {
                   See all {team.length} <ArrowRight size={16} />
                 </button>
 
-                {/* Minimalist slider chevrons */}
-                <div className="flex items-center gap-1.5 rounded-full border border-ink/15 bg-white/80 p-1 backdrop-blur-sm">
+                {/* Minimalist slider chevrons with live range indicator */}
+                <div className="flex items-center gap-1 rounded-full border border-ink/15 bg-white/90 p-1 pl-1.5 backdrop-blur-sm shadow-xs">
                   <button
                     type="button"
                     onClick={() => scrollCards('left')}
                     disabled={!canScrollLeft}
                     aria-label="Previous leaders"
-                    className="grid h-9 w-9 place-items-center rounded-full text-ink transition-colors hover:bg-ink hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-ink cursor-pointer disabled:cursor-not-allowed"
+                    title="Previous leaders"
+                    className="grid h-8 w-8 place-items-center rounded-full text-ink transition-all hover:bg-ink hover:text-white disabled:opacity-25 disabled:hover:bg-transparent disabled:hover:text-ink cursor-pointer disabled:cursor-not-allowed active:scale-95"
                   >
-                    <ChevronLeft size={18} />
+                    <ChevronLeft size={16} />
                   </button>
+                  <span className="font-mono text-[11px] font-semibold text-ink-muted/90 tabular-nums px-1.5 select-none">
+                    {String(activeStart + 1).padStart(2, '0')}–{String(Math.min(team.length, activeStart + visibleCount)).padStart(2, '0')}
+                    <span className="mx-1 text-ink-muted/40">/</span>
+                    {team.length}
+                  </span>
                   <button
                     type="button"
                     onClick={() => scrollCards('right')}
                     disabled={!canScrollRight}
                     aria-label="Next leaders"
-                    className="grid h-9 w-9 place-items-center rounded-full text-ink transition-colors hover:bg-ink hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-ink cursor-pointer disabled:cursor-not-allowed"
+                    title="Next leaders"
+                    className="grid h-8 w-8 place-items-center rounded-full text-ink transition-all hover:bg-ink hover:text-white disabled:opacity-25 disabled:hover:bg-transparent disabled:hover:text-ink cursor-pointer disabled:cursor-not-allowed active:scale-95"
                   >
-                    <ChevronRight size={18} />
+                    <ChevronRight size={16} />
                   </button>
                 </div>
               </div>
