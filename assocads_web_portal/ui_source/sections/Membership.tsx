@@ -328,11 +328,11 @@ export function Membership({ onJoin }: MembershipProps) {
             </motion.div>
 
             {/* Column A (Inclusions 01–05): order-2 on mobile, order-1 on lg */}
-            <div className="order-2 flex flex-col gap-2.5 sm:gap-3 lg:order-1">
+            <div className="order-2 flex flex-col gap-2.5 sm:gap-3 lg:order-1 lg:h-full lg:justify-between">
               {memberBenefits.slice(0, 5).map(({ title, text, icon: Icon }, idx) => (
                 <div
                   key={title}
-                  className="group flex items-start gap-3 sm:gap-3.5 rounded-sm border border-line/80 bg-white p-3.5 sm:p-4 transition-all duration-300 hover:border-ink/40 hover:shadow-xs"
+                  className="group flex flex-1 items-start gap-3 sm:gap-3.5 rounded-sm border border-line/80 bg-white p-3.5 sm:p-4 transition-all duration-300 hover:border-ink/40 hover:shadow-xs"
                 >
                   <Icon size={20} strokeWidth={1.75} className="mt-0.5 shrink-0 text-ink" aria-hidden="true" />
                   <div className="min-w-0 flex-1">
@@ -353,11 +353,11 @@ export function Membership({ onJoin }: MembershipProps) {
             </div>
 
             {/* Column B (Inclusions 06–10): order-3 on both mobile and lg */}
-            <div className="order-3 flex flex-col gap-2.5 sm:gap-3 lg:order-3">
+            <div className="order-3 flex flex-col gap-2.5 sm:gap-3 lg:order-3 lg:h-full lg:justify-between">
               {memberBenefits.slice(5, 10).map(({ title, text, icon: Icon }, idx) => (
                 <div
                   key={title}
-                  className="group flex items-start gap-3 sm:gap-3.5 rounded-sm border border-line/80 bg-white p-3.5 sm:p-4 transition-all duration-300 hover:border-ink/40 hover:shadow-xs"
+                  className="group flex flex-1 items-start gap-3 sm:gap-3.5 rounded-sm border border-line/80 bg-white p-3.5 sm:p-4 transition-all duration-300 hover:border-ink/40 hover:shadow-xs"
                 >
                   <Icon size={20} strokeWidth={1.75} className="mt-0.5 shrink-0 text-ink" aria-hidden="true" />
                   <div className="min-w-0 flex-1">

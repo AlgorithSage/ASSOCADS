@@ -327,16 +327,56 @@ export const newsArticles: NewsArticle[] = [
 
 // Roadmap slide 10 — included in every membership
 export const memberBenefits: { title: string; text: string; icon: LucideIcon }[] = [
-  { title: 'Workshops, webinars and conferences', text: 'Come to our events free or at a member price, all year round.', icon: Presentation },
-  { title: 'Members-only talks and recordings', text: 'Missed a session? Watch the recording whenever you like.', icon: PlayCircle },
-  { title: 'Special interest groups', text: 'Join a small group on the topic you care about most.', icon: Users },
-  { title: 'Meet colleges, companies and government', text: 'Talk directly to the people who teach, hire and make policy.', icon: Network },
-  { title: 'Jobs and internships', text: 'See openings from our partners before they are posted anywhere else.', icon: Briefcase },
-  { title: 'A mentor', text: 'Get paired with someone who has done what you want to do.', icon: UserCheck },
-  { title: 'Research partners', text: 'Find people to work with on a study or project.', icon: FlaskConical },
-  { title: 'Awards and recognition', text: 'Your work can be put forward for our yearly awards.', icon: Award },
-  { title: 'Volunteer and lead', text: 'Run an event, a chapter or a group if you want to.', icon: HandHeart },
-  { title: 'Lower prices', text: 'Pay less for certificates, courses and our summit.', icon: BadgePercent }
+  {
+    title: 'Workshops, webinars and masterclasses',
+    text: 'Attend technical masterclasses, hands-on coding sessions, and state conferences free or at member rates all year round.',
+    icon: Presentation
+  },
+  {
+    title: 'Members-only talks and archives',
+    text: 'Missed a live session? Access complete HD video archives, speaker decks, and practical code notebooks whenever you like.',
+    icon: PlayCircle
+  },
+  {
+    title: 'Special interest groups (SIGs)',
+    text: 'Join focused domain groups in generative AI, computer vision, data engineering, healthcare tech, and public policy.',
+    icon: Users
+  },
+  {
+    title: 'Academia, industry & government access',
+    text: 'Engage directly in roundtables with university leaders, industry engineering heads, and state technology advisors.',
+    icon: Network
+  },
+  {
+    title: 'Curated jobs and internship board',
+    text: 'Access exclusive job listings, verified research fellowships, and industry internships directly from ecosystem partners.',
+    icon: Briefcase
+  },
+  {
+    title: 'Mentorship & career guidance',
+    text: 'Get paired with experienced practitioners and industry mentors who guide your technical research and career growth.',
+    icon: UserCheck
+  },
+  {
+    title: 'Research partners & shared compute',
+    text: 'Connect with university faculty, independent labs, and peers across West Bengal to co-author papers and share compute.',
+    icon: FlaskConical
+  },
+  {
+    title: 'Annual awards and state honors',
+    text: 'Submit your technical work, theses, and open-source contributions for state-wide annual honors and jury recognition.',
+    icon: Award
+  },
+  {
+    title: 'Volunteer and lead chapters',
+    text: 'Lead campus student chapters, organize local meetups, run hackathons, or chair special-interest groups in your region.',
+    icon: HandHeart
+  },
+  {
+    title: 'Subsidized summits & passes',
+    text: 'Enjoy heavily discounted passes and priority access for certificates, technical bootcamps, and the annual State Summit.',
+    icon: BadgePercent
+  }
 ];
 
 export const summit = {
