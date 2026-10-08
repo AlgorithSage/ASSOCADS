@@ -3,24 +3,11 @@
 > **Registered Public Charitable Trust** · Salt Lake Sector V, Kolkata, West Bengal  
 > *Collaborate · Connect · Create Impact*
 
----
+![ASSOCADS](docs/images/hero-snapshot.jpg)
 
-## 🌟 Executive Overview
-
-**ASSOCADS** (*Association for AI and Data Science*) is a registered non-profit public charitable trust established to build, empower, and unify West Bengal's artificial intelligence and data science ecosystem.
+ASSOCADS (*Association for AI and Data Science*) is a registered non-profit public charitable trust established to build, empower, and unify West Bengal's artificial intelligence and data science ecosystem.
 
 By connecting **academia**, **industry**, **emerging startups**, and **government bodies**, ASSOCADS ensures that cutting-edge AI education, indigenous technological research, and ethical technology governance are accessible to every student, educator, and practitioner across the state.
-
----
-
-## 📸 Web Portal Preview
-
-### The Hero Experience
-The primary digital gateway introduces the state-wide mission, immediate action avenues, live community bulletins, and real-time membership onboarding.
-
-![ASSOCADS Web Portal Hero Section](docs/images/hero-snapshot.jpg)
-
-*Live portal featuring the editorial design system, typography hierarchy (Henrietta Display & Anthropic Serif), live ecosystem bulletin ticker, and transparent community onboarding.*
 
 ---
 
@@ -51,8 +38,6 @@ ASSOCADS is West Bengal's dedicated non-profit public platform for advancing art
 
 ASSOCADS is steered by seventeen dedicated honorary officers, committee chairs, and advisors guiding strategy, academic relations, startup incubation, and ethics compliance.
 
-![Leadership and Governance Roster](docs/images/leaders-governance-snapshot.png)
-
 ### Key Office Bearers
 - **President**: Vision, strategy, public representation, and global institutional partnerships.
 - **Vice Presidents (2)**: Strategic initiatives, state-level consortiums, and flagship project supervision.
@@ -66,9 +51,7 @@ ASSOCADS is steered by seventeen dedicated honorary officers, committee chairs, 
 
 ## 🗓️ 12-Month Phased Roadmap
 
-ASSOCADS operates on an accountable month-by-month trajectory designed to deliver concrete community milestones from inception through the annual State Summit.
-
-![Roadmap Plan Month by Month](docs/images/roadmap-plan-snapshot.png)
+ASSOCADS operates on an accountable month-by-month trajectory designed to deliver concrete community milestones from inception through the annual State Summit:
 
 1. **Phase 1: Foundation & Incorporation (Months 1–2)**  
    Adoption of Trust Deed bylaws, executive committee formation, digital portal deployment, and public membership rollout.
@@ -86,8 +69,6 @@ ASSOCADS operates on an accountable month-by-month trajectory designed to delive
 ## 🎯 Flagship Summit Pillars
 
 The upcoming **State Data Science Summit** serves as Bengal's premier gathering across four distinct conference tracks:
-
-![State Summit Conference Tracks](docs/images/summit-tracks-snapshot.png)
 
 - **Track 01: Academic Papers & Research Symposia**  
   Peer-reviewed paper presentations, poster sessions, travel stipends, and open benchmark regional datasets.
