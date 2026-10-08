@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "vite",
+  "buildCommand": "cd assocads_web_portal && npm run build",
+  "outputDirectory": "assocads_web_portal/dist",
+  "installCommand": "cd assocads_web_portal && npm install",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/assocads_web_portal/dist/index.html"
+    }
+  ]
+}
