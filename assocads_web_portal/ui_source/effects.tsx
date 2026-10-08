@@ -27,21 +27,9 @@ import { EASE, prefersReducedMotion, setPageScrollLocked, useMediaQuery } from '
 export function Preloader({ done, onDone }: { done: boolean; onDone: () => void }) {
   useEffect(() => {
     if (done) return;
-    try {
-      if (sessionStorage.getItem('assocads_intro_seen')) {
-        onDone();
-        return;
-      }
-    } catch (_) {}
 
     setPageScrollLocked(true);
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-    const t = window.setTimeout(() => {
-      try {
-        sessionStorage.setItem('assocads_intro_seen', '1');
-      } catch (_) {}
-      onDone();
-    }, isMobile ? 650 : 1100);
+    const t = window.setTimeout(onDone, 1800);
 
     return () => window.clearTimeout(t);
   }, [done, onDone]);
@@ -51,9 +39,6 @@ export function Preloader({ done, onDone }: { done: boolean; onDone: () => void 
   }, [done]);
 
   const handleSkip = () => {
-    try {
-      sessionStorage.setItem('assocads_intro_seen', '1');
-    } catch (_) {}
     onDone();
   };
 
@@ -64,7 +49,7 @@ export function Preloader({ done, onDone }: { done: boolean; onDone: () => void 
           className="fixed inset-0 z-[100] flex cursor-pointer flex-col items-center justify-center bg-ink text-paper select-none"
           exit={{ clipPath: 'inset(0 0 100% 0)' }}
           initial={{ clipPath: 'inset(0 0 0% 0)' }}
-          transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+          transition={{ duration: 1, ease: [0.76, 0, 0.24, 1] }}
           onClick={handleSkip}
           onTouchStart={handleSkip}
           role="button"
@@ -74,7 +59,7 @@ export function Preloader({ done, onDone }: { done: boolean; onDone: () => void 
             className="grid h-24 w-24 place-items-center rounded-full bg-paper p-2 shadow-lg"
             initial={{ scale: 0.6, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.6, ease: EASE }}
+            transition={{ duration: 0.8, ease: EASE }}
           >
             <img src="/logo-mark.webp" alt="" width={80} height={80} className="h-full w-full object-contain" />
           </motion.span>
@@ -83,7 +68,7 @@ export function Preloader({ done, onDone }: { done: boolean; onDone: () => void 
               className="font-display text-3xl tracking-[0.01em]"
               initial={{ y: '100%' }}
               animate={{ y: '0%' }}
-              transition={{ duration: 0.6, ease: EASE, delay: 0.15 }}
+              transition={{ duration: 0.8, ease: EASE, delay: 0.25 }}
             >
               ASSOCADS
             </motion.p>
@@ -92,7 +77,7 @@ export function Preloader({ done, onDone }: { done: boolean; onDone: () => void 
             className="mt-6 h-px w-40 origin-left bg-paper/60"
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
-            transition={{ duration: 0.9, ease: EASE, delay: 0.2 }}
+            transition={{ duration: 1.2, ease: EASE, delay: 0.3 }}
           />
           <span className="mt-6 text-[10px] uppercase tracking-widest text-paper/40">
             Tap anywhere to enter
